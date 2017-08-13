@@ -38,4 +38,5 @@
 	<import resource="classpath:spring-security.xml" />
 	<import resource="classpath:spring-security-bean.xml" />
 	<import resource="classpath:spring-redis.xml" />
+	<import resource="classpath:spring-fileupload.xml" />
 </beans>

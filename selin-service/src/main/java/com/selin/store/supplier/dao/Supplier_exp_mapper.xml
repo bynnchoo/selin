@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.supplier.dao">
+	<sql id="columnsAs">
+		t1.id, t1.name, t1.linkman, t1.linktel, t1.code, t1.address, t1.email, t1.remark, t1.state
+	</sql>
+	
+	<select id="selectSupplierPage" resultType="com.selin.store.supplier.entity.SupplierVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		w_supplier t1
+		join
+		(SELECT
+		id
+		from
+		w_supplier
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectSupplierCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from w_supplier
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

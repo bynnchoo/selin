@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.product.dao">
+
+	<sql id="columns">
+		id, name, code, brand_id, supplier_id, is_oneself, category_id, cost_price, retail_price, minimum_price, accessory, description, state, keyword, minimum_num
+	</sql>
+	<sql id="vals">
+		#{id}, #{name}, #{code}, #{brand_id}, #{supplier_id}, #{is_oneself}, #{category_id}, #{cost_price}, #{retail_price}, #{minimum_price}, #{accessory}, #{description}, #{state}, #{keyword}, #{minimum_num}
+	</sql>
+	<sql id="conds">
+		<if test="id != null and id != ''">
+			and id = #{id}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="code != null and code != ''">
+			and code = #{code}
+		</if>
+		<if test="brand_id != null and brand_id != ''">
+			and brand_id = #{brand_id}
+		</if>
+		<if test="supplier_id != null and supplier_id != ''">
+			and supplier_id = #{supplier_id}
+		</if>
+		<if test="is_oneself != null and is_oneself != ''">
+			and is_oneself = #{is_oneself}
+		</if>
+		<if test="category_id != null and category_id != ''">
+			and category_id = #{category_id}
+		</if>
+		<if test="cost_price != null and cost_price != ''">
+			and cost_price = #{cost_price}
+		</if>
+		<if test="retail_price != null and retail_price != ''">
+			and retail_price = #{retail_price}
+		</if>
+		<if test="minimum_price != null and minimum_price != ''">
+			and minimum_price = #{minimum_price}
+		</if>
+		<if test="accessory != null and accessory != ''">
+			and accessory = #{accessory}
+		</if>
+		<if test="description != null and description != ''">
+			and description = #{description}
+		</if>
+		<if test="state != null and state != ''">
+			and state = #{state}
+		</if>
+		<if test="keyword != null and keyword != ''">
+			and keyword = #{keyword}
+		</if>
+		<if test="minimum_num != null and minimum_num != ''">
+			and minimum_num = #{minimum_num}
+		</if>
+	</sql>
+
+	<insert id="saveProduct" parameterType="com.selin.store.product.entity.Product" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_product (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteProduct">
+		delete from w_product
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleProduct">
+		delete from w_product
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateProduct">
+		update w_product
+		<set>
+			id=#{id}, 
+			name=#{name}, 
+			code=#{code}, 
+			brand_id=#{brand_id}, 
+			supplier_id=#{supplier_id}, 
+			is_oneself=#{is_oneself}, 
+			category_id=#{category_id}, 
+			cost_price=#{cost_price}, 
+			retail_price=#{retail_price}, 
+			minimum_price=#{minimum_price}, 
+			accessory=#{accessory}, 
+			description=#{description}, 
+			state=#{state}, 
+			keyword=#{keyword}, 
+			minimum_num=#{minimum_num}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullProduct">
+		update w_product
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="code != null and code != ''">
+			code=#{code}, 
+		</if>
+		<if test="brand_id != null and brand_id != ''">
+			brand_id=#{brand_id}, 
+		</if>
+		<if test="supplier_id != null and supplier_id != ''">
+			supplier_id=#{supplier_id}, 
+		</if>
+		<if test="is_oneself != null and is_oneself != ''">
+			is_oneself=#{is_oneself}, 
+		</if>
+		<if test="category_id != null and category_id != ''">
+			category_id=#{category_id}, 
+		</if>
+		<if test="cost_price != null and cost_price != ''">
+			cost_price=#{cost_price}, 
+		</if>
+		<if test="retail_price != null and retail_price != ''">
+			retail_price=#{retail_price}, 
+		</if>
+		<if test="minimum_price != null and minimum_price != ''">
+			minimum_price=#{minimum_price}, 
+		</if>
+		<if test="accessory != null and accessory != ''">
+			accessory=#{accessory}, 
+		</if>
+		<if test="description != null and description != ''">
+			description=#{description}, 
+		</if>
+		<if test="state != null and state != ''">
+			state=#{state}, 
+		</if>
+		<if test="keyword != null and keyword != ''">
+			keyword=#{keyword}, 
+		</if>
+		<if test="minimum_num != null and minimum_num != ''">
+			minimum_num=#{minimum_num}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleProduct">
+		update w_product
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="code != null and code != ''">
+			code=#{code}, 
+			</if>
+			<if test="brand_id != null and brand_id != ''">
+			brand_id=#{brand_id}, 
+			</if>
+			<if test="supplier_id != null and supplier_id != ''">
+			supplier_id=#{supplier_id}, 
+			</if>
+			<if test="is_oneself != null and is_oneself != ''">
+			is_oneself=#{is_oneself}, 
+			</if>
+			<if test="category_id != null and category_id != ''">
+			category_id=#{category_id}, 
+			</if>
+			<if test="cost_price != null and cost_price != ''">
+			cost_price=#{cost_price}, 
+			</if>
+			<if test="retail_price != null and retail_price != ''">
+			retail_price=#{retail_price}, 
+			</if>
+			<if test="minimum_price != null and minimum_price != ''">
+			minimum_price=#{minimum_price}, 
+			</if>
+			<if test="accessory != null and accessory != ''">
+			accessory=#{accessory}, 
+			</if>
+			<if test="description != null and description != ''">
+			description=#{description}, 
+			</if>
+			<if test="state != null and state != ''">
+			state=#{state}, 
+			</if>
+			<if test="keyword != null and keyword != ''">
+			keyword=#{keyword}, 
+			</if>
+			<if test="minimum_num != null and minimum_num != ''">
+			minimum_num=#{minimum_num}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadProduct" resultType="com.selin.store.product.entity.ProductVo">
+		select 
+		<include refid="columns"/>
+		from w_product
+		where id=#{id} 
+	</select>
+	
+	<select id="selectProduct" resultType="com.selin.store.product.entity.ProductVo">
+		select 
+		<include refid="columns"/>
+		from w_product
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

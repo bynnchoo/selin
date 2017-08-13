@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.brand.dao">
+
+	<sql id="columns">
+		id, name, state
+	</sql>
+	<sql id="vals">
+		#{id}, #{name}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveBrand" parameterType="com.selin.store.brand.entity.Brand" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_brand (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteBrand">
+		delete from w_brand
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleBrand">
+		delete from w_brand
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateBrand">
+		update w_brand
+		<set>
+			id=#{id}, 
+			name=#{name}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullBrand">
+		update w_brand
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="state != null and state != ''">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleBrand">
+		update w_brand
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="state != null and state != ''">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadBrand" resultType="com.selin.store.brand.entity.BrandVo">
+		select 
+		<include refid="columns"/>
+		from w_brand
+		where id=#{id} 
+	</select>
+	
+	<select id="selectBrand" resultType="com.selin.store.brand.entity.BrandVo">
+		select 
+		<include refid="columns"/>
+		from w_brand
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

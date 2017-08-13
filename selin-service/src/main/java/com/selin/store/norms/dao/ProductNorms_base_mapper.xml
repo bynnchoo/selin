@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.norms.dao">
+
+	<sql id="columns">
+		id, product_id, colour, size
+	</sql>
+	<sql id="vals">
+		#{id}, #{product_id}, #{colour}, #{size}
+	</sql>
+	<sql id="conds">
+		<if test="id != null and id != ''">
+			and id = #{id}
+		</if>
+		<if test="product_id != null and product_id != ''">
+			and product_id = #{product_id}
+		</if>
+		<if test="colour != null and colour != ''">
+			and colour = #{colour}
+		</if>
+		<if test="size != null and size != ''">
+			and size = #{size}
+		</if>
+	</sql>
+
+	<insert id="saveProductNorms" parameterType="com.selin.store.norms.entity.ProductNorms" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_product_norms (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteProductNorms">
+		delete from w_product_norms
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleProductNorms">
+		delete from w_product_norms
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateProductNorms">
+		update w_product_norms
+		<set>
+			id=#{id}, 
+			product_id=#{product_id}, 
+			colour=#{colour}, 
+			size=#{size}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullProductNorms">
+		update w_product_norms
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="product_id != null and product_id != ''">
+			product_id=#{product_id}, 
+		</if>
+		<if test="colour != null and colour != ''">
+			colour=#{colour}, 
+		</if>
+		<if test="size != null and size != ''">
+			size=#{size}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleProductNorms">
+		update w_product_norms
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="product_id != null and product_id != ''">
+			product_id=#{product_id}, 
+			</if>
+			<if test="colour != null and colour != ''">
+			colour=#{colour}, 
+			</if>
+			<if test="size != null and size != ''">
+			size=#{size}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadProductNorms" resultType="com.selin.store.norms.entity.ProductNormsVo">
+		select 
+		<include refid="columns"/>
+		from w_product_norms
+		where id=#{id} 
+	</select>
+	
+	<select id="selectProductNorms" resultType="com.selin.store.norms.entity.ProductNormsVo">
+		select 
+		<include refid="columns"/>
+		from w_product_norms
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

@@ -15,6 +15,10 @@
     <dependencies>
         <dependency>
             <groupId>org.roof</groupId>
+            <artifactId>roof-web-dictionary-entity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.roof</groupId>
             <artifactId>roof-web-user-entity</artifactId>
         </dependency>
         <dependency>

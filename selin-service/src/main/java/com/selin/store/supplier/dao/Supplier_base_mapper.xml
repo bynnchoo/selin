@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.supplier.dao">
+
+	<sql id="columns">
+		id, name, linkman, linktel, code, address, email, remark, state
+	</sql>
+	<sql id="vals">
+		#{id}, #{name}, #{linkman}, #{linktel}, #{code}, #{address}, #{email}, #{remark}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="linkman != null and linkman != ''">
+			and linkman = #{linkman}
+		</if>
+		<if test="linktel != null and linktel != ''">
+			and linktel = #{linktel}
+		</if>
+		<if test="code != null and code != ''">
+			and code = #{code}
+		</if>
+		<if test="address != null and address != ''">
+			and address = #{address}
+		</if>
+		<if test="email != null and email != ''">
+			and email = #{email}
+		</if>
+		<if test="remark != null and remark != ''">
+			and remark = #{remark}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveSupplier" parameterType="com.selin.store.supplier.entity.Supplier" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_supplier (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteSupplier">
+		delete from w_supplier
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleSupplier">
+		delete from w_supplier
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateSupplier">
+		update w_supplier
+		<set>
+			id=#{id}, 
+			name=#{name}, 
+			linkman=#{linkman}, 
+			linktel=#{linktel}, 
+			code=#{code}, 
+			address=#{address}, 
+			email=#{email}, 
+			remark=#{remark}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullSupplier">
+		update w_supplier
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="linkman != null and linkman != ''">
+			linkman=#{linkman}, 
+		</if>
+		<if test="linktel != null and linktel != ''">
+			linktel=#{linktel}, 
+		</if>
+		<if test="code != null and code != ''">
+			code=#{code}, 
+		</if>
+		<if test="address != null and address != ''">
+			address=#{address}, 
+		</if>
+		<if test="email != null and email != ''">
+			email=#{email}, 
+		</if>
+		<if test="remark != null and remark != ''">
+			remark=#{remark}, 
+		</if>
+		<if test="state != null and state != ''">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleSupplier">
+		update w_supplier
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="linkman != null and linkman != ''">
+			linkman=#{linkman}, 
+			</if>
+			<if test="linktel != null and linktel != ''">
+			linktel=#{linktel}, 
+			</if>
+			<if test="code != null and code != ''">
+			code=#{code}, 
+			</if>
+			<if test="address != null and address != ''">
+			address=#{address}, 
+			</if>
+			<if test="email != null and email != ''">
+			email=#{email}, 
+			</if>
+			<if test="remark != null and remark != ''">
+			remark=#{remark}, 
+			</if>
+			<if test="state != null and state != ''">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadSupplier" resultType="com.selin.store.supplier.entity.SupplierVo">
+		select 
+		<include refid="columns"/>
+		from w_supplier
+		where id=#{id} 
+	</select>
+	
+	<select id="selectSupplier" resultType="com.selin.store.supplier.entity.SupplierVo">
+		select 
+		<include refid="columns"/>
+		from w_supplier
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

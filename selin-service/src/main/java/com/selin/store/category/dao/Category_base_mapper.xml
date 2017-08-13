@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.category.dao">
+
+	<sql id="columns">
+		id, name, level, state, parent_id, is_leaf
+	</sql>
+	<sql id="vals">
+		#{id}, #{name}, #{level}, #{state}, #{parent_id}, #{is_leaf}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="level != null">
+			and level = #{level}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+		<if test="parent_id != null">
+			and parent_id = #{parent_id}
+		</if>
+		<if test="is_leaf != null">
+			and is_leaf = #{is_leaf}
+		</if>
+	</sql>
+
+	<insert id="saveCategory" parameterType="com.selin.store.category.entity.Category" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_category (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCategory">
+		delete from w_category
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCategory">
+		delete from w_category
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCategory">
+		update w_category
+		<set>
+			id=#{id}, 
+			name=#{name}, 
+			level=#{level}, 
+			state=#{state}, 
+			parent_id=#{parent_id}, 
+			is_leaf=#{is_leaf}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCategory">
+		update w_category
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="level != null and level != ''">
+			level=#{level}, 
+		</if>
+		<if test="state != null and state != ''">
+			state=#{state}, 
+		</if>
+		<if test="parent_id != null and parent_id != ''">
+			parent_id=#{parent_id}, 
+		</if>
+		<if test="is_leaf != null and is_leaf != ''">
+			is_leaf=#{is_leaf}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCategory">
+		update w_category
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="level != null and level != ''">
+			level=#{level}, 
+			</if>
+			<if test="state != null and state != ''">
+			state=#{state}, 
+			</if>
+			<if test="parent_id != null and parent_id != ''">
+			parent_id=#{parent_id}, 
+			</if>
+			<if test="is_leaf != null and is_leaf != ''">
+			is_leaf=#{is_leaf}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCategory" resultType="com.selin.store.category.entity.CategoryVo">
+		select 
+		<include refid="columns"/>
+		from w_category
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCategory" resultType="com.selin.store.category.entity.CategoryVo">
+		select 
+		<include refid="columns"/>
+		from w_category
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

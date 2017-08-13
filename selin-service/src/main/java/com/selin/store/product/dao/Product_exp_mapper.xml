@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.product.dao">
+	<sql id="columnsAs">
+		t1.id, t1.name, t1.code, t1.brand_id, t1.supplier_id, t1.is_oneself, t1.category_id, t1.cost_price, t1.retail_price, t1.minimum_price, t1.accessory, t1.description, t1.state, t1.keyword, t1.minimum_num
+	</sql>
+	
+	<select id="selectProductPage" resultType="com.selin.store.product.entity.ProductVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		w_product t1
+		join
+		(SELECT
+		id
+		from
+		w_product
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectProductCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from w_product
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

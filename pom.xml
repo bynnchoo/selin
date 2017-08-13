@@ -206,6 +206,23 @@
                 <version>3.0.1</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.roof</groupId>
+                <artifactId>roof-web-dictionary-entity</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.roof</groupId>
+                <artifactId>roof-file</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.roof</groupId>
+                <artifactId>roof-file-default-impl</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+
 
             <!--spring-->
             <dependency>
