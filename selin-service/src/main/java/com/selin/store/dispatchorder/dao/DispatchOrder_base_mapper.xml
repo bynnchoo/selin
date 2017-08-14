@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.dispatchorder.dao">
+
+	<sql id="columns">
+		id, order_num, dispatch_order_num, dispatch_date, logistics_company, logistics_num, logistics_remark
+	</sql>
+	<sql id="vals">
+		#{id}, #{order_num}, #{dispatch_order_num}, #{dispatch_date}, #{logistics_company}, #{logistics_num}, #{logistics_remark}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="order_num != null and order_num != ''">
+			and order_num = #{order_num}
+		</if>
+		<if test="dispatch_order_num != null and dispatch_order_num != ''">
+			and dispatch_order_num = #{dispatch_order_num}
+		</if>
+		<if test="dispatch_date != null">
+			and dispatch_date = #{dispatch_date}
+		</if>
+		<if test="logistics_company != null and logistics_company != ''">
+			and logistics_company = #{logistics_company}
+		</if>
+		<if test="logistics_num != null and logistics_num != ''">
+			and logistics_num = #{logistics_num}
+		</if>
+		<if test="logistics_remark != null and logistics_remark != ''">
+			and logistics_remark = #{logistics_remark}
+		</if>
+	</sql>
+
+	<insert id="saveDispatchOrder" parameterType="com.selin.store.dispatchorder.entity.DispatchOrder" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_dispatch_order (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteDispatchOrder">
+		delete from w_dispatch_order
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleDispatchOrder">
+		delete from w_dispatch_order
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateDispatchOrder">
+		update w_dispatch_order
+		<set>
+			id=#{id}, 
+			order_num=#{order_num}, 
+			dispatch_order_num=#{dispatch_order_num}, 
+			dispatch_date=#{dispatch_date}, 
+			logistics_company=#{logistics_company}, 
+			logistics_num=#{logistics_num}, 
+			logistics_remark=#{logistics_remark}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullDispatchOrder">
+		update w_dispatch_order
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}, 
+		</if>
+		<if test="dispatch_order_num != null and dispatch_order_num != ''">
+			dispatch_order_num=#{dispatch_order_num}, 
+		</if>
+		<if test="dispatch_date != null">
+			dispatch_date=#{dispatch_date}, 
+		</if>
+		<if test="logistics_company != null and logistics_company != ''">
+			logistics_company=#{logistics_company}, 
+		</if>
+		<if test="logistics_num != null and logistics_num != ''">
+			logistics_num=#{logistics_num}, 
+		</if>
+		<if test="logistics_remark != null and logistics_remark != ''">
+			logistics_remark=#{logistics_remark}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleDispatchOrder">
+		update w_dispatch_order
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}, 
+			</if>
+			<if test="dispatch_order_num != null and dispatch_order_num != ''">
+			dispatch_order_num=#{dispatch_order_num}, 
+			</if>
+			<if test="dispatch_date != null">
+			dispatch_date=#{dispatch_date}, 
+			</if>
+			<if test="logistics_company != null and logistics_company != ''">
+			logistics_company=#{logistics_company}, 
+			</if>
+			<if test="logistics_num != null and logistics_num != ''">
+			logistics_num=#{logistics_num}, 
+			</if>
+			<if test="logistics_remark != null and logistics_remark != ''">
+			logistics_remark=#{logistics_remark}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadDispatchOrder" resultType="com.selin.store.dispatchorder.entity.DispatchOrderVo">
+		select 
+		<include refid="columns"/>
+		from w_dispatch_order
+		where id=#{id} 
+	</select>
+	
+	<select id="selectDispatchOrder" resultType="com.selin.store.dispatchorder.entity.DispatchOrderVo">
+		select 
+		<include refid="columns"/>
+		from w_dispatch_order
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

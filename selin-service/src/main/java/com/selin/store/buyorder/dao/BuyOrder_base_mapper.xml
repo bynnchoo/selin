@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.buyorder.dao">
+
+	<sql id="columns">
+		id, buy_order_num, supplier_id, current_event, create_date, buyer, remark, create_user_id, other_amount, amount, order_num
+	</sql>
+	<sql id="vals">
+		#{id}, #{buy_order_num}, #{supplier_id}, #{current_event}, #{create_date}, #{buyer}, #{remark}, #{create_user_id}, #{other_amount}, #{amount}, #{order_num}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="buy_order_num != null and buy_order_num != ''">
+			and buy_order_num = #{buy_order_num}
+		</if>
+		<if test="supplier_id != null">
+			and supplier_id = #{supplier_id}
+		</if>
+		<if test="current_event != null and current_event != ''">
+			and current_event = #{current_event}
+		</if>
+		<if test="create_date != null">
+			and create_date = #{create_date}
+		</if>
+		<if test="buyer != null and buyer != ''">
+			and buyer = #{buyer}
+		</if>
+		<if test="remark != null and remark != ''">
+			and remark = #{remark}
+		</if>
+		<if test="create_user_id != null">
+			and create_user_id = #{create_user_id}
+		</if>
+		<if test="other_amount != null and other_amount != ''">
+			and other_amount = #{other_amount}
+		</if>
+		<if test="amount != null and amount != ''">
+			and amount = #{amount}
+		</if>
+		<if test="order_num != null and order_num != ''">
+			and order_num = #{order_num}
+		</if>
+	</sql>
+
+	<insert id="saveBuyOrder" parameterType="com.selin.store.buyorder.entity.BuyOrder" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_buy_order (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteBuyOrder">
+		delete from w_buy_order
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleBuyOrder">
+		delete from w_buy_order
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateBuyOrder">
+		update w_buy_order
+		<set>
+			id=#{id}, 
+			buy_order_num=#{buy_order_num}, 
+			supplier_id=#{supplier_id}, 
+			current_event=#{current_event}, 
+			create_date=#{create_date}, 
+			buyer=#{buyer}, 
+			remark=#{remark}, 
+			create_user_id=#{create_user_id}, 
+			other_amount=#{other_amount}, 
+			amount=#{amount}, 
+			order_num=#{order_num}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullBuyOrder">
+		update w_buy_order
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="buy_order_num != null and buy_order_num != ''">
+			buy_order_num=#{buy_order_num}, 
+		</if>
+		<if test="supplier_id != null and supplier_id != ''">
+			supplier_id=#{supplier_id}, 
+		</if>
+		<if test="current_event != null and current_event != ''">
+			current_event=#{current_event}, 
+		</if>
+		<if test="create_date != null">
+			create_date=#{create_date}, 
+		</if>
+		<if test="buyer != null and buyer != ''">
+			buyer=#{buyer}, 
+		</if>
+		<if test="remark != null and remark != ''">
+			remark=#{remark}, 
+		</if>
+		<if test="create_user_id != null and create_user_id != ''">
+			create_user_id=#{create_user_id}, 
+		</if>
+		<if test="other_amount != null and other_amount != ''">
+			other_amount=#{other_amount}, 
+		</if>
+		<if test="amount != null and amount != ''">
+			amount=#{amount}, 
+		</if>
+		<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleBuyOrder">
+		update w_buy_order
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="buy_order_num != null and buy_order_num != ''">
+			buy_order_num=#{buy_order_num}, 
+			</if>
+			<if test="supplier_id != null and supplier_id != ''">
+			supplier_id=#{supplier_id}, 
+			</if>
+			<if test="current_event != null and current_event != ''">
+			current_event=#{current_event}, 
+			</if>
+			<if test="create_date != null">
+			create_date=#{create_date}, 
+			</if>
+			<if test="buyer != null and buyer != ''">
+			buyer=#{buyer}, 
+			</if>
+			<if test="remark != null and remark != ''">
+			remark=#{remark}, 
+			</if>
+			<if test="create_user_id != null and create_user_id != ''">
+			create_user_id=#{create_user_id}, 
+			</if>
+			<if test="other_amount != null and other_amount != ''">
+			other_amount=#{other_amount}, 
+			</if>
+			<if test="amount != null and amount != ''">
+			amount=#{amount}, 
+			</if>
+			<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadBuyOrder" resultType="com.selin.store.buyorder.entity.BuyOrderVo">
+		select 
+		<include refid="columns"/>
+		from w_buy_order
+		where id=#{id} 
+	</select>
+	
+	<select id="selectBuyOrder" resultType="com.selin.store.buyorder.entity.BuyOrderVo">
+		select 
+		<include refid="columns"/>
+		from w_buy_order
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

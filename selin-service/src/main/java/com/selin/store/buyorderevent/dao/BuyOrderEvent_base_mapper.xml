@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.buyorderevent.dao">
+
+	<sql id="columns">
+		id, buy_order_num, event_type, event_code, event, create_date, reamrk, create_user_id
+	</sql>
+	<sql id="vals">
+		#{id}, #{buy_order_num}, #{event_type}, #{event_code}, #{event}, #{create_date}, #{reamrk}, #{create_user_id}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="buy_order_num != null and buy_order_num != ''">
+			and buy_order_num = #{buy_order_num}
+		</if>
+		<if test="event_type != null and event_type != ''">
+			and event_type = #{event_type}
+		</if>
+		<if test="event_code != null and event_code != ''">
+			and event_code = #{event_code}
+		</if>
+		<if test="event != null and event != ''">
+			and event = #{event}
+		</if>
+		<if test="create_date != null">
+			and create_date = #{create_date}
+		</if>
+		<if test="reamrk != null and reamrk != ''">
+			and reamrk = #{reamrk}
+		</if>
+		<if test="create_user_id != null">
+			and create_user_id = #{create_user_id}
+		</if>
+	</sql>
+
+	<insert id="saveBuyOrderEvent" parameterType="com.selin.store.buyorderevent.entity.BuyOrderEvent" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_buy_order_event (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteBuyOrderEvent">
+		delete from w_buy_order_event
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleBuyOrderEvent">
+		delete from w_buy_order_event
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateBuyOrderEvent">
+		update w_buy_order_event
+		<set>
+			id=#{id}, 
+			buy_order_num=#{buy_order_num}, 
+			event_type=#{event_type}, 
+			event_code=#{event_code}, 
+			event=#{event}, 
+			create_date=#{create_date}, 
+			reamrk=#{reamrk}, 
+			create_user_id=#{create_user_id}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullBuyOrderEvent">
+		update w_buy_order_event
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="buy_order_num != null and buy_order_num != ''">
+			buy_order_num=#{buy_order_num}, 
+		</if>
+		<if test="event_type != null and event_type != ''">
+			event_type=#{event_type}, 
+		</if>
+		<if test="event_code != null and event_code != ''">
+			event_code=#{event_code}, 
+		</if>
+		<if test="event != null and event != ''">
+			event=#{event}, 
+		</if>
+		<if test="create_date != null">
+			create_date=#{create_date}, 
+		</if>
+		<if test="reamrk != null and reamrk != ''">
+			reamrk=#{reamrk}, 
+		</if>
+		<if test="create_user_id != null and create_user_id != ''">
+			create_user_id=#{create_user_id}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleBuyOrderEvent">
+		update w_buy_order_event
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="buy_order_num != null and buy_order_num != ''">
+			buy_order_num=#{buy_order_num}, 
+			</if>
+			<if test="event_type != null and event_type != ''">
+			event_type=#{event_type}, 
+			</if>
+			<if test="event_code != null and event_code != ''">
+			event_code=#{event_code}, 
+			</if>
+			<if test="event != null and event != ''">
+			event=#{event}, 
+			</if>
+			<if test="create_date != null">
+			create_date=#{create_date}, 
+			</if>
+			<if test="reamrk != null and reamrk != ''">
+			reamrk=#{reamrk}, 
+			</if>
+			<if test="create_user_id != null and create_user_id != ''">
+			create_user_id=#{create_user_id}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadBuyOrderEvent" resultType="com.selin.store.buyorderevent.entity.BuyOrderEventVo">
+		select 
+		<include refid="columns"/>
+		from w_buy_order_event
+		where id=#{id} 
+	</select>
+	
+	<select id="selectBuyOrderEvent" resultType="com.selin.store.buyorderevent.entity.BuyOrderEventVo">
+		select 
+		<include refid="columns"/>
+		from w_buy_order_event
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

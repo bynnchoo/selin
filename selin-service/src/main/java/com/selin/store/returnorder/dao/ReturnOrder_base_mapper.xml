@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.returnorder.dao">
+
+	<sql id="columns">
+		id, return_order_num, create_date, cus_id, cus_num, cus_name, amount, current_status, current_event, order_num, complete_date
+	</sql>
+	<sql id="vals">
+		#{id}, #{return_order_num}, #{create_date}, #{cus_id}, #{cus_num}, #{cus_name}, #{amount}, #{current_status}, #{current_event}, #{order_num}, #{complete_date}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="return_order_num != null and return_order_num != ''">
+			and return_order_num = #{return_order_num}
+		</if>
+		<if test="create_date != null">
+			and create_date = #{create_date}
+		</if>
+		<if test="cus_id != null">
+			and cus_id = #{cus_id}
+		</if>
+		<if test="cus_num != null and cus_num != ''">
+			and cus_num = #{cus_num}
+		</if>
+		<if test="cus_name != null and cus_name != ''">
+			and cus_name = #{cus_name}
+		</if>
+		<if test="amount != null and amount != ''">
+			and amount = #{amount}
+		</if>
+		<if test="current_status != null and current_status != ''">
+			and current_status = #{current_status}
+		</if>
+		<if test="current_event != null and current_event != ''">
+			and current_event = #{current_event}
+		</if>
+		<if test="order_num != null and order_num != ''">
+			and order_num = #{order_num}
+		</if>
+		<if test="complete_date != null">
+			and complete_date = #{complete_date}
+		</if>
+	</sql>
+
+	<insert id="saveReturnOrder" parameterType="com.selin.store.returnorder.entity.ReturnOrder" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_return_order (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteReturnOrder">
+		delete from w_return_order
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleReturnOrder">
+		delete from w_return_order
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateReturnOrder">
+		update w_return_order
+		<set>
+			id=#{id}, 
+			return_order_num=#{return_order_num}, 
+			create_date=#{create_date}, 
+			cus_id=#{cus_id}, 
+			cus_num=#{cus_num}, 
+			cus_name=#{cus_name}, 
+			amount=#{amount}, 
+			current_status=#{current_status}, 
+			current_event=#{current_event}, 
+			order_num=#{order_num}, 
+			complete_date=#{complete_date}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullReturnOrder">
+		update w_return_order
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="return_order_num != null and return_order_num != ''">
+			return_order_num=#{return_order_num}, 
+		</if>
+		<if test="create_date != null">
+			create_date=#{create_date}, 
+		</if>
+		<if test="cus_id != null and cus_id != ''">
+			cus_id=#{cus_id}, 
+		</if>
+		<if test="cus_num != null and cus_num != ''">
+			cus_num=#{cus_num}, 
+		</if>
+		<if test="cus_name != null and cus_name != ''">
+			cus_name=#{cus_name}, 
+		</if>
+		<if test="amount != null and amount != ''">
+			amount=#{amount}, 
+		</if>
+		<if test="current_status != null and current_status != ''">
+			current_status=#{current_status}, 
+		</if>
+		<if test="current_event != null and current_event != ''">
+			current_event=#{current_event}, 
+		</if>
+		<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}, 
+		</if>
+		<if test="complete_date != null">
+			complete_date=#{complete_date}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleReturnOrder">
+		update w_return_order
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="return_order_num != null and return_order_num != ''">
+			return_order_num=#{return_order_num}, 
+			</if>
+			<if test="create_date != null">
+			create_date=#{create_date}, 
+			</if>
+			<if test="cus_id != null and cus_id != ''">
+			cus_id=#{cus_id}, 
+			</if>
+			<if test="cus_num != null and cus_num != ''">
+			cus_num=#{cus_num}, 
+			</if>
+			<if test="cus_name != null and cus_name != ''">
+			cus_name=#{cus_name}, 
+			</if>
+			<if test="amount != null and amount != ''">
+			amount=#{amount}, 
+			</if>
+			<if test="current_status != null and current_status != ''">
+			current_status=#{current_status}, 
+			</if>
+			<if test="current_event != null and current_event != ''">
+			current_event=#{current_event}, 
+			</if>
+			<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}, 
+			</if>
+			<if test="complete_date != null">
+			complete_date=#{complete_date}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadReturnOrder" resultType="com.selin.store.returnorder.entity.ReturnOrderVo">
+		select 
+		<include refid="columns"/>
+		from w_return_order
+		where id=#{id} 
+	</select>
+	
+	<select id="selectReturnOrder" resultType="com.selin.store.returnorder.entity.ReturnOrderVo">
+		select 
+		<include refid="columns"/>
+		from w_return_order
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
