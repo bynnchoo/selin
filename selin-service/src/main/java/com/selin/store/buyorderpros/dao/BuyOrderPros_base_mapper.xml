@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.buyorderpros.dao">
+
+	<sql id="columns">
+		id, buy_order_num, pro_norms_id, pro_name, num, unit, price, remark
+	</sql>
+	<sql id="vals">
+		#{id}, #{buy_order_num}, #{pro_norms_id}, #{pro_name}, #{num}, #{unit}, #{price}, #{remark}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="buy_order_num != null and buy_order_num != ''">
+			and buy_order_num = #{buy_order_num}
+		</if>
+		<if test="pro_norms_id != null">
+			and pro_norms_id = #{pro_norms_id}
+		</if>
+		<if test="pro_name != null and pro_name != ''">
+			and pro_name = #{pro_name}
+		</if>
+		<if test="num != null">
+			and num = #{num}
+		</if>
+		<if test="unit != null and unit != ''">
+			and unit = #{unit}
+		</if>
+		<if test="price != null and price != ''">
+			and price = #{price}
+		</if>
+		<if test="remark != null and remark != ''">
+			and remark = #{remark}
+		</if>
+	</sql>
+
+	<insert id="saveBuyOrderPros" parameterType="com.selin.store.buyorderpros.entity.BuyOrderPros" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_buy_order_pros (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteBuyOrderPros">
+		delete from w_buy_order_pros
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleBuyOrderPros">
+		delete from w_buy_order_pros
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateBuyOrderPros">
+		update w_buy_order_pros
+		<set>
+			id=#{id}, 
+			buy_order_num=#{buy_order_num}, 
+			pro_norms_id=#{pro_norms_id}, 
+			pro_name=#{pro_name}, 
+			num=#{num}, 
+			unit=#{unit}, 
+			price=#{price}, 
+			remark=#{remark}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullBuyOrderPros">
+		update w_buy_order_pros
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="buy_order_num != null and buy_order_num != ''">
+			buy_order_num=#{buy_order_num}, 
+		</if>
+		<if test="pro_norms_id != null and pro_norms_id != ''">
+			pro_norms_id=#{pro_norms_id}, 
+		</if>
+		<if test="pro_name != null and pro_name != ''">
+			pro_name=#{pro_name}, 
+		</if>
+		<if test="num != null and num != ''">
+			num=#{num}, 
+		</if>
+		<if test="unit != null and unit != ''">
+			unit=#{unit}, 
+		</if>
+		<if test="price != null and price != ''">
+			price=#{price}, 
+		</if>
+		<if test="remark != null and remark != ''">
+			remark=#{remark}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleBuyOrderPros">
+		update w_buy_order_pros
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="buy_order_num != null and buy_order_num != ''">
+			buy_order_num=#{buy_order_num}, 
+			</if>
+			<if test="pro_norms_id != null and pro_norms_id != ''">
+			pro_norms_id=#{pro_norms_id}, 
+			</if>
+			<if test="pro_name != null and pro_name != ''">
+			pro_name=#{pro_name}, 
+			</if>
+			<if test="num != null and num != ''">
+			num=#{num}, 
+			</if>
+			<if test="unit != null and unit != ''">
+			unit=#{unit}, 
+			</if>
+			<if test="price != null and price != ''">
+			price=#{price}, 
+			</if>
+			<if test="remark != null and remark != ''">
+			remark=#{remark}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadBuyOrderPros" resultType="com.selin.store.buyorderpros.entity.BuyOrderProsVo">
+		select 
+		<include refid="columns"/>
+		from w_buy_order_pros
+		where id=#{id} 
+	</select>
+	
+	<select id="selectBuyOrderPros" resultType="com.selin.store.buyorderpros.entity.BuyOrderProsVo">
+		select 
+		<include refid="columns"/>
+		from w_buy_order_pros
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

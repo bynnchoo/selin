@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.dispatchorderpros.dao">
+	<sql id="columnsAs">
+		t1.id, t1.dispatch_order_num, t1.pro_norms_id, t1.pro_name, t1.num, t1.unit, t1.price, t1.remark
+	</sql>
+	
+	<select id="selectDispatchOrderProsPage" resultType="com.selin.store.dispatchorderpros.entity.DispatchOrderProsVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		w_dispatch_order_pros t1
+		join
+		(SELECT
+		id
+		from
+		w_dispatch_order_pros
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectDispatchOrderProsCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from w_dispatch_order_pros
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

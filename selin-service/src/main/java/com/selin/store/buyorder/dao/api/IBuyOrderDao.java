@@ -1,0 +1,10 @@
+package com.selin.store.buyorder.dao.api;
+
+import org.roof.roof.dataaccess.api.IDaoSupport;
+import org.roof.roof.dataaccess.api.Page;
+
+import com.selin.store.buyorder.entity.BuyOrder;
+
+public interface IBuyOrderDao extends IDaoSupport {
+	Page page(Page page, BuyOrder buyOrder);
+}

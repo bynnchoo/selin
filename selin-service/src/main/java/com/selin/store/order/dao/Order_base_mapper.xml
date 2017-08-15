@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.order.dao">
+
+	<sql id="columns">
+		id, order_num, create_date, cus_num, cus_name, amount, current_status, current_event, pay_status, finish_time, ex_date, remark
+	</sql>
+	<sql id="vals">
+		#{id}, #{order_num}, #{create_date}, #{cus_num}, #{cus_name}, #{amount}, #{current_status}, #{current_event}, #{pay_status}, #{finish_time}, #{ex_date}, #{remark}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="order_num != null and order_num != ''">
+			and order_num = #{order_num}
+		</if>
+		<if test="create_date != null">
+			and create_date = #{create_date}
+		</if>
+		<if test="cus_num != null">
+			and cus_num = #{cus_num}
+		</if>
+		<if test="cus_name != null and cus_name != ''">
+			and cus_name = #{cus_name}
+		</if>
+		<if test="amount != null and amount != ''">
+			and amount = #{amount}
+		</if>
+		<if test="current_status != null and current_status != ''">
+			and current_status = #{current_status}
+		</if>
+		<if test="current_event != null and current_event != ''">
+			and current_event = #{current_event}
+		</if>
+		<if test="pay_status != null and pay_status != ''">
+			and pay_status = #{pay_status}
+		</if>
+		<if test="finish_time != null">
+			and finish_time = #{finish_time}
+		</if>
+		<if test="ex_date != null">
+			and ex_date = #{ex_date}
+		</if>
+		<if test="remark != null and remark != ''">
+			and remark = #{remark}
+		</if>
+	</sql>
+
+	<insert id="saveOrder" parameterType="com.selin.store.order.entity.Order" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_order (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteOrder">
+		delete from w_order
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleOrder">
+		delete from w_order
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateOrder">
+		update w_order
+		<set>
+			id=#{id}, 
+			order_num=#{order_num}, 
+			create_date=#{create_date}, 
+			cus_num=#{cus_num}, 
+			cus_name=#{cus_name}, 
+			amount=#{amount}, 
+			current_status=#{current_status}, 
+			current_event=#{current_event}, 
+			pay_status=#{pay_status}, 
+			finish_time=#{finish_time}, 
+			ex_date=#{ex_date}, 
+			remark=#{remark}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullOrder">
+		update w_order
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}, 
+		</if>
+		<if test="create_date != null">
+			create_date=#{create_date}, 
+		</if>
+		<if test="cus_num != null and cus_num != ''">
+			cus_num=#{cus_num}, 
+		</if>
+		<if test="cus_name != null and cus_name != ''">
+			cus_name=#{cus_name}, 
+		</if>
+		<if test="amount != null and amount != ''">
+			amount=#{amount}, 
+		</if>
+		<if test="current_status != null and current_status != ''">
+			current_status=#{current_status}, 
+		</if>
+		<if test="current_event != null and current_event != ''">
+			current_event=#{current_event}, 
+		</if>
+		<if test="pay_status != null and pay_status != ''">
+			pay_status=#{pay_status}, 
+		</if>
+		<if test="finish_time != null">
+			finish_time=#{finish_time}, 
+		</if>
+		<if test="ex_date != null">
+			ex_date=#{ex_date}, 
+		</if>
+		<if test="remark != null and remark != ''">
+			remark=#{remark}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleOrder">
+		update w_order
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}, 
+			</if>
+			<if test="create_date != null">
+			create_date=#{create_date}, 
+			</if>
+			<if test="cus_num != null and cus_num != ''">
+			cus_num=#{cus_num}, 
+			</if>
+			<if test="cus_name != null and cus_name != ''">
+			cus_name=#{cus_name}, 
+			</if>
+			<if test="amount != null and amount != ''">
+			amount=#{amount}, 
+			</if>
+			<if test="current_status != null and current_status != ''">
+			current_status=#{current_status}, 
+			</if>
+			<if test="current_event != null and current_event != ''">
+			current_event=#{current_event}, 
+			</if>
+			<if test="pay_status != null and pay_status != ''">
+			pay_status=#{pay_status}, 
+			</if>
+			<if test="finish_time != null">
+			finish_time=#{finish_time}, 
+			</if>
+			<if test="ex_date != null">
+			ex_date=#{ex_date}, 
+			</if>
+			<if test="remark != null and remark != ''">
+			remark=#{remark}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadOrder" resultType="com.selin.store.order.entity.OrderVo">
+		select 
+		<include refid="columns"/>
+		from w_order
+		where id=#{id} 
+	</select>
+	
+	<select id="selectOrder" resultType="com.selin.store.order.entity.OrderVo">
+		select 
+		<include refid="columns"/>
+		from w_order
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
