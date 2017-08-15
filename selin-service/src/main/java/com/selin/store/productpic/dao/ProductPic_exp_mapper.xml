@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.productpic.dao">
+	<sql id="columnsAs">
+		t1.id, t1.product_id, t1.pic_name
+	</sql>
+	
+	<select id="selectProductPicPage" resultType="com.selin.store.productpic.entity.ProductPicVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		w_product_pic t1
+		join
+		(SELECT
+		id
+		from
+		w_product_pic
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectProductPicCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from w_product_pic
+		where 1=1
+		<include refid="conds" />
+	</select>
+
+	<delete id="deleteProductPicByProductId">
+		delete from w_product_pic
+		where product_id=#{product_id}
+	</delete>
+</mapper>

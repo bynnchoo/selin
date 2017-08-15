@@ -55,6 +55,11 @@ public class ProductLabelRelService implements IProductLabelRelService {
 		return productLabelRelDao.page(page, productLabelRel);
 	}
 
+	@Override
+	public void deleteByProduct_id(Long product_id) {
+		productLabelRelDao.delete("deleteProductLabelRelByProductId",product_id);
+	}
+
 	@Autowired
 	public void setIProductLabelRelDao(
 			@Qualifier("productLabelRelDao") IProductLabelRelDao  productLabelRelDao) {

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.productpic.dao">
+
+	<sql id="columns">
+		id, product_id, pic_name
+	</sql>
+	<sql id="vals">
+		#{id}, #{product_id}, #{pic_name}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="product_id != null">
+			and product_id = #{product_id}
+		</if>
+		<if test="pic_name != null and pic_name != ''">
+			and pic_name = #{pic_name}
+		</if>
+	</sql>
+
+	<insert id="saveProductPic" parameterType="com.selin.store.productpic.entity.ProductPic" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_product_pic (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteProductPic">
+		delete from w_product_pic
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleProductPic">
+		delete from w_product_pic
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateProductPic">
+		update w_product_pic
+		<set>
+			id=#{id}, 
+			product_id=#{product_id}, 
+			pic_name=#{pic_name}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullProductPic">
+		update w_product_pic
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="product_id != null and product_id != ''">
+			product_id=#{product_id}, 
+		</if>
+		<if test="pic_name != null and pic_name != ''">
+			pic_name=#{pic_name}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleProductPic">
+		update w_product_pic
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="product_id != null and product_id != ''">
+			product_id=#{product_id}, 
+			</if>
+			<if test="pic_name != null and pic_name != ''">
+			pic_name=#{pic_name}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadProductPic" resultType="com.selin.store.productpic.entity.ProductPicVo">
+		select 
+		<include refid="columns"/>
+		from w_product_pic
+		where id=#{id} 
+	</select>
+	
+	<select id="selectProductPic" resultType="com.selin.store.productpic.entity.ProductPicVo">
+		select 
+		<include refid="columns"/>
+		from w_product_pic
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

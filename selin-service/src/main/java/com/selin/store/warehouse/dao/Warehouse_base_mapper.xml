@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.warehouse.dao">
+
+	<sql id="columns">
+		id, code, name, address, area_id
+	</sql>
+	<sql id="vals">
+		#{id}, #{code}, #{name}, #{address}, #{area_id}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="code != null and code != ''">
+			and code = #{code}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="address != null and address != ''">
+			and address = #{address}
+		</if>
+		<if test="area_id != null">
+			and area_id = #{area_id}
+		</if>
+	</sql>
+
+	<insert id="saveWarehouse" parameterType="com.selin.store.warehouse.entity.Warehouse" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_warehouse (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteWarehouse">
+		delete from w_warehouse
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleWarehouse">
+		delete from w_warehouse
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateWarehouse">
+		update w_warehouse
+		<set>
+			id=#{id}, 
+			code=#{code}, 
+			name=#{name}, 
+			address=#{address}, 
+			area_id=#{area_id}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullWarehouse">
+		update w_warehouse
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="code != null and code != ''">
+			code=#{code}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="address != null and address != ''">
+			address=#{address}, 
+		</if>
+		<if test="area_id != null and area_id != ''">
+			area_id=#{area_id}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleWarehouse">
+		update w_warehouse
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="code != null and code != ''">
+			code=#{code}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="address != null and address != ''">
+			address=#{address}, 
+			</if>
+			<if test="area_id != null and area_id != ''">
+			area_id=#{area_id}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadWarehouse" resultType="com.selin.store.warehouse.entity.WarehouseVo">
+		select 
+		<include refid="columns"/>
+		from w_warehouse
+		where id=#{id} 
+	</select>
+	
+	<select id="selectWarehouse" resultType="com.selin.store.warehouse.entity.WarehouseVo">
+		select 
+		<include refid="columns"/>
+		from w_warehouse
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

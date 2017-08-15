@@ -59,4 +59,5 @@ public interface IProductNormsService {
 	 */
 	public abstract Page page(Page page, ProductNorms productNorms);
 
+	public abstract void deleteByProduct_id(Long id);
 }

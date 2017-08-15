@@ -55,6 +55,11 @@ public class ProductNormsService implements IProductNormsService {
 		return productNormsDao.page(page, productNorms);
 	}
 
+	@Override
+	public void deleteByProduct_id(Long product_id) {
+		productNormsDao.delete("deleteProductNormsByProductId",product_id);
+	}
+
 	@Autowired
 	public void setIProductNormsDao(
 			@Qualifier("productNormsDao") IProductNormsDao  productNormsDao) {

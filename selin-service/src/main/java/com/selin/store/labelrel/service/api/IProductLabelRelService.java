@@ -59,4 +59,5 @@ public interface IProductLabelRelService {
 	 */
 	public abstract Page page(Page page, ProductLabelRel productLabelRel);
 
+	public abstract  void deleteByProduct_id(Long id);
 }

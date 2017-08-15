@@ -10,7 +10,7 @@
 		#{id}, #{name}, #{code}, #{brand_id}, #{supplier_id}, #{is_oneself}, #{category_id}, #{cost_price}, #{retail_price}, #{minimum_price}, #{accessory}, #{description}, #{state}, #{keyword}, #{minimum_num}
 	</sql>
 	<sql id="conds">
-		<if test="id != null and id != ''">
+		<if test="id != null">
 			and id = #{id}
 		</if>
 		<if test="name != null and name != ''">
@@ -19,16 +19,16 @@
 		<if test="code != null and code != ''">
 			and code = #{code}
 		</if>
-		<if test="brand_id != null and brand_id != ''">
+		<if test="brand_id != null">
 			and brand_id = #{brand_id}
 		</if>
-		<if test="supplier_id != null and supplier_id != ''">
+		<if test="supplier_id != null">
 			and supplier_id = #{supplier_id}
 		</if>
-		<if test="is_oneself != null and is_oneself != ''">
+		<if test="is_oneself != null">
 			and is_oneself = #{is_oneself}
 		</if>
-		<if test="category_id != null and category_id != ''">
+		<if test="category_id != null">
 			and category_id = #{category_id}
 		</if>
 		<if test="cost_price != null and cost_price != ''">
@@ -46,13 +46,13 @@
 		<if test="description != null and description != ''">
 			and description = #{description}
 		</if>
-		<if test="state != null and state != ''">
+		<if test="state != null">
 			and state = #{state}
 		</if>
 		<if test="keyword != null and keyword != ''">
 			and keyword = #{keyword}
 		</if>
-		<if test="minimum_num != null and minimum_num != ''">
+		<if test="minimum_num != null">
 			and minimum_num = #{minimum_num}
 		</if>
 	</sql>
@@ -101,7 +101,7 @@
 	<update id="updateIgnoreNullProduct">
 		update w_product
 		<set>
-		<if test="id != null and id != ''">
+		<if test="id != null">
 			id=#{id}, 
 		</if>
 		<if test="name != null and name != ''">
@@ -110,16 +110,16 @@
 		<if test="code != null and code != ''">
 			code=#{code}, 
 		</if>
-		<if test="brand_id != null and brand_id != ''">
+		<if test="brand_id != null">
 			brand_id=#{brand_id}, 
 		</if>
-		<if test="supplier_id != null and supplier_id != ''">
+		<if test="supplier_id != null">
 			supplier_id=#{supplier_id}, 
 		</if>
-		<if test="is_oneself != null and is_oneself != ''">
+		<if test="is_oneself != null">
 			is_oneself=#{is_oneself}, 
 		</if>
-		<if test="category_id != null and category_id != ''">
+		<if test="category_id != null">
 			category_id=#{category_id}, 
 		</if>
 		<if test="cost_price != null and cost_price != ''">
@@ -137,13 +137,13 @@
 		<if test="description != null and description != ''">
 			description=#{description}, 
 		</if>
-		<if test="state != null and state != ''">
+		<if test="state != null">
 			state=#{state}, 
 		</if>
 		<if test="keyword != null and keyword != ''">
 			keyword=#{keyword}, 
 		</if>
-		<if test="minimum_num != null and minimum_num != ''">
+		<if test="minimum_num != null">
 			minimum_num=#{minimum_num}
 		</if>
 		</set>
@@ -153,7 +153,7 @@
 	<update id="updateByExampleProduct">
 		update w_product
 		<set>
-			<if test="id != null and id != ''">
+			<if test="id != null">
 			id=#{id}, 
 			</if>
 			<if test="name != null and name != ''">
@@ -162,16 +162,16 @@
 			<if test="code != null and code != ''">
 			code=#{code}, 
 			</if>
-			<if test="brand_id != null and brand_id != ''">
+			<if test="brand_id != null">
 			brand_id=#{brand_id}, 
 			</if>
-			<if test="supplier_id != null and supplier_id != ''">
+			<if test="supplier_id != null">
 			supplier_id=#{supplier_id}, 
 			</if>
-			<if test="is_oneself != null and is_oneself != ''">
+			<if test="is_oneself != null">
 			is_oneself=#{is_oneself}, 
 			</if>
-			<if test="category_id != null and category_id != ''">
+			<if test="category_id != null">
 			category_id=#{category_id}, 
 			</if>
 			<if test="cost_price != null and cost_price != ''">
@@ -189,13 +189,13 @@
 			<if test="description != null and description != ''">
 			description=#{description}, 
 			</if>
-			<if test="state != null and state != ''">
+			<if test="state != null">
 			state=#{state}, 
 			</if>
 			<if test="keyword != null and keyword != ''">
 			keyword=#{keyword}, 
 			</if>
-			<if test="minimum_num != null and minimum_num != ''">
+			<if test="minimum_num != null">
 			minimum_num=#{minimum_num}
 			</if>
 		</set>

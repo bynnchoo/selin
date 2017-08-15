@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.inveventdetail.dao">
+
+	<sql id="columns">
+		id, norm_id, event_code, num
+	</sql>
+	<sql id="vals">
+		#{id}, #{norm_id}, #{event_code}, #{num}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="norm_id != null">
+			and norm_id = #{norm_id}
+		</if>
+		<if test="event_code != null and event_code != ''">
+			and event_code = #{event_code}
+		</if>
+		<if test="num != null">
+			and num = #{num}
+		</if>
+	</sql>
+
+	<insert id="saveInventoryEventProDetail" parameterType="com.selin.store.inveventdetail.entity.InventoryEventProDetail" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_inventory_event_pro_detail (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteInventoryEventProDetail">
+		delete from w_inventory_event_pro_detail
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleInventoryEventProDetail">
+		delete from w_inventory_event_pro_detail
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateInventoryEventProDetail">
+		update w_inventory_event_pro_detail
+		<set>
+			id=#{id}, 
+			norm_id=#{norm_id}, 
+			event_code=#{event_code}, 
+			num=#{num}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullInventoryEventProDetail">
+		update w_inventory_event_pro_detail
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="norm_id != null and norm_id != ''">
+			norm_id=#{norm_id}, 
+		</if>
+		<if test="event_code != null and event_code != ''">
+			event_code=#{event_code}, 
+		</if>
+		<if test="num != null and num != ''">
+			num=#{num}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleInventoryEventProDetail">
+		update w_inventory_event_pro_detail
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="norm_id != null and norm_id != ''">
+			norm_id=#{norm_id}, 
+			</if>
+			<if test="event_code != null and event_code != ''">
+			event_code=#{event_code}, 
+			</if>
+			<if test="num != null and num != ''">
+			num=#{num}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadInventoryEventProDetail" resultType="com.selin.store.inveventdetail.entity.InventoryEventProDetailVo">
+		select 
+		<include refid="columns"/>
+		from w_inventory_event_pro_detail
+		where id=#{id} 
+	</select>
+	
+	<select id="selectInventoryEventProDetail" resultType="com.selin.store.inveventdetail.entity.InventoryEventProDetailVo">
+		select 
+		<include refid="columns"/>
+		from w_inventory_event_pro_detail
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

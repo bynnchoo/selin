@@ -13,12 +13,12 @@
 
 	<mvc:interceptors>
 		<bean class="org.roof.spring.web.handler.BasePathHandlerInterceptor">
-			<property name="values">
+			<!--<property name="values">
 				<map>
 					<entry key="ali_oss_root"
-						value="http://crm-dev-public.oss-cn-beijing.aliyuncs.com/webc" />
+						value="" />
 				</map>
-			</property>
+			</property>-->
 		</bean>
 	</mvc:interceptors>
 	<!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 

@@ -3,6 +3,7 @@ package com.selin.store.product.service.api;
 import java.util.List;
 import java.io.Serializable;
 
+import com.selin.store.product.entity.ProductDto;
 import org.roof.roof.dataaccess.api.Page;
 import com.selin.store.product.entity.Product;
 import com.selin.store.product.entity.ProductVo;
@@ -59,4 +60,12 @@ public interface IProductService {
 	 */
 	public abstract Page page(Page page, Product product);
 
+	public abstract Page productNomrsPage(Page page, Product product);
+
+
+	public abstract List<ProductVo> selectProductNormsList(Product product);
+
+	public abstract Page productNomrsStockPage(Page page, Product product);
+
+	public abstract void create(ProductDto product);
 }

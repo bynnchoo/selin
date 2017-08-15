@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.invevent.dao">
+
+	<sql id="columns">
+		id, event, event_type, event_code, in_warehouse_id, out_warehouse_id, in_date, out_date, create_user_id, status, per_use_start_date, per_use_end_date, order_num, create_date
+	</sql>
+	<sql id="vals">
+		#{id}, #{event}, #{event_type}, #{event_code}, #{in_warehouse_id}, #{out_warehouse_id}, #{in_date}, #{out_date}, #{create_user_id}, #{status}, #{per_use_start_date}, #{per_use_end_date}, #{order_num}, #{create_date}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="event != null and event != ''">
+			and event = #{event}
+		</if>
+		<if test="event_type != null and event_type != ''">
+			and event_type = #{event_type}
+		</if>
+		<if test="event_code != null and event_code != ''">
+			and event_code = #{event_code}
+		</if>
+		<if test="in_warehouse_id != null">
+			and in_warehouse_id = #{in_warehouse_id}
+		</if>
+		<if test="out_warehouse_id != null">
+			and out_warehouse_id = #{out_warehouse_id}
+		</if>
+		<if test="in_date != null">
+			and in_date = #{in_date}
+		</if>
+		<if test="out_date != null">
+			and out_date = #{out_date}
+		</if>
+		<if test="create_user_id != null">
+			and create_user_id = #{create_user_id}
+		</if>
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+		<if test="per_use_start_date != null">
+			and per_use_start_date = #{per_use_start_date}
+		</if>
+		<if test="per_use_end_date != null">
+			and per_use_end_date = #{per_use_end_date}
+		</if>
+		<if test="order_num != null and order_num != ''">
+			and order_num = #{order_num}
+		</if>
+		<if test="create_date != null">
+			and create_date = #{create_date}
+		</if>
+	</sql>
+
+	<insert id="saveInventoryEvent" parameterType="com.selin.store.invevent.entity.InventoryEvent" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_inventory_event (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteInventoryEvent">
+		delete from w_inventory_event
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleInventoryEvent">
+		delete from w_inventory_event
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateInventoryEvent">
+		update w_inventory_event
+		<set>
+			id=#{id}, 
+			event=#{event}, 
+			event_type=#{event_type}, 
+			event_code=#{event_code}, 
+			in_warehouse_id=#{in_warehouse_id}, 
+			out_warehouse_id=#{out_warehouse_id}, 
+			in_date=#{in_date}, 
+			out_date=#{out_date}, 
+			create_user_id=#{create_user_id}, 
+			status=#{status}, 
+			per_use_start_date=#{per_use_start_date}, 
+			per_use_end_date=#{per_use_end_date}, 
+			order_num=#{order_num}, 
+			create_date=#{create_date}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullInventoryEvent">
+		update w_inventory_event
+		<set>
+		<if test="id != null and id != ''">
+			id=#{id}, 
+		</if>
+		<if test="event != null and event != ''">
+			event=#{event}, 
+		</if>
+		<if test="event_type != null and event_type != ''">
+			event_type=#{event_type}, 
+		</if>
+		<if test="event_code != null and event_code != ''">
+			event_code=#{event_code}, 
+		</if>
+		<if test="in_warehouse_id != null and in_warehouse_id != ''">
+			in_warehouse_id=#{in_warehouse_id}, 
+		</if>
+		<if test="out_warehouse_id != null and out_warehouse_id != ''">
+			out_warehouse_id=#{out_warehouse_id}, 
+		</if>
+		<if test="in_date != null">
+			in_date=#{in_date}, 
+		</if>
+		<if test="out_date != null">
+			out_date=#{out_date}, 
+		</if>
+		<if test="create_user_id != null and create_user_id != ''">
+			create_user_id=#{create_user_id}, 
+		</if>
+		<if test="status != null and status != ''">
+			status=#{status}, 
+		</if>
+		<if test="per_use_start_date != null">
+			per_use_start_date=#{per_use_start_date}, 
+		</if>
+		<if test="per_use_end_date != null">
+			per_use_end_date=#{per_use_end_date}, 
+		</if>
+		<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}, 
+		</if>
+		<if test="create_date != null">
+			create_date=#{create_date}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleInventoryEvent">
+		update w_inventory_event
+		<set>
+			<if test="id != null and id != ''">
+			id=#{id}, 
+			</if>
+			<if test="event != null and event != ''">
+			event=#{event}, 
+			</if>
+			<if test="event_type != null and event_type != ''">
+			event_type=#{event_type}, 
+			</if>
+			<if test="event_code != null and event_code != ''">
+			event_code=#{event_code}, 
+			</if>
+			<if test="in_warehouse_id != null and in_warehouse_id != ''">
+			in_warehouse_id=#{in_warehouse_id}, 
+			</if>
+			<if test="out_warehouse_id != null and out_warehouse_id != ''">
+			out_warehouse_id=#{out_warehouse_id}, 
+			</if>
+			<if test="in_date != null">
+			in_date=#{in_date}, 
+			</if>
+			<if test="out_date != null">
+			out_date=#{out_date}, 
+			</if>
+			<if test="create_user_id != null and create_user_id != ''">
+			create_user_id=#{create_user_id}, 
+			</if>
+			<if test="status != null and status != ''">
+			status=#{status}, 
+			</if>
+			<if test="per_use_start_date != null">
+			per_use_start_date=#{per_use_start_date}, 
+			</if>
+			<if test="per_use_end_date != null">
+			per_use_end_date=#{per_use_end_date}, 
+			</if>
+			<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}, 
+			</if>
+			<if test="create_date != null">
+			create_date=#{create_date}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadInventoryEvent" resultType="com.selin.store.invevent.entity.InventoryEventVo">
+		select 
+		<include refid="columns"/>
+		from w_inventory_event
+		where id=#{id} 
+	</select>
+	
+	<select id="selectInventoryEvent" resultType="com.selin.store.invevent.entity.InventoryEventVo">
+		select 
+		<include refid="columns"/>
+		from w_inventory_event
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
