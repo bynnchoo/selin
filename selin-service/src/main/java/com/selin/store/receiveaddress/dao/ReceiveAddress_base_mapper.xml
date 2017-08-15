@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.receiveaddress.dao">
+
+	<sql id="columns">
+		id, cus_id, cus_num, cus_name, receive_name, passcode, tel, address
+	</sql>
+	<sql id="vals">
+		#{id}, #{cus_id}, #{cus_num}, #{cus_name}, #{receive_name}, #{passcode}, #{tel}, #{address}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="cus_id != null">
+			and cus_id = #{cus_id}
+		</if>
+		<if test="cus_num != null and cus_num != ''">
+			and cus_num = #{cus_num}
+		</if>
+		<if test="cus_name != null and cus_name != ''">
+			and cus_name = #{cus_name}
+		</if>
+		<if test="receive_name != null and receive_name != ''">
+			and receive_name = #{receive_name}
+		</if>
+		<if test="passcode != null and passcode != ''">
+			and passcode = #{passcode}
+		</if>
+		<if test="tel != null and tel != ''">
+			and tel = #{tel}
+		</if>
+		<if test="address != null and address != ''">
+			and address = #{address}
+		</if>
+	</sql>
+
+	<insert id="saveReceiveAddress" parameterType="com.selin.store.receiveaddress.entity.ReceiveAddress" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_receive_address (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteReceiveAddress">
+		delete from w_receive_address
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleReceiveAddress">
+		delete from w_receive_address
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateReceiveAddress">
+		update w_receive_address
+		<set>
+			id=#{id}, 
+			cus_id=#{cus_id}, 
+			cus_num=#{cus_num}, 
+			cus_name=#{cus_name}, 
+			receive_name=#{receive_name}, 
+			passcode=#{passcode}, 
+			tel=#{tel}, 
+			address=#{address}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullReceiveAddress">
+		update w_receive_address
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="cus_id != null">
+			cus_id=#{cus_id}, 
+		</if>
+		<if test="cus_num != null and cus_num != ''">
+			cus_num=#{cus_num}, 
+		</if>
+		<if test="cus_name != null and cus_name != ''">
+			cus_name=#{cus_name}, 
+		</if>
+		<if test="receive_name != null and receive_name != ''">
+			receive_name=#{receive_name}, 
+		</if>
+		<if test="passcode != null and passcode != ''">
+			passcode=#{passcode}, 
+		</if>
+		<if test="tel != null and tel != ''">
+			tel=#{tel}, 
+		</if>
+		<if test="address != null and address != ''">
+			address=#{address}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleReceiveAddress">
+		update w_receive_address
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="cus_id != null">
+			cus_id=#{cus_id}, 
+			</if>
+			<if test="cus_num != null and cus_num != ''">
+			cus_num=#{cus_num}, 
+			</if>
+			<if test="cus_name != null and cus_name != ''">
+			cus_name=#{cus_name}, 
+			</if>
+			<if test="receive_name != null and receive_name != ''">
+			receive_name=#{receive_name}, 
+			</if>
+			<if test="passcode != null and passcode != ''">
+			passcode=#{passcode}, 
+			</if>
+			<if test="tel != null and tel != ''">
+			tel=#{tel}, 
+			</if>
+			<if test="address != null and address != ''">
+			address=#{address}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadReceiveAddress" resultType="com.selin.store.receiveaddress.entity.ReceiveAddressVo">
+		select 
+		<include refid="columns"/>
+		from w_receive_address
+		where id=#{id} 
+	</select>
+	
+	<select id="selectReceiveAddress" resultType="com.selin.store.receiveaddress.entity.ReceiveAddressVo">
+		select 
+		<include refid="columns"/>
+		from w_receive_address
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

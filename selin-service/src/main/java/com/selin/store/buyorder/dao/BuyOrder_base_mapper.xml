@@ -85,13 +85,13 @@
 	<update id="updateIgnoreNullBuyOrder">
 		update w_buy_order
 		<set>
-		<if test="id != null and id != ''">
+		<if test="id != null">
 			id=#{id}, 
 		</if>
 		<if test="buy_order_num != null and buy_order_num != ''">
 			buy_order_num=#{buy_order_num}, 
 		</if>
-		<if test="supplier_id != null and supplier_id != ''">
+		<if test="supplier_id != null">
 			supplier_id=#{supplier_id}, 
 		</if>
 		<if test="current_event != null and current_event != ''">
@@ -106,7 +106,7 @@
 		<if test="remark != null and remark != ''">
 			remark=#{remark}, 
 		</if>
-		<if test="create_user_id != null and create_user_id != ''">
+		<if test="create_user_id != null">
 			create_user_id=#{create_user_id}, 
 		</if>
 		<if test="other_amount != null and other_amount != ''">
@@ -125,13 +125,13 @@
 	<update id="updateByExampleBuyOrder">
 		update w_buy_order
 		<set>
-			<if test="id != null and id != ''">
+			<if test="id != null">
 			id=#{id}, 
 			</if>
 			<if test="buy_order_num != null and buy_order_num != ''">
 			buy_order_num=#{buy_order_num}, 
 			</if>
-			<if test="supplier_id != null and supplier_id != ''">
+			<if test="supplier_id != null">
 			supplier_id=#{supplier_id}, 
 			</if>
 			<if test="current_event != null and current_event != ''">
@@ -146,7 +146,7 @@
 			<if test="remark != null and remark != ''">
 			remark=#{remark}, 
 			</if>
-			<if test="create_user_id != null and create_user_id != ''">
+			<if test="create_user_id != null">
 			create_user_id=#{create_user_id}, 
 			</if>
 			<if test="other_amount != null and other_amount != ''">

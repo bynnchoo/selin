@@ -73,19 +73,19 @@
 	<update id="updateIgnoreNullReturnOrderPros">
 		update w_return_order_pros
 		<set>
-		<if test="id != null and id != ''">
+		<if test="id != null">
 			id=#{id}, 
 		</if>
 		<if test="return_order_num != null and return_order_num != ''">
 			return_order_num=#{return_order_num}, 
 		</if>
-		<if test="pro_norms_id != null and pro_norms_id != ''">
+		<if test="pro_norms_id != null">
 			pro_norms_id=#{pro_norms_id}, 
 		</if>
 		<if test="pro_name != null and pro_name != ''">
 			pro_name=#{pro_name}, 
 		</if>
-		<if test="num != null and num != ''">
+		<if test="num != null">
 			num=#{num}, 
 		</if>
 		<if test="unit != null and unit != ''">
@@ -104,19 +104,19 @@
 	<update id="updateByExampleReturnOrderPros">
 		update w_return_order_pros
 		<set>
-			<if test="id != null and id != ''">
+			<if test="id != null">
 			id=#{id}, 
 			</if>
 			<if test="return_order_num != null and return_order_num != ''">
 			return_order_num=#{return_order_num}, 
 			</if>
-			<if test="pro_norms_id != null and pro_norms_id != ''">
+			<if test="pro_norms_id != null">
 			pro_norms_id=#{pro_norms_id}, 
 			</if>
 			<if test="pro_name != null and pro_name != ''">
 			pro_name=#{pro_name}, 
 			</if>
-			<if test="num != null and num != ''">
+			<if test="num != null">
 			num=#{num}, 
 			</if>
 			<if test="unit != null and unit != ''">

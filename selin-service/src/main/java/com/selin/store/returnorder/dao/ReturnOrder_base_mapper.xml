@@ -85,7 +85,7 @@
 	<update id="updateIgnoreNullReturnOrder">
 		update w_return_order
 		<set>
-		<if test="id != null and id != ''">
+		<if test="id != null">
 			id=#{id}, 
 		</if>
 		<if test="return_order_num != null and return_order_num != ''">
@@ -94,7 +94,7 @@
 		<if test="create_date != null">
 			create_date=#{create_date}, 
 		</if>
-		<if test="cus_id != null and cus_id != ''">
+		<if test="cus_id != null">
 			cus_id=#{cus_id}, 
 		</if>
 		<if test="cus_num != null and cus_num != ''">
@@ -125,7 +125,7 @@
 	<update id="updateByExampleReturnOrder">
 		update w_return_order
 		<set>
-			<if test="id != null and id != ''">
+			<if test="id != null">
 			id=#{id}, 
 			</if>
 			<if test="return_order_num != null and return_order_num != ''">
@@ -134,7 +134,7 @@
 			<if test="create_date != null">
 			create_date=#{create_date}, 
 			</if>
-			<if test="cus_id != null and cus_id != ''">
+			<if test="cus_id != null">
 			cus_id=#{cus_id}, 
 			</if>
 			<if test="cus_num != null and cus_num != ''">

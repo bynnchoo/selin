@@ -4,10 +4,10 @@
 <mapper namespace="com.selin.store.order.dao">
 
 	<sql id="columns">
-		id, order_num, create_date, cus_num, cus_name, amount, current_status, current_event, pay_status, finish_time, ex_date, remark
+		id, order_num, create_date, cus_id, cus_num, cus_name, amount, current_status, current_event, pay_status, finish_time, ex_date, remark, receive_address_id
 	</sql>
 	<sql id="vals">
-		#{id}, #{order_num}, #{create_date}, #{cus_num}, #{cus_name}, #{amount}, #{current_status}, #{current_event}, #{pay_status}, #{finish_time}, #{ex_date}, #{remark}
+		#{id}, #{order_num}, #{create_date}, #{cus_id}, #{cus_num}, #{cus_name}, #{amount}, #{current_status}, #{current_event}, #{pay_status}, #{finish_time}, #{ex_date}, #{remark}, #{receive_address_id}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -19,7 +19,10 @@
 		<if test="create_date != null">
 			and create_date = #{create_date}
 		</if>
-		<if test="cus_num != null">
+		<if test="cus_id != null">
+			and cus_id = #{cus_id}
+		</if>
+		<if test="cus_num != null and cus_num != ''">
 			and cus_num = #{cus_num}
 		</if>
 		<if test="cus_name != null and cus_name != ''">
@@ -45,6 +48,9 @@
 		</if>
 		<if test="remark != null and remark != ''">
 			and remark = #{remark}
+		</if>
+		<if test="receive_address_id != null">
+			and receive_address_id = #{receive_address_id}
 		</if>
 	</sql>
 
@@ -73,6 +79,7 @@
 			id=#{id}, 
 			order_num=#{order_num}, 
 			create_date=#{create_date}, 
+			cus_id=#{cus_id}, 
 			cus_num=#{cus_num}, 
 			cus_name=#{cus_name}, 
 			amount=#{amount}, 
@@ -81,7 +88,8 @@
 			pay_status=#{pay_status}, 
 			finish_time=#{finish_time}, 
 			ex_date=#{ex_date}, 
-			remark=#{remark}
+			remark=#{remark}, 
+			receive_address_id=#{receive_address_id}
 		</set>
 		where id=#{id} 
 	</update>
@@ -89,7 +97,7 @@
 	<update id="updateIgnoreNullOrder">
 		update w_order
 		<set>
-		<if test="id != null and id != ''">
+		<if test="id != null">
 			id=#{id}, 
 		</if>
 		<if test="order_num != null and order_num != ''">
@@ -97,6 +105,9 @@
 		</if>
 		<if test="create_date != null">
 			create_date=#{create_date}, 
+		</if>
+		<if test="cus_id != null">
+			cus_id=#{cus_id}, 
 		</if>
 		<if test="cus_num != null and cus_num != ''">
 			cus_num=#{cus_num}, 
@@ -123,7 +134,10 @@
 			ex_date=#{ex_date}, 
 		</if>
 		<if test="remark != null and remark != ''">
-			remark=#{remark}
+			remark=#{remark}, 
+		</if>
+		<if test="receive_address_id != null">
+			receive_address_id=#{receive_address_id}
 		</if>
 		</set>
 		where id=#{id} 
@@ -132,7 +146,7 @@
 	<update id="updateByExampleOrder">
 		update w_order
 		<set>
-			<if test="id != null and id != ''">
+			<if test="id != null">
 			id=#{id}, 
 			</if>
 			<if test="order_num != null and order_num != ''">
@@ -140,6 +154,9 @@
 			</if>
 			<if test="create_date != null">
 			create_date=#{create_date}, 
+			</if>
+			<if test="cus_id != null">
+			cus_id=#{cus_id}, 
 			</if>
 			<if test="cus_num != null and cus_num != ''">
 			cus_num=#{cus_num}, 
@@ -166,7 +183,10 @@
 			ex_date=#{ex_date}, 
 			</if>
 			<if test="remark != null and remark != ''">
-			remark=#{remark}
+			remark=#{remark}, 
+			</if>
+			<if test="receive_address_id != null">
+			receive_address_id=#{receive_address_id}
 			</if>
 		</set>
 		where 1=1

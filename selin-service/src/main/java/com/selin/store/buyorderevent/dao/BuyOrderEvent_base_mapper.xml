@@ -73,7 +73,7 @@
 	<update id="updateIgnoreNullBuyOrderEvent">
 		update w_buy_order_event
 		<set>
-		<if test="id != null and id != ''">
+		<if test="id != null">
 			id=#{id}, 
 		</if>
 		<if test="buy_order_num != null and buy_order_num != ''">
@@ -94,7 +94,7 @@
 		<if test="reamrk != null and reamrk != ''">
 			reamrk=#{reamrk}, 
 		</if>
-		<if test="create_user_id != null and create_user_id != ''">
+		<if test="create_user_id != null">
 			create_user_id=#{create_user_id}
 		</if>
 		</set>
@@ -104,7 +104,7 @@
 	<update id="updateByExampleBuyOrderEvent">
 		update w_buy_order_event
 		<set>
-			<if test="id != null and id != ''">
+			<if test="id != null">
 			id=#{id}, 
 			</if>
 			<if test="buy_order_num != null and buy_order_num != ''">
@@ -125,7 +125,7 @@
 			<if test="reamrk != null and reamrk != ''">
 			reamrk=#{reamrk}, 
 			</if>
-			<if test="create_user_id != null and create_user_id != ''">
+			<if test="create_user_id != null">
 			create_user_id=#{create_user_id}
 			</if>
 		</set>

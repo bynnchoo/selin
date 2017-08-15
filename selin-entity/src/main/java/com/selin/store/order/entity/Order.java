@@ -16,7 +16,8 @@ public class Order implements Serializable {
 	protected String order_num;// 订单编号
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date create_date;// 下单时间
-	protected Long cus_num;// 客户编码
+	protected Long cus_id;// 客户编号
+	protected String cus_num;// 客户编码
 	protected String cus_name;// 客户名称
 	protected String amount;// 总金额
 	protected String current_status;// 订单当前状态
@@ -27,6 +28,7 @@ public class Order implements Serializable {
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date ex_date;// 交货日期
 	protected String remark;// 备注
+	protected Long receive_address_id;// 收货地址
 
 	public Order() {
 		super();
@@ -59,10 +61,17 @@ public class Order implements Serializable {
 		this.create_date = create_date;
 	}
 	
-	public Long getCus_num() {
+	public Long getCus_id() {
+		return cus_id;
+	}
+	public void setCus_id(Long cus_id) {
+		this.cus_id = cus_id;
+	}
+	
+	public String getCus_num() {
 		return cus_num;
 	}
-	public void setCus_num(Long cus_num) {
+	public void setCus_num(String cus_num) {
 		this.cus_num = cus_num;
 	}
 	
@@ -120,5 +129,12 @@ public class Order implements Serializable {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	
+	public Long getReceive_address_id() {
+		return receive_address_id;
+	}
+	public void setReceive_address_id(Long receive_address_id) {
+		this.receive_address_id = receive_address_id;
 	}
 }

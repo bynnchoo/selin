@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.customer.dao">
+
+	<sql id="columns">
+		id, cus_num, cus_name, cus_type, has_credit, credit_amount, create_date, default_address
+	</sql>
+	<sql id="vals">
+		#{id}, #{cus_num}, #{cus_name}, #{cus_type}, #{has_credit}, #{credit_amount}, #{create_date}, #{default_address}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="cus_num != null and cus_num != ''">
+			and cus_num = #{cus_num}
+		</if>
+		<if test="cus_name != null and cus_name != ''">
+			and cus_name = #{cus_name}
+		</if>
+		<if test="cus_type != null and cus_type != ''">
+			and cus_type = #{cus_type}
+		</if>
+		<if test="has_credit != null and has_credit != ''">
+			and has_credit = #{has_credit}
+		</if>
+		<if test="credit_amount != null and credit_amount != ''">
+			and credit_amount = #{credit_amount}
+		</if>
+		<if test="create_date != null">
+			and create_date = #{create_date}
+		</if>
+		<if test="default_address != null">
+			and default_address = #{default_address}
+		</if>
+	</sql>
+
+	<insert id="saveCustomer" parameterType="com.selin.store.customer.entity.Customer" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_customer (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCustomer">
+		delete from w_customer
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCustomer">
+		delete from w_customer
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCustomer">
+		update w_customer
+		<set>
+			id=#{id}, 
+			cus_num=#{cus_num}, 
+			cus_name=#{cus_name}, 
+			cus_type=#{cus_type}, 
+			has_credit=#{has_credit}, 
+			credit_amount=#{credit_amount}, 
+			create_date=#{create_date}, 
+			default_address=#{default_address}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCustomer">
+		update w_customer
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="cus_num != null and cus_num != ''">
+			cus_num=#{cus_num}, 
+		</if>
+		<if test="cus_name != null and cus_name != ''">
+			cus_name=#{cus_name}, 
+		</if>
+		<if test="cus_type != null and cus_type != ''">
+			cus_type=#{cus_type}, 
+		</if>
+		<if test="has_credit != null and has_credit != ''">
+			has_credit=#{has_credit}, 
+		</if>
+		<if test="credit_amount != null and credit_amount != ''">
+			credit_amount=#{credit_amount}, 
+		</if>
+		<if test="create_date != null">
+			create_date=#{create_date}, 
+		</if>
+		<if test="default_address != null">
+			default_address=#{default_address}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCustomer">
+		update w_customer
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="cus_num != null and cus_num != ''">
+			cus_num=#{cus_num}, 
+			</if>
+			<if test="cus_name != null and cus_name != ''">
+			cus_name=#{cus_name}, 
+			</if>
+			<if test="cus_type != null and cus_type != ''">
+			cus_type=#{cus_type}, 
+			</if>
+			<if test="has_credit != null and has_credit != ''">
+			has_credit=#{has_credit}, 
+			</if>
+			<if test="credit_amount != null and credit_amount != ''">
+			credit_amount=#{credit_amount}, 
+			</if>
+			<if test="create_date != null">
+			create_date=#{create_date}, 
+			</if>
+			<if test="default_address != null">
+			default_address=#{default_address}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCustomer" resultType="com.selin.store.customer.entity.CustomerVo">
+		select 
+		<include refid="columns"/>
+		from w_customer
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCustomer" resultType="com.selin.store.customer.entity.CustomerVo">
+		select 
+		<include refid="columns"/>
+		from w_customer
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

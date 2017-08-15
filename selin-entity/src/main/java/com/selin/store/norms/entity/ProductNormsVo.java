@@ -11,6 +11,8 @@ public class ProductNormsVo extends ProductNorms {
 
 	private List<ProductNormsVo> productNormsList;
 
+	private Integer num;// 件数
+
 	public ProductNormsVo() {
 		super();
 	}
@@ -26,6 +28,14 @@ public class ProductNormsVo extends ProductNorms {
 
 	public void setProductNormsList(List<ProductNormsVo> productNormsList) {
 		this.productNormsList = productNormsList;
+	}
+
+	public Integer getNum() {
+		return num;
+	}
+
+	public void setNum(Integer num) {
+		this.num = num;
 	}
 
 }

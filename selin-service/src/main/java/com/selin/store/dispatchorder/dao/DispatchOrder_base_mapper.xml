@@ -69,7 +69,7 @@
 	<update id="updateIgnoreNullDispatchOrder">
 		update w_dispatch_order
 		<set>
-		<if test="id != null and id != ''">
+		<if test="id != null">
 			id=#{id}, 
 		</if>
 		<if test="order_num != null and order_num != ''">
@@ -97,7 +97,7 @@
 	<update id="updateByExampleDispatchOrder">
 		update w_dispatch_order
 		<set>
-			<if test="id != null and id != ''">
+			<if test="id != null">
 			id=#{id}, 
 			</if>
 			<if test="order_num != null and order_num != ''">

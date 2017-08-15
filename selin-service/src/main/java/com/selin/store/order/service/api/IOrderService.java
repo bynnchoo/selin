@@ -1,13 +1,35 @@
 package com.selin.store.order.service.api;
 
-import java.util.List;
 import java.io.Serializable;
+import java.util.List;
 
 import org.roof.roof.dataaccess.api.Page;
+
+import com.selin.store.customer.entity.CustomerVo;
+import com.selin.store.norms.entity.ProductNormsVo;
 import com.selin.store.order.entity.Order;
 import com.selin.store.order.entity.OrderVo;
+import com.selin.store.receiveaddress.entity.ReceiveAddress;
 
 public interface IOrderService {
+
+	// 订单新增
+	public OrderVo orderAdd(CustomerVo cus, List<ProductNormsVo> pros, ReceiveAddress address) throws Exception;
+
+	// 订单审核
+	public OrderVo orderConfirm(String orderNum, List<ProductNormsVo> pros) throws Exception;
+
+	// 订单财务审核
+	public OrderVo orderFinanceConfirm(String orderNum) throws Exception;
+
+	// 订单发货确认
+	public OrderVo dispatchConfirm(String orderNum) throws Exception;
+
+	// 订单作废
+	public OrderVo back(String orderNum) throws Exception;
+
+	// 订单退回
+	public OrderVo cancel(String orderNum) throws Exception;
 
 	/**
 	 * 将对象保存，返回该条记录的操作数量，保存成功之后，将主键填充到参数对象中
@@ -18,7 +40,7 @@ public interface IOrderService {
 	 * 按对象中的主键进行删除，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract void delete(Order order);
-	
+
 	/**
 	 * 按对象中的非空属性作为条件，进行删除
 	 */
@@ -28,12 +50,12 @@ public interface IOrderService {
 	 * 按对象中的主键进行所有属性的修改，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract void update(Order order);
-	
+
 	/**
 	 * 按对象中的主键进行所有非空属性的修改，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract void updateIgnoreNull(Order order);
-	
+
 	/**
 	 * 按对象中的非空属性作为条件，进行修改
 	 */
@@ -43,17 +65,17 @@ public interface IOrderService {
 	 * 按对象中的主键进行数据加载，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract OrderVo load(Order order);
-	
+
 	/**
 	 * 按对象中的非空属性作为条件，进行查询实体
 	 */
 	public abstract OrderVo selectForObject(Order order);
-	
+
 	/**
 	 * 按对象中的非空属性作为条件，进行查询列表
 	 */
 	public abstract List<OrderVo> selectForList(Order order);
-	
+
 	/**
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */
