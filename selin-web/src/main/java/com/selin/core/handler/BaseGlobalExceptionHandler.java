@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class BaseGlobalExceptionHandler {
     protected static final Logger logger = null;
-    protected static final String DEFAULT_ERROR_MESSAGE = "系统忙，请稍后再试";
+    protected static final String DEFAULT_ERROR_MESSAGE = "系统出错";
 
     protected ModelAndView handleError(HttpServletRequest req, HttpServletResponse rsp, Exception e, String viewName, HttpStatus status) throws Exception {
         if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null)

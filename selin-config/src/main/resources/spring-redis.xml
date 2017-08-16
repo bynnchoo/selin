@@ -10,6 +10,7 @@
 		<property name="poolConfig" ref="poolConfig" />
 		<property name="usePool" value="true" />
 		<property name="database" value="${redis.database}" />
+		<property name="password" value="${redis.password}"/>
 	</bean>
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
 	</bean>

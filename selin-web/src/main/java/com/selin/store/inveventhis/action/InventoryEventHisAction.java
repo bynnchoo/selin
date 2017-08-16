@@ -1,8 +1,12 @@
 package com.selin.store.inveventhis.action;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.lang.model.element.NestingKind;
 import javax.servlet.http.HttpServletRequest;
+
+import com.selin.store.invevent.entity.InventoryEventEnum;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
@@ -59,6 +63,12 @@ public class InventoryEventHisAction {
 		Page page = PageUtils.createPage(request);
 		page = inventoryEventHisService.page(page, inventoryEventHis);
 		return new Result(Result.SUCCESS, page);
+	}
+
+	@RequestMapping("/code")
+	public @ResponseBody Result inlist(String type, HttpServletRequest request, Model model) {
+		String code = inventoryEventHisService.createEventCode(InventoryEventEnum.IN_PROCUREMENT,new Date());
+		return new Result(Result.SUCCESS, "",code);
 	}
 	
 	

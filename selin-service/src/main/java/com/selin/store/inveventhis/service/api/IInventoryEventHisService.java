@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.io.Serializable;
 
+import com.selin.store.invevent.entity.InventoryEventEnum;
 import org.roof.roof.dataaccess.api.Page;
 import com.selin.store.inveventhis.entity.InventoryEventHis;
 import com.selin.store.inveventhis.entity.InventoryEventHisVo;
@@ -84,4 +85,6 @@ public interface IInventoryEventHisService {
 
     public void procurement_in(Long in_warehouse_id, Date in_date, Long create_user_id, Long norms_id, Integer num);
 
-}
+    public String createEventCode(InventoryEventEnum eventEnum, Date date);
+
+    }
