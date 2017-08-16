@@ -15,51 +15,53 @@ import org.springframework.stereotype.Service;
 public class OrderProsService implements IOrderProsService {
 	private IOrderProsDao orderProsDao;
 
-	public Serializable save(OrderPros orderPros){
+	public Serializable save(OrderPros orderPros) {
 		return orderProsDao.save(orderPros);
 	}
 
-	public void delete(OrderPros orderPros){
+	public void delete(OrderPros orderPros) {
 		orderProsDao.delete(orderPros);
 	}
-	
-	public void deleteByExample(OrderPros orderPros){
+
+	public void deleteByExample(OrderPros orderPros) {
 		orderProsDao.deleteByExample(orderPros);
 	}
 
-	public void update(OrderPros orderPros){
+	public void update(OrderPros orderPros) {
 		orderProsDao.update(orderPros);
 	}
-	
-	public void updateIgnoreNull(OrderPros orderPros){
+
+	public void updateIgnoreNull(OrderPros orderPros) {
 		orderProsDao.updateIgnoreNull(orderPros);
 	}
-		
-	public void updateByExample(OrderPros orderPros){
+
+	public void updateByExample(OrderPros orderPros) {
 		orderProsDao.update("updateByExampleOrderPros", orderPros);
 	}
 
-	public OrderProsVo load(OrderPros orderPros){
-		return (OrderProsVo)orderProsDao.reload(orderPros);
+	public OrderProsVo load(OrderPros orderPros) {
+		return (OrderProsVo) orderProsDao.reload(orderPros);
 	}
-	
-	public OrderProsVo selectForObject(OrderPros orderPros){
-		return (OrderProsVo)orderProsDao.selectForObject("selectOrderPros",orderPros);
+
+	public OrderProsVo selectForObject(OrderPros orderPros) {
+		return (OrderProsVo) orderProsDao.selectForObject("selectOrderPros", orderPros);
 	}
-	
-	public List<OrderProsVo> selectForList(OrderPros orderPros){
-		return (List<OrderProsVo>)orderProsDao.selectForList("selectOrderPros",orderPros);
+
+	public List<OrderProsVo> selectForList(OrderPros orderPros) {
+		return (List<OrderProsVo>) orderProsDao.selectForList("selectOrderPros", orderPros);
 	}
-	
+
+	public List<OrderProsVo> selectForListByOrderNum(String orderNum) {
+		return (List<OrderProsVo>) orderProsDao.selectForList("selectOrderProsByOrderNum", orderNum);
+	}
+
 	public Page page(Page page, OrderPros orderPros) {
 		return orderProsDao.page(page, orderPros);
 	}
 
 	@Autowired
-	public void setIOrderProsDao(
-			@Qualifier("orderProsDao") IOrderProsDao  orderProsDao) {
+	public void setIOrderProsDao(@Qualifier("orderProsDao") IOrderProsDao orderProsDao) {
 		this.orderProsDao = orderProsDao;
 	}
-	
 
 }

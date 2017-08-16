@@ -8,6 +8,13 @@ import com.selin.store.orderpros.entity.OrderPros;
 import com.selin.store.orderpros.entity.OrderProsVo;
 
 public interface IOrderProsService {
+	/**
+	 * 根据orderNum查询订单对应的orderPros
+	 * 
+	 * @param orderNum
+	 * @return
+	 */
+	public List<OrderProsVo> selectForListByOrderNum(String orderNum);
 
 	/**
 	 * 将对象保存，返回该条记录的操作数量，保存成功之后，将主键填充到参数对象中
@@ -18,7 +25,7 @@ public interface IOrderProsService {
 	 * 按对象中的主键进行删除，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract void delete(OrderPros orderPros);
-	
+
 	/**
 	 * 按对象中的非空属性作为条件，进行删除
 	 */
@@ -28,12 +35,12 @@ public interface IOrderProsService {
 	 * 按对象中的主键进行所有属性的修改，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract void update(OrderPros orderPros);
-	
+
 	/**
 	 * 按对象中的主键进行所有非空属性的修改，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract void updateIgnoreNull(OrderPros orderPros);
-	
+
 	/**
 	 * 按对象中的非空属性作为条件，进行修改
 	 */
@@ -43,17 +50,17 @@ public interface IOrderProsService {
 	 * 按对象中的主键进行数据加载，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract OrderProsVo load(OrderPros orderPros);
-	
+
 	/**
 	 * 按对象中的非空属性作为条件，进行查询实体
 	 */
 	public abstract OrderProsVo selectForObject(OrderPros orderPros);
-	
+
 	/**
 	 * 按对象中的非空属性作为条件，进行查询列表
 	 */
 	public abstract List<OrderProsVo> selectForList(OrderPros orderPros);
-	
+
 	/**
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */

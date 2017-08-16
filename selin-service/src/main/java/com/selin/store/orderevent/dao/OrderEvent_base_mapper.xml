@@ -4,10 +4,10 @@
 <mapper namespace="com.selin.store.orderevent.dao">
 
 	<sql id="columns">
-		id, order_num, event_type, event_code, event, create_date, reamrk, create_user_id
+		id, order_num, event_type, event_code, event, event_name, create_date, reamrk, create_user_id
 	</sql>
 	<sql id="vals">
-		#{id}, #{order_num}, #{event_type}, #{event_code}, #{event}, #{create_date}, #{reamrk}, #{create_user_id}
+		#{id}, #{order_num}, #{event_type}, #{event_code}, #{event}, #{event_name}, #{create_date}, #{reamrk}, #{create_user_id}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -24,6 +24,9 @@
 		</if>
 		<if test="event != null and event != ''">
 			and event = #{event}
+		</if>
+		<if test="event_name != null and event_name != ''">
+			and event_name = #{event_name}
 		</if>
 		<if test="create_date != null">
 			and create_date = #{create_date}
@@ -63,6 +66,7 @@
 			event_type=#{event_type}, 
 			event_code=#{event_code}, 
 			event=#{event}, 
+			event_name=#{event_name}, 
 			create_date=#{create_date}, 
 			reamrk=#{reamrk}, 
 			create_user_id=#{create_user_id}
@@ -87,6 +91,9 @@
 		</if>
 		<if test="event != null and event != ''">
 			event=#{event}, 
+		</if>
+		<if test="event_name != null and event_name != ''">
+			event_name=#{event_name}, 
 		</if>
 		<if test="create_date != null">
 			create_date=#{create_date}, 
@@ -118,6 +125,9 @@
 			</if>
 			<if test="event != null and event != ''">
 			event=#{event}, 
+			</if>
+			<if test="event_name != null and event_name != ''">
+			event_name=#{event_name}, 
 			</if>
 			<if test="create_date != null">
 			create_date=#{create_date}, 

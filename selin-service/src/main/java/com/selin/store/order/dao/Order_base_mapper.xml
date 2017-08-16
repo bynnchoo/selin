@@ -4,10 +4,15 @@
 <mapper namespace="com.selin.store.order.dao">
 
 	<sql id="columns">
-		id, order_num, create_date, cus_id, cus_num, cus_name, amount, current_status, current_event, pay_status, finish_time, ex_date, remark, receive_address_id
+		id, order_num, create_date, cus_id, cus_num, cus_name,
+		amount, current_status, current_event, pay_status, finish_time,
+		ex_date, remark, receive_address_id, invoice_type, invoice_id
 	</sql>
 	<sql id="vals">
-		#{id}, #{order_num}, #{create_date}, #{cus_id}, #{cus_num}, #{cus_name}, #{amount}, #{current_status}, #{current_event}, #{pay_status}, #{finish_time}, #{ex_date}, #{remark}, #{receive_address_id}
+		#{id}, #{order_num}, #{create_date}, #{cus_id}, #{cus_num},
+		#{cus_name}, #{amount}, #{current_status}, #{current_event},
+		#{pay_status}, #{finish_time}, #{ex_date}, #{remark},
+		#{receive_address_id}, #{invoice_type}, #{invoice_id}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -52,19 +57,31 @@
 		<if test="receive_address_id != null">
 			and receive_address_id = #{receive_address_id}
 		</if>
+		<if test="invoice_type != null and invoice_type != ''">
+			and invoice_type = #{invoice_type}
+		</if>
+		<if test="invoice_id != null">
+			and invoice_id = #{invoice_id}
+		</if>
 	</sql>
 
-	<insert id="saveOrder" parameterType="com.selin.store.order.entity.Order" useGeneratedKeys="true" keyProperty="id">
+	<insert id="saveOrder" parameterType="com.selin.store.order.entity.Order"
+		useGeneratedKeys="true" keyProperty="id">
 		<selectKey keyProperty="id" resultType="Long" order="AFTER">
-			select last_insert_id()
+			select
+			last_insert_id()
 		</selectKey>
-		insert into w_order (<include refid="columns" />) 
-		values (<include refid="vals" />)
+		insert into w_order (
+		<include refid="columns" />
+		)
+		values (
+		<include refid="vals" />
+		)
 	</insert>
 
 	<delete id="deleteOrder">
 		delete from w_order
-		where id=#{id} 
+		where id=#{id}
 	</delete>
 
 	<delete id="deleteByExampleOrder">
@@ -76,133 +93,147 @@
 	<update id="updateOrder">
 		update w_order
 		<set>
-			id=#{id}, 
-			order_num=#{order_num}, 
-			create_date=#{create_date}, 
-			cus_id=#{cus_id}, 
-			cus_num=#{cus_num}, 
-			cus_name=#{cus_name}, 
-			amount=#{amount}, 
-			current_status=#{current_status}, 
-			current_event=#{current_event}, 
-			pay_status=#{pay_status}, 
-			finish_time=#{finish_time}, 
-			ex_date=#{ex_date}, 
-			remark=#{remark}, 
-			receive_address_id=#{receive_address_id}
+			id=#{id},
+			order_num=#{order_num},
+			create_date=#{create_date},
+			cus_id=#{cus_id},
+			cus_num=#{cus_num},
+			cus_name=#{cus_name},
+			amount=#{amount},
+			current_status=#{current_status},
+			current_event=#{current_event},
+			pay_status=#{pay_status},
+			finish_time=#{finish_time},
+			ex_date=#{ex_date},
+			remark=#{remark},
+			receive_address_id=#{receive_address_id},
+			invoice_type=#{invoice_type},
+			invoice_id=#{invoice_id}
 		</set>
-		where id=#{id} 
+		where id=#{id}
 	</update>
 
 	<update id="updateIgnoreNullOrder">
 		update w_order
 		<set>
-		<if test="id != null">
-			id=#{id}, 
-		</if>
-		<if test="order_num != null and order_num != ''">
-			order_num=#{order_num}, 
-		</if>
-		<if test="create_date != null">
-			create_date=#{create_date}, 
-		</if>
-		<if test="cus_id != null">
-			cus_id=#{cus_id}, 
-		</if>
-		<if test="cus_num != null and cus_num != ''">
-			cus_num=#{cus_num}, 
-		</if>
-		<if test="cus_name != null and cus_name != ''">
-			cus_name=#{cus_name}, 
-		</if>
-		<if test="amount != null and amount != ''">
-			amount=#{amount}, 
-		</if>
-		<if test="current_status != null and current_status != ''">
-			current_status=#{current_status}, 
-		</if>
-		<if test="current_event != null and current_event != ''">
-			current_event=#{current_event}, 
-		</if>
-		<if test="pay_status != null and pay_status != ''">
-			pay_status=#{pay_status}, 
-		</if>
-		<if test="finish_time != null">
-			finish_time=#{finish_time}, 
-		</if>
-		<if test="ex_date != null">
-			ex_date=#{ex_date}, 
-		</if>
-		<if test="remark != null and remark != ''">
-			remark=#{remark}, 
-		</if>
-		<if test="receive_address_id != null">
-			receive_address_id=#{receive_address_id}
-		</if>
+			<if test="id != null">
+				id=#{id},
+			</if>
+			<if test="order_num != null and order_num != ''">
+				order_num=#{order_num},
+			</if>
+			<if test="create_date != null">
+				create_date=#{create_date},
+			</if>
+			<if test="cus_id != null">
+				cus_id=#{cus_id},
+			</if>
+			<if test="cus_num != null and cus_num != ''">
+				cus_num=#{cus_num},
+			</if>
+			<if test="cus_name != null and cus_name != ''">
+				cus_name=#{cus_name},
+			</if>
+			<if test="amount != null and amount != ''">
+				amount=#{amount},
+			</if>
+			<if test="current_status != null and current_status != ''">
+				current_status=#{current_status},
+			</if>
+			<if test="current_event != null and current_event != ''">
+				current_event=#{current_event},
+			</if>
+			<if test="pay_status != null and pay_status != ''">
+				pay_status=#{pay_status},
+			</if>
+			<if test="finish_time != null">
+				finish_time=#{finish_time},
+			</if>
+			<if test="ex_date != null">
+				ex_date=#{ex_date},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark=#{remark},
+			</if>
+			<if test="receive_address_id != null">
+				receive_address_id=#{receive_address_id},
+			</if>
+			<if test="invoice_type != null and invoice_type != ''">
+				invoice_type=#{invoice_type},
+			</if>
+			<if test="invoice_id != null">
+				invoice_id=#{invoice_id}
+			</if>
 		</set>
-		where id=#{id} 
+		where id=#{id}
 	</update>
 
 	<update id="updateByExampleOrder">
 		update w_order
 		<set>
 			<if test="id != null">
-			id=#{id}, 
+				id=#{id},
 			</if>
 			<if test="order_num != null and order_num != ''">
-			order_num=#{order_num}, 
+				order_num=#{order_num},
 			</if>
 			<if test="create_date != null">
-			create_date=#{create_date}, 
+				create_date=#{create_date},
 			</if>
 			<if test="cus_id != null">
-			cus_id=#{cus_id}, 
+				cus_id=#{cus_id},
 			</if>
 			<if test="cus_num != null and cus_num != ''">
-			cus_num=#{cus_num}, 
+				cus_num=#{cus_num},
 			</if>
 			<if test="cus_name != null and cus_name != ''">
-			cus_name=#{cus_name}, 
+				cus_name=#{cus_name},
 			</if>
 			<if test="amount != null and amount != ''">
-			amount=#{amount}, 
+				amount=#{amount},
 			</if>
 			<if test="current_status != null and current_status != ''">
-			current_status=#{current_status}, 
+				current_status=#{current_status},
 			</if>
 			<if test="current_event != null and current_event != ''">
-			current_event=#{current_event}, 
+				current_event=#{current_event},
 			</if>
 			<if test="pay_status != null and pay_status != ''">
-			pay_status=#{pay_status}, 
+				pay_status=#{pay_status},
 			</if>
 			<if test="finish_time != null">
-			finish_time=#{finish_time}, 
+				finish_time=#{finish_time},
 			</if>
 			<if test="ex_date != null">
-			ex_date=#{ex_date}, 
+				ex_date=#{ex_date},
 			</if>
 			<if test="remark != null and remark != ''">
-			remark=#{remark}, 
+				remark=#{remark},
 			</if>
 			<if test="receive_address_id != null">
-			receive_address_id=#{receive_address_id}
+				receive_address_id=#{receive_address_id},
+			</if>
+			<if test="invoice_type != null and invoice_type != ''">
+				invoice_type=#{invoice_type},
+			</if>
+			<if test="invoice_id != null">
+				invoice_id=#{invoice_id}
 			</if>
 		</set>
 		where 1=1
 		<include refid="conds" />
 	</update>
-	
+
 	<select id="loadOrder" resultType="com.selin.store.order.entity.OrderVo">
-		select 
-		<include refid="columns"/>
+		select
+		<include refid="columns" />
 		from w_order
-		where id=#{id} 
+		where id=#{id}
 	</select>
 	
 	<select id="selectOrder" resultType="com.selin.store.order.entity.OrderVo">
-		select 
-		<include refid="columns"/>
+		select
+		<include refid="columns" />
 		from w_order
 		where 1=1
 		<include refid="conds" />

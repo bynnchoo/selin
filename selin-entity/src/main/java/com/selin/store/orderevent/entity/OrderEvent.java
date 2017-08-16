@@ -17,6 +17,7 @@ public class OrderEvent implements Serializable {
 	protected String event_type;// 事件类型
 	protected String event_code;// 事件编码
 	protected String event;// 事件
+	protected String event_name;// 事件名称
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date create_date;// 事件发生时间
 	protected String reamrk;// 操作日志
@@ -65,6 +66,13 @@ public class OrderEvent implements Serializable {
 	}
 	public void setEvent(String event) {
 		this.event = event;
+	}
+	
+	public String getEvent_name() {
+		return event_name;
+	}
+	public void setEvent_name(String event_name) {
+		this.event_name = event_name;
 	}
 	
 	public Date getCreate_date() {

@@ -8,21 +8,25 @@ package com.selin.store.orderevent.entity;
  */
 public enum OrderEventEnum {
 
-	orderAdd(OrderEnum.order, "orderAdd", "新增订货单"), orderConfirm(OrderEnum.order, "orderConfirm",
-			"订货单确认"), orderFinanceConfirm(OrderEnum.order, "orderFinanceConfirm", "财务确认"), dispatchConfirm(
-					OrderEnum.order, "dispatchConfirm", "发货确认"), complete(OrderEnum.order, "complete",
-							"完成"), cancel(OrderEnum.order, "cancel", "取消"), back(OrderEnum.order, "back", "退回");
-
-	private OrderEnum orderType;// order类型
+	orderAdd("orderAdd", "创建订货单", "O-A", "已提交订货单，等待订货单审核"), orderConfirm("orderConfirm", "订货单确认", "O-C",
+			"订货单已通过订货单审核"), orderFinanceConfirm("orderFinanceConfirm", "财务确认", "O-FC",
+					"订货单已通过财务审核"), dispatchConfirm("dispatchConfirm", "发货确认", "O-DC", "订货单已确认发货"), complete("complete",
+							"完成", "O-SUCCES", "订货单已完成"), cancel("cancel", "取消", "O-CANCEL", "订货单取消"), back("back", "退回",
+									"O-BACK", "订货单退回"), orderUpdate("orderUpdate", "更新订货单", "O-U", "变更明细");
 
 	private String eventCode;// 事件编码
 
 	private String eventName;// 事件名称
 
-	OrderEventEnum(OrderEnum orderType, String eventCode, String eventName) {
-		this.orderType = orderType;
+	private String codePrefix;
+
+	private String remark;
+
+	OrderEventEnum(String eventCode, String eventName, String codePrefix, String reamrk) {
 		this.eventCode = eventCode;
 		this.eventName = eventName;
+		this.codePrefix = codePrefix;
+		this.remark = reamrk;
 	}
 
 	public String getEventCode() {
@@ -41,12 +45,20 @@ public enum OrderEventEnum {
 		this.eventName = eventName;
 	}
 
-	public OrderEnum getOrderType() {
-		return orderType;
+	public String getCodePrefix() {
+		return codePrefix;
 	}
 
-	public void setOrderType(OrderEnum orderType) {
-		this.orderType = orderType;
+	public void setCodePrefix(String codePrefix) {
+		this.codePrefix = codePrefix;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

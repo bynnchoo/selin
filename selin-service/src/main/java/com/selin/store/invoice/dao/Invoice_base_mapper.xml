@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.invoice.dao">
+
+	<sql id="columns">
+		id, invoice_type, heard, taxpayer_num, address, tel, bank, card_num, cus_id
+	</sql>
+	<sql id="vals">
+		#{id}, #{invoice_type}, #{heard}, #{taxpayer_num}, #{address}, #{tel}, #{bank}, #{card_num}, #{cus_id}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="invoice_type != null and invoice_type != ''">
+			and invoice_type = #{invoice_type}
+		</if>
+		<if test="heard != null and heard != ''">
+			and heard = #{heard}
+		</if>
+		<if test="taxpayer_num != null and taxpayer_num != ''">
+			and taxpayer_num = #{taxpayer_num}
+		</if>
+		<if test="address != null and address != ''">
+			and address = #{address}
+		</if>
+		<if test="tel != null and tel != ''">
+			and tel = #{tel}
+		</if>
+		<if test="bank != null and bank != ''">
+			and bank = #{bank}
+		</if>
+		<if test="card_num != null and card_num != ''">
+			and card_num = #{card_num}
+		</if>
+		<if test="cus_id != null">
+			and cus_id = #{cus_id}
+		</if>
+	</sql>
+
+	<insert id="saveInvoice" parameterType="com.selin.store.invoice.entity.Invoice" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_invoice (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteInvoice">
+		delete from w_invoice
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleInvoice">
+		delete from w_invoice
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateInvoice">
+		update w_invoice
+		<set>
+			id=#{id}, 
+			invoice_type=#{invoice_type}, 
+			heard=#{heard}, 
+			taxpayer_num=#{taxpayer_num}, 
+			address=#{address}, 
+			tel=#{tel}, 
+			bank=#{bank}, 
+			card_num=#{card_num}, 
+			cus_id=#{cus_id}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullInvoice">
+		update w_invoice
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="invoice_type != null and invoice_type != ''">
+			invoice_type=#{invoice_type}, 
+		</if>
+		<if test="heard != null and heard != ''">
+			heard=#{heard}, 
+		</if>
+		<if test="taxpayer_num != null and taxpayer_num != ''">
+			taxpayer_num=#{taxpayer_num}, 
+		</if>
+		<if test="address != null and address != ''">
+			address=#{address}, 
+		</if>
+		<if test="tel != null and tel != ''">
+			tel=#{tel}, 
+		</if>
+		<if test="bank != null and bank != ''">
+			bank=#{bank}, 
+		</if>
+		<if test="card_num != null and card_num != ''">
+			card_num=#{card_num}, 
+		</if>
+		<if test="cus_id != null">
+			cus_id=#{cus_id}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleInvoice">
+		update w_invoice
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="invoice_type != null and invoice_type != ''">
+			invoice_type=#{invoice_type}, 
+			</if>
+			<if test="heard != null and heard != ''">
+			heard=#{heard}, 
+			</if>
+			<if test="taxpayer_num != null and taxpayer_num != ''">
+			taxpayer_num=#{taxpayer_num}, 
+			</if>
+			<if test="address != null and address != ''">
+			address=#{address}, 
+			</if>
+			<if test="tel != null and tel != ''">
+			tel=#{tel}, 
+			</if>
+			<if test="bank != null and bank != ''">
+			bank=#{bank}, 
+			</if>
+			<if test="card_num != null and card_num != ''">
+			card_num=#{card_num}, 
+			</if>
+			<if test="cus_id != null">
+			cus_id=#{cus_id}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadInvoice" resultType="com.selin.store.invoice.entity.InvoiceVo">
+		select 
+		<include refid="columns"/>
+		from w_invoice
+		where id=#{id} 
+	</select>
+	
+	<select id="selectInvoice" resultType="com.selin.store.invoice.entity.InvoiceVo">
+		select 
+		<include refid="columns"/>
+		from w_invoice
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

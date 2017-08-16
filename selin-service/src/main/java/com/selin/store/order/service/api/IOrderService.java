@@ -1,35 +1,62 @@
 package com.selin.store.order.service.api;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import org.roof.roof.dataaccess.api.Page;
+import org.roof.web.user.entity.User;
 
-import com.selin.store.customer.entity.CustomerVo;
-import com.selin.store.norms.entity.ProductNormsVo;
 import com.selin.store.order.entity.Order;
 import com.selin.store.order.entity.OrderVo;
-import com.selin.store.receiveaddress.entity.ReceiveAddress;
+import com.selin.store.orderevent.entity.OrderEnum;
 
 public interface IOrderService {
 
-	// 订单新增
-	public OrderVo orderAdd(CustomerVo cus, List<ProductNormsVo> pros, ReceiveAddress address) throws Exception;
+	/**
+	 * 新增+审核
+	 * 
+	 * @param orderVo
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public Order orderAddBySales(OrderVo orderVo, User user) throws Exception;
 
-	// 订单审核
-	public OrderVo orderConfirm(String orderNum, List<ProductNormsVo> pros) throws Exception;
+	/**
+	 * 订单新增
+	 * 
+	 * @param orderVo
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public Order orderAdd(OrderVo orderVo, User user) throws Exception;
+
+	/**
+	 * 订单审核
+	 * 
+	 * @param orderVo
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public Order orderConfirm(OrderVo orderVo, User user) throws Exception;
 
 	// 订单财务审核
-	public OrderVo orderFinanceConfirm(String orderNum) throws Exception;
+	public OrderVo orderFinanceConfirm(String orderNum, User user) throws Exception;
 
 	// 订单发货确认
-	public OrderVo dispatchConfirm(String orderNum) throws Exception;
+	public OrderVo dispatchConfirm(String orderNum, User user) throws Exception;
 
 	// 订单作废
-	public OrderVo back(String orderNum) throws Exception;
+	public OrderVo back(String orderNum, User user) throws Exception;
 
 	// 订单退回
-	public OrderVo cancel(String orderNum) throws Exception;
+	public OrderVo cancel(String orderNum, User user) throws Exception;
+
+	// 订单编码生成
+	public String createOrderCode(OrderEnum eventEnum, Date date);
 
 	/**
 	 * 将对象保存，返回该条记录的操作数量，保存成功之后，将主键填充到参数对象中

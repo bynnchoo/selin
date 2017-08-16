@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.selin.store.orderevent.dao">
 	<sql id="columnsAs">
-		t1.id, t1.order_num, t1.event_type, t1.event_code, t1.event, t1.create_date, t1.reamrk, t1.create_user_id
+		t1.id, t1.order_num, t1.event_type, t1.event_code, t1.event, t1.event_name, t1.create_date, t1.reamrk, t1.create_user_id
 	</sql>
 	
 	<select id="selectOrderEventPage" resultType="com.selin.store.orderevent.entity.OrderEventVo">
