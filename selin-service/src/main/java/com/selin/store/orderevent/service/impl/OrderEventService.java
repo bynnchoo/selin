@@ -45,7 +45,7 @@ public class OrderEventService implements IOrderEventService {
 
 	@Override
 	public String createEventCode(OrderEventEnum eventEnum, Date date) throws Exception {
-		String key = eventEnum.getCodePrefix() + "-" + RoofDateUtils.dateToString(date, "yyyyMMddhh");
+		String key = eventEnum.getCodePrefix() + "-" + RoofDateUtils.dateToString(date, "yyyyMMdd");
 		BoundValueOperations<String, Long> operations = redisTemplate.boundValueOps(key);// .increment(1);
 		Long l = operations.increment(1);
 		operations.expire(2, TimeUnit.DAYS);

@@ -8,9 +8,14 @@ import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
 import org.roof.web.dictionary.entity.Dictionary;
 import org.roof.web.dictionary.service.api.IDictionaryService;
+import org.roof.web.user.entity.User;
+import org.roof.web.user.service.api.BaseUserContext;
+
 import com.selin.store.order.entity.Order;
 import com.selin.store.order.entity.OrderVo;
 import com.selin.store.order.service.api.IOrderService;
+import com.selin.store.product.entity.Product;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -25,8 +30,8 @@ public class OrderAction {
 	private IDictionaryService dictionaryService;
 
 	// 加载页面的通用数据
-	private void loadCommon(Model model){
-		List<Dictionary> dicList =  dictionaryService.findByType("TEST");
+	private void loadCommon(Model model) {
+		List<Dictionary> dicList = dictionaryService.findByType("TEST");
 		model.addAttribute("dicList", dicList);
 	}
 
@@ -35,26 +40,49 @@ public class OrderAction {
 		return "/selin/order/order_index.jsp";
 	}
 
+	@RequestMapping("/addBySales")
+	public @ResponseBody Result orderAddBySales(OrderVo orderVo, HttpServletRequest request, Model model)
+			throws Exception {
+		Order o = orderService.orderAddBySales(orderVo, (User) BaseUserContext.getCurrentUser(request));
+		return new Result(Result.SUCCESS, o);
+	}
+
+	@RequestMapping("/add")
+	public @ResponseBody Result orderAdd(OrderVo orderVo, HttpServletRequest request, Model model) throws Exception {
+		Order o = orderService.orderAdd(orderVo, (User) BaseUserContext.getCurrentUser(request));
+		return new Result(Result.SUCCESS, o);
+	}
+
+	@RequestMapping("/confirm")
+	public @ResponseBody Result orderConfirm(OrderVo orderVo, HttpServletRequest request, Model model)
+			throws Exception {
+		Order o = orderService.orderConfirm(orderVo, (User) BaseUserContext.getCurrentUser(request));
+		return new Result(Result.SUCCESS, o);
+	}
+
+	@RequestMapping("/page")
+	public @ResponseBody Result orderPage(OrderVo orderVo, HttpServletRequest request, Model model) {
+		Page page = PageUtils.createPage(request);
+		page = orderService.selectOrderPageForSale(page, orderVo);
+		return new Result(Result.SUCCESS, page);
+	}
+
 	/*
+	 * @RequestMapping("/list") public String list(Order order,
+	 * HttpServletRequest request, Model model) { Page page =
+	 * PageUtils.createPage(request); page = orderService.page(page, order);
+	 * model.addAttribute("page", page);
+	 * model.addAllAttributes(PageUtils.createPagePar(page));
+	 * this.loadCommon(model); return "/selin/order/order_list.jsp"; }
+	 */
+
 	@RequestMapping("/list")
-	public String list(Order order, HttpServletRequest request, Model model) {
+	public @ResponseBody Result list(Order order, HttpServletRequest request, Model model) {
 		Page page = PageUtils.createPage(request);
 		page = orderService.page(page, order);
-		model.addAttribute("page", page);
-		model.addAllAttributes(PageUtils.createPagePar(page));
-		this.loadCommon(model);
-		return "/selin/order/order_list.jsp";
+		return new Result(Result.SUCCESS, page);
 	}
-	*/
 
-    @RequestMapping("/list")
-    public @ResponseBody Result list(Order order, HttpServletRequest request, Model model) {
-    Page page = PageUtils.createPage(request);
-    page = orderService.page(page, order);
-    return new Result(Result.SUCCESS,page);
-	}
-	
-	
 	@RequestMapping("/create_page")
 	public String create_page(Model model) {
 		Order order = new Order();
@@ -62,7 +90,7 @@ public class OrderAction {
 		this.loadCommon(model);
 		return "/selin/order/order_create.jsp";
 	}
-	
+
 	@RequestMapping("/update_page")
 	public String update_page(Order order, Model model) {
 		order = orderService.load(order);
@@ -88,7 +116,7 @@ public class OrderAction {
 			return new Result("数据传输失败!");
 		}
 	}
-	
+
 	@RequestMapping("/update")
 	public @ResponseBody Result update(Order order) {
 		if (order != null) {
@@ -98,7 +126,7 @@ public class OrderAction {
 			return new Result("数据传输失败!");
 		}
 	}
-	
+
 	@RequestMapping("/delete")
 	public @ResponseBody Result delete(Order order) {
 		// TODO 有些关键数据是不能物理删除的，需要改为逻辑删除
@@ -107,8 +135,7 @@ public class OrderAction {
 	}
 
 	@Autowired(required = true)
-	public void setOrderService(
-			@Qualifier("orderService") IOrderService orderService) {
+	public void setOrderService(@Qualifier("orderService") IOrderService orderService) {
 		this.orderService = orderService;
 	}
 

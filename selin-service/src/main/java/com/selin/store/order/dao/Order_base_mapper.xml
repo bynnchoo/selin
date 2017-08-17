@@ -6,13 +6,15 @@
 	<sql id="columns">
 		id, order_num, create_date, cus_id, cus_num, cus_name,
 		amount, current_status, current_event, pay_status, finish_time,
-		ex_date, remark, receive_address_id, invoice_type, invoice_id
+		ex_date, remark, receive_address_id, invoice_type, invoice_id,
+		dispatch_status
 	</sql>
 	<sql id="vals">
 		#{id}, #{order_num}, #{create_date}, #{cus_id}, #{cus_num},
 		#{cus_name}, #{amount}, #{current_status}, #{current_event},
 		#{pay_status}, #{finish_time}, #{ex_date}, #{remark},
-		#{receive_address_id}, #{invoice_type}, #{invoice_id}
+		#{receive_address_id}, #{invoice_type}, #{invoice_id},
+		#{dispatch_status}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -63,6 +65,9 @@
 		<if test="invoice_id != null">
 			and invoice_id = #{invoice_id}
 		</if>
+		<if test="dispatch_status != null and dispatch_status != ''">
+			and dispatch_status = #{dispatch_status}
+		</if>
 	</sql>
 
 	<insert id="saveOrder" parameterType="com.selin.store.order.entity.Order"
@@ -108,7 +113,8 @@
 			remark=#{remark},
 			receive_address_id=#{receive_address_id},
 			invoice_type=#{invoice_type},
-			invoice_id=#{invoice_id}
+			invoice_id=#{invoice_id},
+			dispatch_status=#{dispatch_status}
 		</set>
 		where id=#{id}
 	</update>
@@ -162,7 +168,10 @@
 				invoice_type=#{invoice_type},
 			</if>
 			<if test="invoice_id != null">
-				invoice_id=#{invoice_id}
+				invoice_id=#{invoice_id},
+			</if>
+			<if test="dispatch_status != null and dispatch_status != ''">
+				dispatch_status=#{dispatch_status}
 			</if>
 		</set>
 		where id=#{id}
@@ -217,7 +226,10 @@
 				invoice_type=#{invoice_type},
 			</if>
 			<if test="invoice_id != null">
-				invoice_id=#{invoice_id}
+				invoice_id=#{invoice_id},
+			</if>
+			<if test="dispatch_status != null and dispatch_status != ''">
+				dispatch_status=#{dispatch_status}
 			</if>
 		</set>
 		where 1=1
@@ -230,7 +242,7 @@
 		from w_order
 		where id=#{id}
 	</select>
-	
+
 	<select id="selectOrder" resultType="com.selin.store.order.entity.OrderVo">
 		select
 		<include refid="columns" />

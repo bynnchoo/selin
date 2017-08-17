@@ -14,7 +14,7 @@ public class Order implements Serializable {
 	/**
 	 * serialVersionUID
 	 */
-	private static final long serialVersionUID = -8292006738171696078L;
+	private static final long serialVersionUID = 8614100056837097388L;
 	// 需要手动添加非默认的serialVersionUID
 	protected Long id;// id
 	protected String order_num;// 订单编号
@@ -35,6 +35,7 @@ public class Order implements Serializable {
 	protected Long receive_address_id;// 收货地址
 	protected String invoice_type;// 发票类型
 	protected Long invoice_id;// 发票信息id
+	protected String dispatch_status;// 出库/发货状态
 
 	public Order() {
 		super();
@@ -174,12 +175,21 @@ public class Order implements Serializable {
 		this.invoice_id = invoice_id;
 	}
 
+	public String getDispatch_status() {
+		return dispatch_status;
+	}
+
+	public void setDispatch_status(String dispatch_status) {
+		this.dispatch_status = dispatch_status;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", order_num=" + order_num + ", create_date=" + create_date + ", cus_id=" + cus_id
 				+ ", cus_num=" + cus_num + ", cus_name=" + cus_name + ", amount=" + amount + ", current_status="
 				+ current_status + ", current_event=" + current_event + ", pay_status=" + pay_status + ", finish_time="
 				+ finish_time + ", ex_date=" + ex_date + ", remark=" + remark + ", receive_address_id="
-				+ receive_address_id + ", invoice_type=" + invoice_type + ", invoice_id=" + invoice_id + "]";
+				+ receive_address_id + ", invoice_type=" + invoice_type + ", invoice_id=" + invoice_id
+				+ ", dispatch_status=" + dispatch_status + "]";
 	}
 }

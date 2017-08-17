@@ -3,12 +3,16 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.selin.store.order.dao">
 	<sql id="columnsAs">
-		t1.id, t1.order_num, t1.create_date, t1.cus_id, t1.cus_num, t1.cus_name, t1.amount, t1.current_status, t1.current_event, t1.pay_status, t1.finish_time, t1.ex_date, t1.remark, t1.receive_address_id, t1.invoice_type, t1.invoice_id
+		t1.id, t1.order_num, t1.create_date, t1.cus_id, t1.cus_num,
+		t1.cus_name, t1.amount, t1.current_status, t1.current_event,
+		t1.pay_status, t1.finish_time, t1.ex_date, t1.remark,
+		t1.receive_address_id, t1.invoice_type, t1.invoice_id,
+		t1.dispatch_status
 	</sql>
-	
+
 	<select id="selectOrderPage" resultType="com.selin.store.order.entity.OrderVo">
 		select
-		<include refid="columnsAs"/>
+		<include refid="columnsAs" />
 		from
 		w_order t1
 		join
@@ -22,12 +26,112 @@
 		limit #{firstrownum}, #{limit}) t2
 		where t1.id = t2.id
 	</select>
-	
+
 	<select id="selectOrderCount" resultType="java.lang.Long">
 		select
 		count(id)
 		from w_order
 		where 1=1
 		<include refid="conds" />
+	</select>
+
+	<sql id="saleconds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="order_num != null and order_num != ''">
+			and order_num like CONCAT('%','${order_num}','%' )
+		</if>
+		<if test="start_date != null and end_date !=null">
+			and create_date BETWEEN #{start_date} and
+			#{end_date}
+		</if>
+		<if test="cus_id != null">
+			and cus_id = #{cus_id}
+		</if>
+		<if test="cus_num != null and cus_num != ''">
+			and cus_num like CONCAT('%','${cus_num}','%' )
+		</if>
+		<if test="cus_name != null and cus_name != ''">
+			and cus_name like CONCAT('%','${cus_name}','%' )
+		</if>
+		<if test="amount != null and amount != ''">
+			and amount = #{amount}
+		</if>
+		<if test="statusList != null">
+			and current_status in
+			<foreach collection="statusList" item="sitem" open="(" close=")"
+				separator=",">
+				#{sitem}
+			</foreach>
+		</if>
+		<if test="current_event != null and current_event != ''">
+			and current_event = #{current_event}
+		</if>
+		<if test="payStatusList != null and payStatusList != ''">
+			and pay_status in
+			<foreach collection="payStatusList" item="sitem" open="("
+				close=")" separator=",">
+				#{sitem}
+			</foreach>
+		</if>
+		<if test="finish_time != null">
+			and finish_time = #{finish_time}
+		</if>
+		<if test="ex_date != null">
+			and ex_date = #{ex_date}
+		</if>
+		<if test="remark != null and remark != ''">
+			and remark = #{remark}
+		</if>
+		<if test="receive_address_id != null">
+			and receive_address_id = #{receive_address_id}
+		</if>
+		<if test="invoice_type != null and invoice_type != ''">
+			and invoice_type = #{invoice_type}
+		</if>
+		<if test="invoice_id != null">
+			and invoice_id = #{invoice_id}
+		</if>
+		<if test="dispatchStatusList != null and dispatchStatusList != ''">
+			and dispatch_status in
+			<foreach collection="dispatchStatusList" item="sitem" open="("
+				close=")" separator=",">
+				#{sitem}
+			</foreach>
+		</if>
+		<!-- 客户级别 -->
+
+		<!-- 收货信息 -->
+
+		<!-- 商品信息 -->
+
+		<!-- 归属部门 -->
+
+	</sql>
+
+	<select id="selectOrderPageForSale" resultType="com.selin.store.order.entity.OrderVo">
+		select
+		<include refid="columnsAs" />
+		from
+		w_order t1
+		join
+		(SELECT
+		id
+		from
+		w_order
+		where 1=1
+		<include refid="saleconds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+
+	<select id="selectOrderCountForSale" resultType="java.lang.Long">
+		select
+		count(id)
+		from w_order
+		where 1=1
+		<include refid="saleconds" />
 	</select>
 </mapper>

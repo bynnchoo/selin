@@ -12,6 +12,14 @@ import com.selin.store.order.entity.OrderVo;
 import com.selin.store.orderevent.entity.OrderEnum;
 
 public interface IOrderService {
+	/**
+	 * 订单分页查询
+	 * 
+	 * @param page
+	 * @param orderVo
+	 * @return
+	 */
+	public abstract Page selectOrderPageForSale(Page page, OrderVo orderVo);
 
 	/**
 	 * 新增+审核

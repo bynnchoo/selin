@@ -23,6 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.selin.core.exception.SelinException;
 import com.selin.store.customer.dao.api.ICustomerDao;
 import com.selin.store.customer.entity.Customer;
+import com.selin.store.customer.entity.CustomerVo;
+import com.selin.store.customer.entity.PayStatusEnum;
+import com.selin.store.customer.service.api.ICustomerService;
+import com.selin.store.dispatchorder.entity.DispatchStatusEnum;
+import com.selin.store.invoice.entity.Invoice;
+import com.selin.store.invoice.entity.InvoiceVo;
+import com.selin.store.invoice.service.api.IInvoiceService;
 import com.selin.store.order.dao.api.IOrderDao;
 import com.selin.store.order.entity.Order;
 import com.selin.store.order.entity.OrderVo;
@@ -30,10 +37,15 @@ import com.selin.store.order.service.api.IOrderService;
 import com.selin.store.orderevent.entity.OrderEnum;
 import com.selin.store.orderevent.entity.OrderEvent;
 import com.selin.store.orderevent.entity.OrderEventEnum;
+import com.selin.store.orderevent.entity.OrderEventVo;
 import com.selin.store.orderevent.entity.OrderStatusEnum;
 import com.selin.store.orderevent.service.api.IOrderEventService;
 import com.selin.store.orderpros.entity.OrderPros;
+import com.selin.store.orderpros.entity.OrderProsVo;
 import com.selin.store.orderpros.service.api.IOrderProsService;
+import com.selin.store.receiveaddress.entity.ReceiveAddress;
+import com.selin.store.receiveaddress.entity.ReceiveAddressVo;
+import com.selin.store.receiveaddress.service.api.IReceiveAddressService;
 
 @Service
 public class OrderService implements IOrderService {
@@ -51,9 +63,56 @@ public class OrderService implements IOrderService {
 	@Autowired
 	private IOrderEventService orderEventService;
 
+	@Autowired
+	private IReceiveAddressService receiveAddressService;
+
+	@Autowired
+	private IInvoiceService invoiceService;
+
+	@Autowired
+	private ICustomerService customerService;
+
 	@SuppressWarnings("rawtypes")
 	private RedisTemplate redisTemplate;
 
+	public Page selectOrderPageForSale(Page page, OrderVo orderVo) {
+		return orderDao.selectOrderPageForSale(page, orderVo);
+	}
+
+	public OrderVo selectOrderDetailForSale(Page page, OrderVo orderVo) {
+		// 订单信息
+		Order order = new Order();
+		order.setId(orderVo.getId());
+		OrderVo vo = this.load(order);
+		// 订单商品信息
+		List<OrderProsVo> proList = orderProsService.selectForListByOrderNum(vo.getOrder_num());
+		vo.setProList(proList);
+		// 收货信息
+		ReceiveAddress receiveAddress = new ReceiveAddress();
+		receiveAddress.setId(vo.getReceive_address_id());
+		ReceiveAddressVo receiveAddressVo = receiveAddressService.load(receiveAddress);
+		vo.setAddress(receiveAddressVo);
+		// 附件信息 TODO
+
+		// 操作日志
+		OrderEvent orderEvent = new OrderEvent();
+		orderEvent.setOrder_num(vo.getOrder_num());
+		List<OrderEventVo> eventList = orderEventService.selectForList(orderEvent);
+		vo.setEventList(eventList);
+		// 发票信息
+		Invoice invoice = new Invoice();
+		invoice.setId(vo.getInvoice_id());
+		InvoiceVo invoiceVo = invoiceService.load(invoice);
+		vo.setInvoice(invoiceVo);
+		// 客户
+		Customer customer = new Customer();
+		customer.setId(vo.getCus_id());
+		CustomerVo customerVo = customerService.load(customer);
+		vo.setCus(customerVo);
+		return vo;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Order orderAddBySales(OrderVo orderVo, User user) throws Exception {
 		// 创建订单
 		Order o = this.orderAdd(orderVo, user);
@@ -64,7 +123,7 @@ public class OrderService implements IOrderService {
 		return o;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Order orderAdd(OrderVo orderVo, User user) throws Exception {
 		// 客户不能为空
 		if (orderVo.getCus_id() == null) {
@@ -108,17 +167,26 @@ public class OrderService implements IOrderService {
 		o.setCurrent_status(OrderStatusEnum.waitConfirm.getCode());// 订单当前状态
 		o.setCurrent_event(event.getEvent_code());// 订单当前事件
 		o.setAmount(count.toString());// 总金额
+		o.setDispatch_status(DispatchStatusEnum.waitDispatch.getCode());
+		o.setPay_status(PayStatusEnum.nopay.getCode());
 		orderDao.save(o);
 		// 关联附件更新 TODO
 
 		return o;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Order orderConfirm(OrderVo orderVo, User user) {
 		// 订货单号不能为空
 		if (orderVo.getId() == null) {
 			throw new SelinException("订货单号不能为空");
+		}
+		Order o = orderDao.load(Order.class, orderVo.getId());
+		if (o == null) {
+			throw new SelinException("订货单不存在");
+		}
+		if (!o.getCurrent_status().equals(OrderStatusEnum.waitConfirm.getCode())) {
+			throw new SelinException("订货单号状态不为待订货单审核，无法审核订货单");
 		}
 		// 商品清单不能为空
 		if (orderVo.getPros() == null && orderVo.getPros().size() == 0) {
@@ -175,7 +243,7 @@ public class OrderService implements IOrderService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public String createOrderCode(OrderEnum eventEnum, Date date) {
-		String key = eventEnum.getCodePrefix() + "-" + RoofDateUtils.dateToString(date, "yyyyMMddhh");
+		String key = eventEnum.getCodePrefix() + "-" + RoofDateUtils.dateToString(date, "yyyyMMdd");
 		BoundValueOperations<String, Long> operations = redisTemplate.boundValueOps(key);// .increment(1);
 		Long l = operations.increment(1);
 		operations.expire(2, TimeUnit.DAYS);
