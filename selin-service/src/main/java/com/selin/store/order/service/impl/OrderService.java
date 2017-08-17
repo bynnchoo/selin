@@ -26,6 +26,7 @@ import com.selin.store.customer.entity.Customer;
 import com.selin.store.customer.entity.CustomerVo;
 import com.selin.store.customer.entity.PayStatusEnum;
 import com.selin.store.customer.service.api.ICustomerService;
+import com.selin.store.customerprominimum.service.api.ICustomerProMinimumService;
 import com.selin.store.dispatchorder.entity.DispatchStatusEnum;
 import com.selin.store.invoice.entity.Invoice;
 import com.selin.store.invoice.entity.InvoiceVo;
@@ -71,6 +72,9 @@ public class OrderService implements IOrderService {
 
 	@Autowired
 	private ICustomerService customerService;
+
+	@Autowired
+	private ICustomerProMinimumService customerProMinimumService;
 
 	@SuppressWarnings("rawtypes")
 	private RedisTemplate redisTemplate;
@@ -216,6 +220,9 @@ public class OrderService implements IOrderService {
 		oldOrder.setCurrent_event(event.getEvent_code());// 当前事件
 		this.updateIgnoreNull(oldOrder);
 		// 关联附件更新 TODO
+
+		// 设置客户针对性定价
+		customerProMinimumService.saveCustomerProMinByOrder(orderVo.getPros(), oldOrder.getCus_id());
 
 		return oldOrder;
 	}

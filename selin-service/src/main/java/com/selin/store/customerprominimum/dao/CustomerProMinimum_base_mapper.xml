@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.customerprominimum.dao">
+
+	<sql id="columns">
+		id, cus_id, cus_num, pro_code, order_num, create_date, price
+	</sql>
+	<sql id="vals">
+		#{id}, #{cus_id}, #{cus_num}, #{pro_code}, #{order_num}, #{create_date}, #{price}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="cus_id != null">
+			and cus_id = #{cus_id}
+		</if>
+		<if test="cus_num != null and cus_num != ''">
+			and cus_num = #{cus_num}
+		</if>
+		<if test="pro_code != null and pro_code != ''">
+			and pro_code = #{pro_code}
+		</if>
+		<if test="order_num != null and order_num != ''">
+			and order_num = #{order_num}
+		</if>
+		<if test="create_date != null">
+			and create_date = #{create_date}
+		</if>
+		<if test="price != null and price != ''">
+			and price = #{price}
+		</if>
+	</sql>
+
+	<insert id="saveCustomerProMinimum" parameterType="com.selin.store.customerprominimum.entity.CustomerProMinimum" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_customer_pro_minimum (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCustomerProMinimum">
+		delete from w_customer_pro_minimum
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCustomerProMinimum">
+		delete from w_customer_pro_minimum
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCustomerProMinimum">
+		update w_customer_pro_minimum
+		<set>
+			id=#{id}, 
+			cus_id=#{cus_id}, 
+			cus_num=#{cus_num}, 
+			pro_code=#{pro_code}, 
+			order_num=#{order_num}, 
+			create_date=#{create_date}, 
+			price=#{price}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCustomerProMinimum">
+		update w_customer_pro_minimum
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="cus_id != null">
+			cus_id=#{cus_id}, 
+		</if>
+		<if test="cus_num != null and cus_num != ''">
+			cus_num=#{cus_num}, 
+		</if>
+		<if test="pro_code != null and pro_code != ''">
+			pro_code=#{pro_code}, 
+		</if>
+		<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}, 
+		</if>
+		<if test="create_date != null">
+			create_date=#{create_date}, 
+		</if>
+		<if test="price != null and price != ''">
+			price=#{price}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCustomerProMinimum">
+		update w_customer_pro_minimum
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="cus_id != null">
+			cus_id=#{cus_id}, 
+			</if>
+			<if test="cus_num != null and cus_num != ''">
+			cus_num=#{cus_num}, 
+			</if>
+			<if test="pro_code != null and pro_code != ''">
+			pro_code=#{pro_code}, 
+			</if>
+			<if test="order_num != null and order_num != ''">
+			order_num=#{order_num}, 
+			</if>
+			<if test="create_date != null">
+			create_date=#{create_date}, 
+			</if>
+			<if test="price != null and price != ''">
+			price=#{price}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCustomerProMinimum" resultType="com.selin.store.customerprominimum.entity.CustomerProMinimumVo">
+		select 
+		<include refid="columns"/>
+		from w_customer_pro_minimum
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCustomerProMinimum" resultType="com.selin.store.customerprominimum.entity.CustomerProMinimumVo">
+		select 
+		<include refid="columns"/>
+		from w_customer_pro_minimum
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

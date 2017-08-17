@@ -4,12 +4,12 @@
 <mapper namespace="com.selin.store.orderpros.dao">
 
 	<sql id="columns">
-		id, order_num, pro_norms_id, pro_name, num, unit, price,
-		remark
+		id, order_num, pro_code, pro_norms_id, pro_name, num, unit,
+		price, remark
 	</sql>
 	<sql id="vals">
-		#{id}, #{order_num}, #{pro_norms_id}, #{pro_name}, #{num},
-		#{unit}, #{price}, #{remark}
+		#{id}, #{order_num}, #{pro_code}, #{pro_norms_id},
+		#{pro_name}, #{num}, #{unit}, #{price}, #{remark}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -17,6 +17,9 @@
 		</if>
 		<if test="order_num != null and order_num != ''">
 			and order_num = #{order_num}
+		</if>
+		<if test="pro_code != null and pro_code != ''">
+			and pro_code = #{pro_code}
 		</if>
 		<if test="pro_norms_id != null">
 			and pro_norms_id = #{pro_norms_id}
@@ -68,6 +71,7 @@
 		<set>
 			id=#{id},
 			order_num=#{order_num},
+			pro_code=#{pro_code},
 			pro_norms_id=#{pro_norms_id},
 			pro_name=#{pro_name},
 			num=#{num},
@@ -86,6 +90,9 @@
 			</if>
 			<if test="order_num != null and order_num != ''">
 				order_num=#{order_num},
+			</if>
+			<if test="pro_code != null and pro_code != ''">
+				pro_code=#{pro_code},
 			</if>
 			<if test="pro_norms_id != null">
 				pro_norms_id=#{pro_norms_id},
@@ -117,6 +124,9 @@
 			</if>
 			<if test="order_num != null and order_num != ''">
 				order_num=#{order_num},
+			</if>
+			<if test="pro_code != null and pro_code != ''">
+				pro_code=#{pro_code},
 			</if>
 			<if test="pro_norms_id != null">
 				pro_norms_id=#{pro_norms_id},
@@ -156,8 +166,7 @@
 		<include refid="conds" />
 	</select>
 
-
-	<select id="selectOrderProsByOrderNum" resultType="com.selin.store.orderpros.entity.OrderProsVo" >
+	<select id="selectOrderProsByOrderNum" resultType="com.selin.store.orderpros.entity.OrderProsVo">
 		select
 		<include refid="columns" />
 		from w_order_pros

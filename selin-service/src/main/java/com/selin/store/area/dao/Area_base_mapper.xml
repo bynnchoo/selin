@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.area.dao">
+
+	<sql id="columns">
+		id, parent_id, name, type, zip_code, quhao, status
+	</sql>
+	<sql id="vals">
+		#{id}, #{parent_id}, #{name}, #{type}, #{zip_code}, #{quhao}, #{status}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="parent_id != null">
+			and parent_id = #{parent_id}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="type != null">
+			and type = #{type}
+		</if>
+		<if test="zip_code != null and zip_code != ''">
+			and zip_code = #{zip_code}
+		</if>
+		<if test="quhao != null and quhao != ''">
+			and quhao = #{quhao}
+		</if>
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+	</sql>
+
+	<insert id="saveArea" parameterType="com.selin.store.area.entity.Area" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_area (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteArea">
+		delete from w_area
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleArea">
+		delete from w_area
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateArea">
+		update w_area
+		<set>
+			id=#{id}, 
+			parent_id=#{parent_id}, 
+			name=#{name}, 
+			type=#{type}, 
+			zip_code=#{zip_code}, 
+			quhao=#{quhao}, 
+			status=#{status}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullArea">
+		update w_area
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="parent_id != null">
+			parent_id=#{parent_id}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="type != null">
+			type=#{type}, 
+		</if>
+		<if test="zip_code != null and zip_code != ''">
+			zip_code=#{zip_code}, 
+		</if>
+		<if test="quhao != null and quhao != ''">
+			quhao=#{quhao}, 
+		</if>
+		<if test="status != null and status != ''">
+			status=#{status}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleArea">
+		update w_area
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="parent_id != null">
+			parent_id=#{parent_id}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="type != null">
+			type=#{type}, 
+			</if>
+			<if test="zip_code != null and zip_code != ''">
+			zip_code=#{zip_code}, 
+			</if>
+			<if test="quhao != null and quhao != ''">
+			quhao=#{quhao}, 
+			</if>
+			<if test="status != null and status != ''">
+			status=#{status}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadArea" resultType="com.selin.store.area.entity.AreaVo">
+		select 
+		<include refid="columns"/>
+		from w_area
+		where id=#{id} 
+	</select>
+	
+	<select id="selectArea" resultType="com.selin.store.area.entity.AreaVo">
+		select 
+		<include refid="columns"/>
+		from w_area
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

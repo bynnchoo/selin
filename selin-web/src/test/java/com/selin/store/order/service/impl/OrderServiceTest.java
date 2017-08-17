@@ -137,9 +137,9 @@ public class OrderServiceTest extends AbstractJUnit4SpringContextTests {
 
 	}
 
-	String str = "{\"cus_id\":1,\"ex_date\":\"2017-08-16\",\"invoice_id\":1,\"invoice_type\":\"normalInvoice\",\"pros\":[{\"num\":10,\"price\":300,\"pro_name\":\"s\",\"pro_norms_id\":1,\"remark\":\"haha\",\"unit\":\"件\"},{\"num\":10,\"price\":300,\"pro_name\":\"s\",\"pro_norms_id\":2,\"remark\":\"haha\",\"unit\":\"件\"}],\"receive_address_id\":1,\"remark\":\"xxx\"}";
+	String str = "{\"cus_id\":1,\"ex_date\":\"2017-08-16\",\"invoice_id\":1,\"invoice_type\":\"normalInvoice\",\"pros\":[{\"num\":10,\"price\":300,\"pro_name\":\"s\",\"pro_norms_id\":1,\"pro_code\":\"333\",\"remark\":\"haha\",\"unit\":\"件\"},{\"num\":10,\"price\":300,\"pro_name\":\"s\",\"pro_norms_id\":2,\"pro_code\":\"333\",\"remark\":\"haha\",\"unit\":\"件\"}],\"receive_address_id\":1,\"remark\":\"xxx\"}";
 
-	String strupdate = "{\"order_num\":\"DH-2017081605-000004\",\"id\":6,\"cus_id\":1,\"ex_date\":\"2017-08-16\",\"invoice_id\":1,\"invoice_type\":\"normalInvoice\",\"pros\":[{\"num\":10,\"price\":290,\"pro_name\":\"s\",\"pro_norms_id\":1,\"remark\":\"haha\",\"unit\":\"件\"},{\"num\":10,\"price\":290,\"pro_name\":\"s\",\"pro_norms_id\":2,\"remark\":\"haha\",\"unit\":\"件\"}],\"receive_address_id\":1,\"remark\":\"xxx\"}";
+	String strupdate = "{\"order_num\":\"DH-2017081605-000004\",\"id\":14,\"cus_id\":1,\"ex_date\":\"2017-08-16\",\"invoice_id\":1,\"invoice_type\":\"normalInvoice\",\"pros\":[{\"num\":10,\"price\":290,\"pro_code\":\"333\",\"pro_name\":\"s\",\"pro_norms_id\":1,\"remark\":\"haha\",\"unit\":\"件\"},{\"num\":10,\"price\":290,\"pro_name\":\"s\",\"pro_code\":\"333\",\"pro_norms_id\":2,\"remark\":\"haha\",\"unit\":\"件\"}],\"receive_address_id\":1,\"remark\":\"xxx\"}";
 
 	public OrderVo createData(String json) {
 		OrderVo vo = JSON.parseObject(json, OrderVo.class);

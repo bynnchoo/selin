@@ -25,8 +25,8 @@ public class ReceiveAddressAction {
 	private IDictionaryService dictionaryService;
 
 	// 加载页面的通用数据
-	private void loadCommon(Model model){
-		List<Dictionary> dicList =  dictionaryService.findByType("TEST");
+	private void loadCommon(Model model) {
+		List<Dictionary> dicList = dictionaryService.findByType("TEST");
 		model.addAttribute("dicList", dicList);
 	}
 
@@ -36,25 +36,37 @@ public class ReceiveAddressAction {
 	}
 
 	/*
+	 * @RequestMapping("/list") public String list(ReceiveAddress
+	 * receiveAddress, HttpServletRequest request, Model model) { Page page =
+	 * PageUtils.createPage(request); page = receiveAddressService.page(page,
+	 * receiveAddress); model.addAttribute("page", page);
+	 * model.addAllAttributes(PageUtils.createPagePar(page));
+	 * this.loadCommon(model); return
+	 * "/selin/receiveAddress/receiveAddress_list.jsp"; }
+	 */
 	@RequestMapping("/list")
-	public String list(ReceiveAddress receiveAddress, HttpServletRequest request, Model model) {
-		Page page = PageUtils.createPage(request);
-		page = receiveAddressService.page(page, receiveAddress);
-		model.addAttribute("page", page);
-		model.addAllAttributes(PageUtils.createPagePar(page));
-		this.loadCommon(model);
-		return "/selin/receiveAddress/receiveAddress_list.jsp";
+	public @ResponseBody Result list(ReceiveAddress receiveAddress, HttpServletRequest request, Model model) {
+		List<ReceiveAddressVo> listall = receiveAddressService.selectForList(receiveAddress);
+		return new Result(Result.SUCCESS, listall);
 	}
-	*/
 
-    @RequestMapping("/list")
-    public @ResponseBody Result list(ReceiveAddress receiveAddress, HttpServletRequest request, Model model) {
-    Page page = PageUtils.createPage(request);
-    page = receiveAddressService.page(page, receiveAddress);
-    return new Result(Result.SUCCESS,page);
+	@RequestMapping("/detail")
+	public @ResponseBody Result detail(ReceiveAddress receiveAddress, Model model) {
+		receiveAddress = receiveAddressService.load(receiveAddress);
+		// model.addAttribute("receiveAddress", receiveAddress);
+		return new Result(Result.SUCCESS, receiveAddress);
+		// this.loadCommon(model);
+		// return "/selin/receiveAddress/receiveAddress_detail.jsp";
 	}
-	
-	
+
+	// @RequestMapping("/list")
+	// public @ResponseBody Result list(ReceiveAddress receiveAddress,
+	// HttpServletRequest request, Model model) {
+	// Page page = PageUtils.createPage(request);
+	// page = receiveAddressService.page(page, receiveAddress);
+	// return new Result(Result.SUCCESS, page);
+	// }
+
 	@RequestMapping("/create_page")
 	public String create_page(Model model) {
 		ReceiveAddress receiveAddress = new ReceiveAddress();
@@ -62,7 +74,7 @@ public class ReceiveAddressAction {
 		this.loadCommon(model);
 		return "/selin/receiveAddress/receiveAddress_create.jsp";
 	}
-	
+
 	@RequestMapping("/update_page")
 	public String update_page(ReceiveAddress receiveAddress, Model model) {
 		receiveAddress = receiveAddressService.load(receiveAddress);
@@ -88,7 +100,7 @@ public class ReceiveAddressAction {
 			return new Result("数据传输失败!");
 		}
 	}
-	
+
 	@RequestMapping("/update")
 	public @ResponseBody Result update(ReceiveAddress receiveAddress) {
 		if (receiveAddress != null) {
@@ -98,7 +110,7 @@ public class ReceiveAddressAction {
 			return new Result("数据传输失败!");
 		}
 	}
-	
+
 	@RequestMapping("/delete")
 	public @ResponseBody Result delete(ReceiveAddress receiveAddress) {
 		// TODO 有些关键数据是不能物理删除的，需要改为逻辑删除

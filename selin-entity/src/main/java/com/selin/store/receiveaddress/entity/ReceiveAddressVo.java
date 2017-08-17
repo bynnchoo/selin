@@ -9,7 +9,13 @@ import java.util.List;
  */
 public class ReceiveAddressVo extends ReceiveAddress {
 
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 2816788968842527035L;
 	private List<ReceiveAddressVo> receiveAddressList;
+
+	private String area_name;
 
 	public ReceiveAddressVo() {
 		super();
@@ -26,6 +32,19 @@ public class ReceiveAddressVo extends ReceiveAddress {
 
 	public void setReceiveAddressList(List<ReceiveAddressVo> receiveAddressList) {
 		this.receiveAddressList = receiveAddressList;
+	}
+
+	public String getArea_name() {
+		return area_name;
+	}
+
+	public void setArea_name(String area_name) {
+		this.area_name = area_name;
+	}
+
+	@Override
+	public String toString() {
+		return "ReceiveAddressVo [receiveAddressList=" + receiveAddressList + ", area_name=" + area_name + "]";
 	}
 
 }
