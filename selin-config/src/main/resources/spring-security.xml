@@ -9,7 +9,7 @@
 	<!-- 拦截排除列表 -->
 	<!-- <http pattern="/**/*" security="none" /> -->
 <!-- 	<http pattern="/codeAction/image.action*" security="none" /> -->
- 	<http pattern="/open/**" security="none" /> 
+ 	<http pattern="/selin/user/**" security="none" />
 
  	<http pattern="/userAction/goLogin.action*" security="none" /> 
  	<http pattern="/userAction/login.json*" security="none" /> 

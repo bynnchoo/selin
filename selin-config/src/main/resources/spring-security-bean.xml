@@ -16,11 +16,11 @@
 				<beans:value>${core.loginuser}</beans:value>
 			</beans:array>
 		</beans:property>
-		<!--<beans:property name="userClasses">
+		<beans:property name="userClasses">
 			<beans:list>
-				<beans:value>com.zjhcsoft.iot.openuser.entity.OpenUser</beans:value>
+				<beans:value>com.selin.store.user.entity.SelinUser</beans:value>
 			</beans:list>
-		</beans:property>-->
+		</beans:property>
 	</beans:bean>
 
 </beans:beans>

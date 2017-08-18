@@ -52,6 +52,12 @@
 		<if test="create_date != null">
 			and create_date = #{create_date}
 		</if>
+		<if test="event_type =='IN' and beginDate != null and endDate != null">
+			<![CDATA[ and date(in_date) >=#{beginDate}  and date(in_date) <= #{endDate} ]]>
+		</if>
+		<if test="event_type =='OUT' and beginDate != null and endDate != null">
+			<![CDATA[ and date(out_date) >=#{beginDate}  and date(out_date) <= #{endDate} ]]>
+		</if>
 	</sql>
 
 	<insert id="saveInventoryEventHis" parameterType="com.selin.store.inveventhis.entity.InventoryEventHis" useGeneratedKeys="true" keyProperty="id">

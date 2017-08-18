@@ -4,10 +4,10 @@
 <mapper namespace="com.selin.store.inveventdetail.dao">
 
 	<sql id="columns">
-		id, norm_id, event_code, num
+		id, norm_id, event_code, num,his_num
 	</sql>
 	<sql id="vals">
-		#{id}, #{norm_id}, #{event_code}, #{num}
+		#{id}, #{norm_id}, #{event_code}, #{num} ,#{his_num}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -21,6 +21,9 @@
 		</if>
 		<if test="num != null">
 			and num = #{num}
+		</if>
+		<if test="num != null">
+			and his_num = #{his_num}
 		</if>
 	</sql>
 
@@ -49,7 +52,8 @@
 			id=#{id}, 
 			norm_id=#{norm_id}, 
 			event_code=#{event_code}, 
-			num=#{num}
+			num=#{num},
+			his_num=#{his_num}
 		</set>
 		where id=#{id} 
 	</update>
@@ -67,7 +71,10 @@
 			event_code=#{event_code}, 
 		</if>
 		<if test="num != null and num != ''">
-			num=#{num}
+			num=#{num},
+		</if>
+		<if test="his_num != null and his_num != ''">
+			his_num=#{his_num}
 		</if>
 		</set>
 		where id=#{id} 
@@ -86,7 +93,10 @@
 			event_code=#{event_code}, 
 			</if>
 			<if test="num != null and num != ''">
-			num=#{num}
+			num=#{num},
+			</if>
+			<if test="his_num != null and his_num != ''">
+				his_num=#{his_num}
 			</if>
 		</set>
 		where 1=1

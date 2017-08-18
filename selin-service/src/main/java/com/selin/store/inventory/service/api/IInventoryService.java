@@ -64,9 +64,9 @@ public interface IInventoryService {
 	 * @param pro_norms_id 规格id 具体某件商品
 	 * @param warehouse_id 仓库
 	 * @param num 变化数量 +是入库，-是出库
-	 * @return boolean 是否成功
+	 * @return Integer 更改后的库存
 	 */
-	public abstract boolean setStock(Long pro_norms_id,Long warehouse_id,Integer num);
+	public abstract Integer setStock(Long pro_norms_id,Long warehouse_id,Integer num);
 
 
 }

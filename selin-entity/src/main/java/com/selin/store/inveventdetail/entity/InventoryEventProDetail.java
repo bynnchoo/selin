@@ -16,6 +16,7 @@ public class InventoryEventProDetail implements Serializable {
 	protected Long norm_id;// 商品规格id
 	protected String event_code;// 事件编码
 	protected Integer num;// 数量
+	protected Integer his_num;
 
 	public InventoryEventProDetail() {
 		super();
@@ -53,5 +54,13 @@ public class InventoryEventProDetail implements Serializable {
 	}
 	public void setNum(Integer num) {
 		this.num = num;
+	}
+
+	public void setHis_num(Integer his_num) {
+		this.his_num = his_num;
+	}
+
+	public Integer getHis_num() {
+		return his_num;
 	}
 }

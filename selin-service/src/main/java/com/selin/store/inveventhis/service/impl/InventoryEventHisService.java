@@ -63,50 +63,45 @@ public class InventoryEventHisService implements IInventoryEventHisService {
         return (List<InventoryEventHisVo>) inventoryEventHisDao.selectForList("selectInventoryEventHis", inventoryEventHis);
     }
 
-    public Page page(Page page, InventoryEventHis inventoryEventHis) {
+    public Page page(Page page, InventoryEventHisVo inventoryEventHis) {
         return inventoryEventHisDao.page(page, inventoryEventHis);
     }
 
     @Override
-    public Page inpage(Page page, InventoryEventHis inventoryEventHis) {
-        return null;
+    public Page detailPage(Page page, InventoryEventHisVo inventoryEventHis) {
+        return inventoryEventHisDao.detailPage(page, inventoryEventHis);
     }
-
 
     private InventoryEventHis getInventoryEventHis(Long create_user_id, InventoryEventEnum eventEnum) {
         InventoryEventHis inventoryEventHis = new InventoryEventHis();
         inventoryEventHis.setCreate_date(new Date());
         inventoryEventHis.setCreate_user_id(create_user_id);
-        inventoryEventHis.setEvent(eventEnum.getDisplay());
+        inventoryEventHis.setEvent_type(eventEnum.getType());
         inventoryEventHis.setEvent(eventEnum.name());
-        inventoryEventHis.setEvent_code(createEventCode(eventEnum, new Date()));
         return inventoryEventHis;
     }
 
 
-    public void allot_in(Long in_warehouse_id, Date in_date, Long create_user_id, Long norms_id, Integer num) {
-        InventoryEventHis inventoryEventHis = getInventoryEventHis(create_user_id, InventoryEventEnum.IN_ALLOT);
-        inventoryEventHis.setIn_date(in_date);
-        inventoryEventHis.setIn_warehouse_id(in_warehouse_id);
-        this.save(inventoryEventHis);
-    }
 
-    public void allot_out(Long out_warehouse_id, Date out_date, Long create_user_id, Long norms_id, Integer num) {
-        InventoryEventHis inventoryEventHis = getInventoryEventHis(create_user_id, InventoryEventEnum.OUT_ALLOT);
+
+    public void out(Long out_warehouse_id, Date out_date, Long create_user_id,InventoryEventEnum eventEnum,String code) {
+        InventoryEventHis inventoryEventHis = getInventoryEventHis(create_user_id, eventEnum);
         inventoryEventHis.setOut_date(new Date());
         inventoryEventHis.setOut_warehouse_id(out_warehouse_id);
+        inventoryEventHis.setEvent_code(code);
         this.save(inventoryEventHis);
     }
 
-    public void procurement_in(Long in_warehouse_id, Date in_date, Long create_user_id, Long norms_id, Integer num) {
-        InventoryEventHis inventoryEventHis = getInventoryEventHis(create_user_id, InventoryEventEnum.IN_PROCUREMENT);
+    public void in(Long in_warehouse_id, Date in_date, Long create_user_id,InventoryEventEnum eventEnum,String code) {
+        InventoryEventHis inventoryEventHis = getInventoryEventHis(create_user_id, eventEnum);
         inventoryEventHis.setIn_date(in_date);
         inventoryEventHis.setIn_warehouse_id(in_warehouse_id);
+        inventoryEventHis.setEvent_code(code);
         this.save(inventoryEventHis);
     }
 
     public String createEventCode(InventoryEventEnum eventEnum, Date date) {
-        String key = eventEnum.getType() + "-" + RoofDateUtils.dateToString(date, "yyyyMMddhh");
+        String key = eventEnum.getType() + "-" + RoofDateUtils.dateToString(date, "yyyyMMdd");
         BoundValueOperations<String, Long> operations = redisTemplate.boundValueOps(key);//.increment(1);
         Long l = operations.increment(1);
         operations.expire(2, TimeUnit.DAYS);

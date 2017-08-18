@@ -3,6 +3,8 @@ package com.selin.store.inveventhis.entity;
 import javax.persistence.Id;
 import java.util.Date;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -18,17 +20,21 @@ public class InventoryEventHis implements Serializable {
 	protected String event_code;// 事件编码
 	protected Long in_warehouse_id;// 调入仓库\预占仓库
 	protected Long out_warehouse_id;// 调出仓库
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date in_date;// 入仓库时间
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date out_date;// 出仓库时间
 	protected String status;// 状态
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date per_use_start_date;// 预占开始时间
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date per_use_end_date;// 预占结束时间
 	protected String order_num;// 采购单、销售单、退货单编号
 	protected Long create_user_id;// 操作人
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date create_date;// 记录创建时间
 
@@ -139,4 +145,5 @@ public class InventoryEventHis implements Serializable {
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
+
 }

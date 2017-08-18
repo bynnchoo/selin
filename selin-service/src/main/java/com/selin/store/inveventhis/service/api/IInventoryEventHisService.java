@@ -59,32 +59,21 @@ public interface IInventoryEventHisService {
     /**
      * 按对象中的非空属性作为条件，进行分页查询
      */
-    public abstract Page page(Page page, InventoryEventHis inventoryEventHis);
-
-    public abstract Page inpage(Page page, InventoryEventHis inventoryEventHis);
+    public abstract Page page(Page page, InventoryEventHisVo inventoryEventHis);
 
 
-    /**
-     * 调拨入库
-     *
-     * @param in_warehouse_id
-     * @param in_date
-     * @param create_user_id
-     */
-    public void allot_in(Long in_warehouse_id, Date in_date, Long create_user_id, Long norms_id, Integer num);
 
     /**
      * @param out_warehouse_id
      * @param out_date
      * @param create_user_id
-     * @param norms_id
-     * @param num
      */
-    public void allot_out(Long out_warehouse_id, Date out_date, Long create_user_id, Long norms_id, Integer num);
+    public void out(Long out_warehouse_id, Date out_date, Long create_user_id,InventoryEventEnum eventEnum,String code);
 
 
-    public void procurement_in(Long in_warehouse_id, Date in_date, Long create_user_id, Long norms_id, Integer num);
+    public void in(Long in_warehouse_id, Date in_date, Long create_user_id,InventoryEventEnum eventEnum,String code);
 
     public String createEventCode(InventoryEventEnum eventEnum, Date date);
 
-    }
+    Page detailPage(Page page, InventoryEventHisVo inventoryEventHis);
+}

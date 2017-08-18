@@ -6,6 +6,7 @@ import java.util.List;
 import javax.lang.model.element.NestingKind;
 import javax.servlet.http.HttpServletRequest;
 
+import com.selin.core.exception.SelinException;
 import com.selin.store.invevent.entity.InventoryEventEnum;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
@@ -52,22 +53,32 @@ public class InventoryEventHisAction {
 	*/
 
     @RequestMapping("/list")
-    public @ResponseBody Result list(InventoryEventHis inventoryEventHis, HttpServletRequest request, Model model) {
-	    Page page = PageUtils.createPage(request);
+    public @ResponseBody Result list(InventoryEventHisVo inventoryEventHis, HttpServletRequest request, Model model) {
+	    if (inventoryEventHis.getEvent_type() == null){
+	    	return new Result(Result.FAIL, "事件类型不能为空");
+		}
+    	Page page = PageUtils.createPage(request);
 	    page = inventoryEventHisService.page(page, inventoryEventHis);
 	    return new Result(Result.SUCCESS, page);
 	}
 
-	@RequestMapping("/inlist")
-	public @ResponseBody Result inlist(InventoryEventHis inventoryEventHis, HttpServletRequest request, Model model) {
+	@RequestMapping("/detail")
+	public @ResponseBody Result detail(InventoryEventHisVo inventoryEventHis, HttpServletRequest request, Model model) {
 		Page page = PageUtils.createPage(request);
-		page = inventoryEventHisService.page(page, inventoryEventHis);
+		page = inventoryEventHisService.detailPage(page, inventoryEventHis);
 		return new Result(Result.SUCCESS, page);
 	}
 
+
 	@RequestMapping("/code")
-	public @ResponseBody Result inlist(String type, HttpServletRequest request, Model model) {
-		String code = inventoryEventHisService.createEventCode(InventoryEventEnum.IN_PROCUREMENT,new Date());
+	public @ResponseBody Result code(String type, HttpServletRequest request, Model model) {
+		InventoryEventEnum eventenum = null;
+    	try {
+			eventenum = InventoryEventEnum.valueOf(type);
+		}catch (Exception e){
+			throw  new SelinException("类型不对");
+		}
+		String code = inventoryEventHisService.createEventCode(eventenum,new Date());
 		return new Result(Result.SUCCESS, "",code);
 	}
 	

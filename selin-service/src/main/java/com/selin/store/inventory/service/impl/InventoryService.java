@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.selin.core.exception.SelinException;
 import com.selin.store.invevent.service.api.IInventoryEventService;
 import com.selin.store.inveventhis.entity.InventoryEventHis;
 import com.selin.store.inveventhis.service.api.IInventoryEventHisService;
@@ -70,7 +71,7 @@ public class InventoryService implements IInventoryService {
 		return inventoryDao.page(page, inventory);
 	}
 
-	public boolean setStock(Long pro_norms_id, Long warehouse_id, Integer num) {
+	public Integer setStock(Long pro_norms_id, Long warehouse_id, Integer num) {
 		Integer i = 3;
 		Map<String,Object> map = new HashMap<String, Object>();
 		Inventory inventory = new Inventory();
@@ -79,21 +80,22 @@ public class InventoryService implements IInventoryService {
 		Inventory in = selectForObject(inventory);
 		if (in == null){ //第一次插入
 			firstSave(pro_norms_id,warehouse_id,num);
+			return num;
 		}else {
 			Integer newNum = in.getNum() + num;
 			do{
-				Integer updateRow = inventoryDao.setStock(in.getId(),newNum,num);
+				Integer updateRow = inventoryDao.setStock(in.getId(),newNum,in.getNum());
 				if(updateRow != 0){//更新成功
 					break;
 				}else {
 					i --;
 					if (i == 0){
-						throw new RuntimeException("更改库存异常");
+						throw new SelinException("更改库存异常");
 					}
 				}
 			}while (true);
+			return newNum;
 		}
-		return true;
 	}
 
 
