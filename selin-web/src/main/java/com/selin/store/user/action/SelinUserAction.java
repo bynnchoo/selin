@@ -34,7 +34,6 @@ public class SelinUserAction {
     @Autowired
     private ISelinUserService selinUserService;
     @Autowired
-    @Qualifier("CustomerService1")
     private ICustomerService customerService;
 
 

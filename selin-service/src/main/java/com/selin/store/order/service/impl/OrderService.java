@@ -52,8 +52,7 @@ public class OrderService implements IOrderService {
 
 	private IOrderDao orderDao;
 
-	@Autowired
-	private RoofDaoSupport roofDaoSupport;
+
 
 	@Autowired
 	private IOrderProsService orderProsService;

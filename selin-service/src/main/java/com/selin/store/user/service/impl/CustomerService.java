@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by lenovo on 2017/8/17.
  */
-@Service("CustomerService1")
+@Service
 public class CustomerService extends SelinUserService implements ICustomerService {
 
     private ICustomerDao customerDao;

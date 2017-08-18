@@ -4,7 +4,9 @@ import com.selin.core.wechat.WeChatHander;
 import com.selin.store.user.entity.SelinUser;
 import org.apache.commons.lang3.StringUtils;
 import org.roof.spring.Result;
+import org.roof.web.user.service.api.BaseUserContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,43 +27,27 @@ public class WeChatAction {
 
     @RequestMapping("/store")
     public String store(HttpServletRequest request, Model model) throws IOException {
-        String code = request.getParameter("code");
-        if (StringUtils.isNotEmpty(code)) {
-            String openid = weChatHander.getOpenid(code);
-
-        }
-
-            return "";
-    }
-
-    /*public String forward() {
-        try {
-            Map<String, Object> map = super.getParams();
-            String code = (String) map.get("code");
+        UserDetails userDetails = BaseUserContext.getCurrentUser(request);
+        if(userDetails != null){
+            return "登录成功页面";
+        }else{
+            String code = request.getParameter("code");
             if (StringUtils.isNotEmpty(code)) {
-                String openid = wxService.getOpenid(code);
-                super.addParameter("openid", openid);
-                super.addParameter("code", code);
-                if (StringUtils.isNotEmpty(openid)) {
-                    User user = wxService.findUserByOpenid(openid);
-                    super.addParameter("user", user);
-                    // 未绑定
-                    if (user == null || user.getId() == null) {
-                        result = "/epo_mobile/user/binding/binding.jsp";
-                        return JSP;
-                    } else {
-                        result = (String) super.getParamByName("aim_url");
-                        return REDIRECT;
+                String openid = weChatHander.getOpenid(code);
+                if(StringUtils.isBlank(openid)){
+
+                }else {
+                    SelinUser user =  weChatHander.findUserByOpenid(openid);
+                    if (user == null){
+                        return "注册页面";
                     }
+                    BaseUserContext.putCurrentUser(user,request);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
+            return "登录成功页面";
         }
-        result = "/epo_mobile/user/binding/binding.jsp";
-        return JSP;
-    }*/
+
+    }
 
 
 

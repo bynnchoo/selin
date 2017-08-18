@@ -10,8 +10,9 @@
 	<!-- <http pattern="/**/*" security="none" /> -->
 <!-- 	<http pattern="/codeAction/image.action*" security="none" /> -->
  	<http pattern="/selin/user/**" security="none" />
+	<http pattern="/selin/weChatAction/**" security="none" />
 
- 	<http pattern="/userAction/goLogin.action*" security="none" /> 
+ 	<http pattern="/userAction/goLogin.action*" security="none" />
  	<http pattern="/userAction/login.json*" security="none" /> 
 	<http pattern="/tokenAction/accessToken.*" security="none" />
 	<http pattern="/common/js/fort_awesome/font/*" request-matcher="ant" security="none" />
