@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.selin.core.exception.SelinException;
 import com.selin.store.inventory.entity.Inventory;
+import com.selin.store.invevent.entity.InventoryEventEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
@@ -56,17 +59,34 @@ public class InventoryEventAction {
 	    return new Result(Result.SUCCESS, page);
 	}
 
-	@RequestMapping("/input")
-	public @ResponseBody Result input (InventoryEventVo vo, HttpServletRequest request, Model model) {
-		Page page = PageUtils.createPage(request);
+	@RequestMapping("/inStock")
+	public @ResponseBody Result inStock (InventoryEventVo vo, HttpServletRequest request, Model model) {
+		String type = vo.getEvent_type();
+		try {
+			InventoryEventEnum.valueOf(type);
+		}catch (Exception e){
+			throw new SelinException("入库类型不对");
+		}
+		if (StringUtils.isBlank(vo.getEvent_code())){
+			throw new SelinException("编码不能为空");
+		}
 		inventoryEventService.inStock(vo);
-		return new Result(Result.SUCCESS, page);
+		return new Result(Result.SUCCESS);
 	}
 
-	@RequestMapping("/output")
-	public @ResponseBody Result output (InventoryEventVo vo, HttpServletRequest request, Model model) {
-		Page page = PageUtils.createPage(request);
-		return new Result(Result.SUCCESS, page);
+	@RequestMapping("/outStock")
+	public @ResponseBody Result outStock (InventoryEventVo vo, HttpServletRequest request, Model model) {
+		String type = vo.getEvent_type();
+		try {
+			InventoryEventEnum.valueOf(type);
+		}catch (Exception e){
+			throw new SelinException("出库类型不对");
+		}
+		if (StringUtils.isBlank(vo.getEvent_code())){
+			throw new SelinException("编码不能为空");
+		}
+		inventoryEventService.inStock(vo);
+		return new Result(Result.SUCCESS);
 	}
 	
 	

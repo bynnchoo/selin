@@ -18,6 +18,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class InventoryEventService implements IInventoryEventService {
@@ -69,23 +71,30 @@ public class InventoryEventService implements IInventoryEventService {
 		return inventoryEventDao.page(page, inventoryEvent);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRES_NEW ,rollbackFor=Exception.class)
 	public void inStock(InventoryEventVo vo) {
 		//1.根据不同的入库类型生成不同的入库事件
 		//2.插入事件明细表
 		//3.循环修改库存setStock();
-		String eventType =  vo.getEvent_type();
-		InventoryEventEnum eventEnum =  InventoryEventEnum.valueOf(eventType);
-		switch (eventEnum){
-			case IN_PROCUREMENT:
-				inventoryEventHisService.procurement_in(vo.getIn_warehouse_id(),vo.getIn_date(),vo.getCreate_user_id(),null,null);
+		String event =  vo.getEvent();
+		InventoryEventEnum eventEnum =  InventoryEventEnum.valueOf(event);
+		switch (eventEnum.getType()){
+			case "IN":
+				inventoryEventHisService.in(vo.getIn_warehouse_id(),vo.getIn_date(),vo.getCreate_user_id(),eventEnum,vo.getEvent_code());
 				break;
-			case IN_ALLOT:
-				inventoryEventHisService.allot_in(vo.getIn_warehouse_id(),vo.getIn_date(),vo.getCreate_user_id(),null,null);
+			case "OUT":
+				inventoryEventHisService.out(vo.getIn_warehouse_id(),vo.getIn_date(),vo.getCreate_user_id(),eventEnum,vo.getEvent_code());
 				break;
 		}
+		stock(vo);
+	}
+
+	private void stock(InventoryEventVo vo) {
 		for (InventoryEventProDetail detail :vo.getDetails()){
+			Integer his_num = inventoryService.setStock(detail.getNorm_id(),vo.getIn_warehouse_id(),detail.getNum());
+			detail.setHis_num(his_num);
+			detail.setEvent_code(vo.getEvent_code());
 			inventoryEventProDetailService.save(detail);
-			inventoryService.setStock(detail.getNorm_id(),vo.getIn_warehouse_id(),detail.getNum());
 		}
 	}
 
@@ -94,6 +103,16 @@ public class InventoryEventService implements IInventoryEventService {
 			@Qualifier("inventoryEventDao") IInventoryEventDao  inventoryEventDao) {
 		this.inventoryEventDao = inventoryEventDao;
 	}
-	
-
+	@Autowired
+	public void setInventoryEventHisService(@Qualifier("inventoryEventHisService")IInventoryEventHisService inventoryEventHisService) {
+		this.inventoryEventHisService = inventoryEventHisService;
+	}
+	@Autowired
+	public void setInventoryEventProDetailService(@Qualifier("inventoryEventProDetailService")IInventoryEventProDetailService inventoryEventProDetailService) {
+		this.inventoryEventProDetailService = inventoryEventProDetailService;
+	}
+	@Autowired
+	public void setInventoryService(@Qualifier("inventoryService")IInventoryService inventoryService) {
+		this.inventoryService = inventoryService;
+	}
 }

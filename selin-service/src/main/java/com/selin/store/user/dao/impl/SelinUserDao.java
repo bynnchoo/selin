@@ -1,9 +1,9 @@
-package com.selin.store.inveventhis.dao.impl;
+package com.selin.store.user.dao.impl;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 
-import com.selin.store.inveventhis.entity.InventoryEventHisVo;
 import org.apache.commons.lang3.StringUtils;
 import org.roof.dataaccess.PageQuery;
 import org.roof.roof.dataaccess.api.AbstractDao;
@@ -15,25 +15,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.selin.store.inveventhis.dao.api.IInventoryEventHisDao;
-import com.selin.store.inveventhis.entity.InventoryEventHis;
+import com.selin.store.user.dao.api.ISelinUserDao;
+import com.selin.store.user.entity.SelinUser;
 @Service
-public class InventoryEventHisDao extends AbstractDao implements IInventoryEventHisDao {
+public class SelinUserDao extends AbstractDao implements ISelinUserDao {
 	
 	private PageQueryFactory<PageQuery> pageQueryFactory;
 	
-	public Page page(Page page, InventoryEventHisVo inventoryEventHis) {
-		IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectInventoryEventHisPage", "selectInventoryEventHisCount");
-		//IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectInventoryEventHisPage", null);
-		return pageQuery.select(inventoryEventHis);
+	public Page page(Page page, SelinUser user) {
+		IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectUserPage", "selectUserCount");
+		//IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectUserPage", null);
+		return pageQuery.select(user);
 	}
 
-
+	@Override
+	public Long readSelinUserCount(SelinUser selinUser) {
+		return (Long) this.daoSupport.selectForObject("readSelinUserCount",selinUser);
+	}
 
 	@Override
-	public Page detailPage(Page page, InventoryEventHisVo inventoryEventHis) {
-		IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectInventoryEventHisDetailPage", "selectInventoryEventHisDetailCount");
-		return pageQuery.select(inventoryEventHis);
+	public int addOpenUserRole(Long userId, Long roleId) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("userId", userId);
+		params.put("roleId", roleId);
+		return this.update("addSelinUserRole", params);
 	}
 
 	@Autowired

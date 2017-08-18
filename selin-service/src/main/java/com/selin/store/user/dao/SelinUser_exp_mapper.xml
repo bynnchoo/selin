@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.user.dao">
+	<sql id="columnsAs">
+		t1.id, t1.username, t1.password, t1.accountnonexpired, t1.accountnonlocked, t1.credentialsnonexpired, t1.enabled, t1.dtype, t1.name, t1.create_date, t1.update_time, t1.login_count, t1.org_id, t1.tel, t1.open_id
+	</sql>
+	
+	<select id="selectUserPage" resultType="com.selin.store.user.entity.SelinUserVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		s_user t1
+		join
+		(SELECT
+		id
+		from
+		s_user
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectUserCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from s_user
+		where 1=1
+		<include refid="conds" />
+	</select>
+
+
+	<select id="readSelinUserCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from s_user
+		where 1=1
+		and username = #{username}
+	</select>
+
+
+	<select id="selectSelinUserRoleCount" resultType="java.lang.Long">
+		select
+		count(role_id)
+		from
+		s_user_role_rel
+		where user_id = #{userId}
+	</select>
+
+	<insert id="addSelinUserRole" parameterType="java.util.Map">
+		insert into
+		s_user_role_rel(user_id, role_id) values(#{userId}, #{roleId})
+	</insert>
+
+	<delete id="clearSelinUserRole" parameterType="java.lang.Long">
+		delete from
+		s_user_role_rel where user_id = #{userId}
+	</delete>
+
+</mapper>

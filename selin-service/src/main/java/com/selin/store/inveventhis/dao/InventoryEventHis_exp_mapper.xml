@@ -30,4 +30,96 @@
 		where 1=1
 		<include refid="conds" />
 	</select>
+
+
+	<select id="selectInventoryEventHisPage_" resultType="com.selin.store.inveventhis.entity.InventoryEventHisVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		w_inventory_event_his t1
+		join
+		(SELECT
+		id
+		from
+		w_inventory_event_his
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+
+	<select id="selectInventoryEventHisCount_" resultType="java.lang.Long">
+		select
+		count(id)
+		from w_inventory_event_his
+		where 1=1
+		<include refid="conds" />
+	</select>
+
+	<select id="selectInventoryEventHisDetailPage" resultType="com.selin.store.inveventhis.entity.InventoryEventHisVo">
+		SELECT
+		  h.id,
+		  h.event,
+		  h.event_type,
+		  h.event_code,
+		  h.in_warehouse_id,
+		  h.out_warehouse_id,
+		  h.in_date,
+		  h.out_date,
+		  h.create_user_id,
+		  h.create_date,
+		  p.name as product_name,
+		  p.code as product_code,
+		  d.num,
+		  n.colour,
+		  n.size,
+		  d.his_num,
+		(SELECT NAME FROM w_warehouse WHERE id = in_warehouse_id) AS in_warehouse_name,
+		(SELECT NAME FROM w_warehouse WHERE id = out_warehouse_id) AS out_warehouse_name
+
+		FROM
+		w_inventory_event_his h
+		LEFT JOIN w_inventory_event_pro_detail d
+		ON h.event_code = d.event_code
+		LEFT JOIN w_product_norms n
+		ON d.norm_id = n.id
+		LEFT JOIN w_product p
+		ON p.id = n.product_id
+		WHERE 1 =1
+		<if test="beginDate != null and endDate != null">
+			and (
+				<![CDATA[  (date(in_date) >=#{beginDate}  and date(in_date) <= #{endDate} )]]>
+				OR
+				<![CDATA[  (date(out_date) >=#{beginDate}  and date(out_date) <= #{endDate}) ]]>
+			)
+		</if>
+
+		limit #{firstrownum}, #{limit}
+	</select>
+
+	<select id="selectInventoryEventHisDetailCount" resultType="java.lang.Long">
+	SELECT
+	  count(h.id)
+	FROM
+	  w_inventory_event_his h
+	  LEFT JOIN w_inventory_event_pro_detail d
+		ON h.event_code = d.event_code
+	  LEFT JOIN w_product_norms n
+		ON d.norm_id = n.id
+	  LEFT JOIN w_product p
+		ON p.id = n.product_id
+		WHERE 1 =1
+		<if test="beginDate != null and endDate != null">
+			and (
+			<![CDATA[  (date(in_date) >=#{beginDate}  and date(in_date) <= #{endDate} )]]>
+			OR
+			<![CDATA[  (date(out_date) >=#{beginDate}  and date(out_date) <= #{endDate}) ]]>
+			)
+		</if>
+	</select>
+
+
+
+
 </mapper>

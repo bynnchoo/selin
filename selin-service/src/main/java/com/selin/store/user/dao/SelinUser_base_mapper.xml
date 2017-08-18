@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.user.dao">
+
+	<sql id="columns">
+		id, username, password, accountnonexpired, accountnonlocked, credentialsnonexpired, enabled, dtype, name, create_date, update_time, login_count, org_id, tel, open_id
+	</sql>
+	<sql id="vals">
+		#{id}, #{username}, #{password}, #{accountnonexpired}, #{accountnonlocked}, #{credentialsnonexpired}, #{enabled}, #{dtype}, #{name}, #{create_date}, #{update_time}, #{login_count}, #{org_id}, #{tel}, #{open_id}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="username != null and username != ''">
+			and username = #{username}
+		</if>
+		<if test="password != null and password != ''">
+			and password = #{password}
+		</if>
+		<if test="accountnonexpired != null and accountnonexpired != ''">
+			and accountnonexpired = #{accountnonexpired}
+		</if>
+		<if test="accountnonlocked != null and accountnonlocked != ''">
+			and accountnonlocked = #{accountnonlocked}
+		</if>
+		<if test="credentialsnonexpired != null and credentialsnonexpired != ''">
+			and credentialsnonexpired = #{credentialsnonexpired}
+		</if>
+		<if test="enabled != null and enabled != ''">
+			and enabled = #{enabled}
+		</if>
+		<if test="dtype != null and dtype != ''">
+			and dtype = #{dtype}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="create_date != null">
+			and create_date = #{create_date}
+		</if>
+		<if test="update_time != null">
+			and update_time = #{update_time}
+		</if>
+		<if test="login_count != null">
+			and login_count = #{login_count}
+		</if>
+		<if test="org_id != null">
+			and org_id = #{org_id}
+		</if>
+		<if test="tel != null and tel != ''">
+			and tel = #{tel}
+		</if>
+		<if test="open_id != null and open_id != ''">
+			and open_id = #{open_id}
+		</if>
+	</sql>
+
+	<insert id="saveUser" parameterType="com.selin.store.user.entity.SelinUser" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into s_user (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteUser">
+		delete from s_user
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleUser">
+		delete from s_user
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateUser">
+		update s_user
+		<set>
+			id=#{id}, 
+			username=#{username}, 
+			password=#{password}, 
+			accountnonexpired=#{accountnonexpired}, 
+			accountnonlocked=#{accountnonlocked}, 
+			credentialsnonexpired=#{credentialsnonexpired}, 
+			enabled=#{enabled}, 
+			dtype=#{dtype}, 
+			name=#{name}, 
+			create_date=#{create_date}, 
+			update_time=#{update_time}, 
+			login_count=#{login_count}, 
+			org_id=#{org_id}, 
+			tel=#{tel}, 
+			open_id=#{open_id}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullUser">
+		update s_user
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="username != null and username != ''">
+			username=#{username}, 
+		</if>
+		<if test="password != null and password != ''">
+			password=#{password}, 
+		</if>
+		<if test="accountnonexpired != null and accountnonexpired != ''">
+			accountnonexpired=#{accountnonexpired}, 
+		</if>
+		<if test="accountnonlocked != null and accountnonlocked != ''">
+			accountnonlocked=#{accountnonlocked}, 
+		</if>
+		<if test="credentialsnonexpired != null and credentialsnonexpired != ''">
+			credentialsnonexpired=#{credentialsnonexpired}, 
+		</if>
+		<if test="enabled != null and enabled != ''">
+			enabled=#{enabled}, 
+		</if>
+		<if test="dtype != null and dtype != ''">
+			dtype=#{dtype}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="create_date != null">
+			create_date=#{create_date}, 
+		</if>
+		<if test="update_time != null">
+			update_time=#{update_time}, 
+		</if>
+		<if test="login_count != null">
+			login_count=#{login_count}, 
+		</if>
+		<if test="org_id != null">
+			org_id=#{org_id}, 
+		</if>
+		<if test="tel != null and tel != ''">
+			tel=#{tel}, 
+		</if>
+		<if test="open_id != null and open_id != ''">
+			open_id=#{open_id}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleUser">
+		update s_user
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="username != null and username != ''">
+			username=#{username}, 
+			</if>
+			<if test="password != null and password != ''">
+			password=#{password}, 
+			</if>
+			<if test="accountnonexpired != null and accountnonexpired != ''">
+			accountnonexpired=#{accountnonexpired}, 
+			</if>
+			<if test="accountnonlocked != null and accountnonlocked != ''">
+			accountnonlocked=#{accountnonlocked}, 
+			</if>
+			<if test="credentialsnonexpired != null and credentialsnonexpired != ''">
+			credentialsnonexpired=#{credentialsnonexpired}, 
+			</if>
+			<if test="enabled != null and enabled != ''">
+			enabled=#{enabled}, 
+			</if>
+			<if test="dtype != null and dtype != ''">
+			dtype=#{dtype}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="create_date != null">
+			create_date=#{create_date}, 
+			</if>
+			<if test="update_time != null">
+			update_time=#{update_time}, 
+			</if>
+			<if test="login_count != null">
+			login_count=#{login_count}, 
+			</if>
+			<if test="org_id != null">
+			org_id=#{org_id}, 
+			</if>
+			<if test="tel != null and tel != ''">
+			tel=#{tel}, 
+			</if>
+			<if test="open_id != null and open_id != ''">
+			open_id=#{open_id}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadUser" resultType="com.selin.store.user.entity.SelinUserVo">
+		select 
+		<include refid="columns"/>
+		from s_user
+		where id=#{id} 
+	</select>
+	
+	<select id="selectUser" resultType="com.selin.store.user.entity.SelinUserVo">
+		select 
+		<include refid="columns"/>
+		from s_user
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
