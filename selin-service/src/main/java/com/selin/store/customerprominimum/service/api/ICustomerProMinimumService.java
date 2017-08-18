@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.roof.roof.dataaccess.api.Page;
 
-import com.selin.store.customer.entity.Customer;
 import com.selin.store.customerprominimum.entity.CustomerProMinimum;
 import com.selin.store.customerprominimum.entity.CustomerProMinimumVo;
 import com.selin.store.orderpros.entity.OrderPros;

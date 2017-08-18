@@ -3,13 +3,11 @@ package com.selin.store.order.entity;
 import java.util.Date;
 import java.util.List;
 
-import com.selin.store.customer.entity.CustomerVo;
 import com.selin.store.fileinfo.entity.Fileinfo;
 import com.selin.store.invoice.entity.InvoiceVo;
 import com.selin.store.orderevent.entity.OrderEventVo;
 import com.selin.store.orderpros.entity.OrderPros;
 import com.selin.store.orderpros.entity.OrderProsVo;
-import com.selin.store.receiveaddress.entity.ReceiveAddress;
 import com.selin.store.receiveaddress.entity.ReceiveAddressVo;
 
 /**
@@ -32,7 +30,7 @@ public class OrderVo extends Order {
 	private List<OrderProsVo> proList;
 	private List<OrderEventVo> eventList;
 	private InvoiceVo invoice;// 发票信息
-	private CustomerVo cus;// 客户
+	// private CustomerVo cus;// 客户
 	private ReceiveAddressVo address;// 收货信息
 
 	// 查询用
@@ -141,14 +139,6 @@ public class OrderVo extends Order {
 
 	public void setInvoice(InvoiceVo invoice) {
 		this.invoice = invoice;
-	}
-
-	public CustomerVo getCus() {
-		return cus;
-	}
-
-	public void setCus(CustomerVo cus) {
-		this.cus = cus;
 	}
 
 	public ReceiveAddressVo getAddress() {

@@ -1,4 +1,4 @@
-package com.selin.store.customer.entity;
+package com.selin.store.orderevent.entity;
 
 public enum PayStatusEnum {
 	nopay("nopay", "未付款"), payed("payed", "已付款");
@@ -27,5 +27,4 @@ public enum PayStatusEnum {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 }

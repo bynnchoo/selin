@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.roof.commons.RoofDateUtils;
+import org.roof.dataaccess.RoofDaoSupport;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.web.user.entity.User;
 import org.slf4j.Logger;
@@ -21,11 +22,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.selin.core.exception.SelinException;
-import com.selin.store.customer.dao.api.ICustomerDao;
-import com.selin.store.customer.entity.Customer;
-import com.selin.store.customer.entity.CustomerVo;
-import com.selin.store.customer.entity.PayStatusEnum;
-import com.selin.store.customer.service.api.ICustomerService;
 import com.selin.store.customerprominimum.service.api.ICustomerProMinimumService;
 import com.selin.store.dispatchorder.entity.DispatchStatusEnum;
 import com.selin.store.invoice.entity.Invoice;
@@ -40,6 +36,7 @@ import com.selin.store.orderevent.entity.OrderEvent;
 import com.selin.store.orderevent.entity.OrderEventEnum;
 import com.selin.store.orderevent.entity.OrderEventVo;
 import com.selin.store.orderevent.entity.OrderStatusEnum;
+import com.selin.store.orderevent.entity.PayStatusEnum;
 import com.selin.store.orderevent.service.api.IOrderEventService;
 import com.selin.store.orderpros.entity.OrderPros;
 import com.selin.store.orderpros.entity.OrderProsVo;
@@ -56,7 +53,7 @@ public class OrderService implements IOrderService {
 	private IOrderDao orderDao;
 
 	@Autowired
-	private ICustomerDao customerDao;
+	private RoofDaoSupport roofDaoSupport;
 
 	@Autowired
 	private IOrderProsService orderProsService;
@@ -69,9 +66,6 @@ public class OrderService implements IOrderService {
 
 	@Autowired
 	private IInvoiceService invoiceService;
-
-	@Autowired
-	private ICustomerService customerService;
 
 	@Autowired
 	private ICustomerProMinimumService customerProMinimumService;
@@ -109,10 +103,11 @@ public class OrderService implements IOrderService {
 		InvoiceVo invoiceVo = invoiceService.load(invoice);
 		vo.setInvoice(invoiceVo);
 		// 客户
-		Customer customer = new Customer();
-		customer.setId(vo.getCus_id());
-		CustomerVo customerVo = customerService.load(customer);
-		vo.setCus(customerVo);
+		// Customer customer = new Customer();
+		// customer.setId(vo.getCus_id());
+		// CustomerVo customerVo = customerService.load(customer);
+
+//		vo.setCus(customerVo);
 		return vo;
 	}
 
@@ -142,7 +137,7 @@ public class OrderService implements IOrderService {
 		// null) {
 		//
 		// }
-		Customer c = customerDao.load(Customer.class, orderVo.getCus_id());
+		// Customer c = customerDao.load(Customer.class, orderVo.getCus_id());
 		String orderNum = createOrderCode(OrderEnum.order, new Date());
 		orderVo.setOrder_num(orderNum);
 
@@ -166,8 +161,8 @@ public class OrderService implements IOrderService {
 		BeanUtils.copyProperties(orderVo, o);
 		o.setOrder_num(orderNum);// 订单号
 		o.setCreate_date(new Date());// 下单时间
-		o.setCus_num(c.getCus_num());// 客户编码
-		o.setCus_name(c.getCus_name());// 客户名称
+//		o.setCus_num(c.getCus_num());// 客户编码
+//		o.setCus_name(c.getCus_name());// 客户名称
 		o.setCurrent_status(OrderStatusEnum.waitConfirm.getCode());// 订单当前状态
 		o.setCurrent_event(event.getEvent_code());// 订单当前事件
 		o.setAmount(count.toString());// 总金额
