@@ -1,0 +1,81 @@
+.b1 {
+	text-align: center;
+	white-space-collapsing: preserve;
+}
+
+.t1 {
+	border-collapse: collapse;
+	border-spacing: 1;
+}
+
+.r1 {
+	height: 37.5pt;
+}
+
+.r2 {
+	height: 25.5pt;
+}
+
+.r3 {
+	height: 40.5pt;
+}
+
+.c1 {
+	white-space: pre-wrap;
+	text-align: center;
+	background-color: silver;
+	border-top: thin solid;
+	border-right: thin solid;
+	border-bottom: thin solid;
+	border-left: thin solid;
+	font-weight: bold;
+	color: black;
+	font-size: 18pt;
+}
+
+.c2 {
+	white-space: pre-wrap;
+	text-align: center;
+	border-top: thin solid;
+	border-right: thin solid;
+	border-bottom: thin solid;
+	border-left: thin solid;
+	color: black;
+	text-align: center;
+	font-size: 9pt;
+}
+
+.c3 {
+	white-space: pre-wrap;
+	text-align: center;
+	background-color: silver;
+	border-top: thin solid;
+	border-right: thin solid;
+	border-bottom: thin solid;
+	border-left: thin solid;
+	color: black;
+	font-size: 16pt;
+}
+
+.c4 {
+	white-space: pre-wrap;
+	border-top: thin solid;
+	border-right: thin solid;
+	border-bottom: thin solid;
+	border-left: thin solid;
+	color: black;
+	text-align: center;
+	font-size: 9pt;
+}
+
+.c5 {
+	white-space: pre-wrap;
+	text-align: left;
+	border-top: thin solid;
+	border-right: thin solid;
+	border-bottom: thin solid;
+	border-left: thin solid;
+	color: black;
+	text-align: center;
+	font-size: 9pt;
+}
