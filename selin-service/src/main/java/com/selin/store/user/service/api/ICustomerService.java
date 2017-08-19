@@ -8,7 +8,8 @@ import com.selin.store.user.entity.SelinUser;
  */
 public interface ICustomerService extends ISelinUserService {
 
-    void register(Customer user);
+	void register(Customer user);
 
+	Customer load(Long id);
 
 }

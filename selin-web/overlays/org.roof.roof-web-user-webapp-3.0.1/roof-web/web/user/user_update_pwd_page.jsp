@@ -9,8 +9,12 @@
   <link rel="stylesheet" href="${basePath}/common/js/fort_awesome/css/font-awesome-ie7.min.css" />
  <![endif]-->
 <%@include file="/roof-web/head.jsp"%>
+<link rel="stylesheet" type="text/css" href="${basePath}/common/js/zTree/zTreeStyle/zTreeStyle.css" />
+<script type="text/javascript" src="${basePath }/common/js/ROOF.Class.js"></script>
+<script type="text/javascript" src="${basePath }/roof-web/web/js/ROOF.SelectableTable.js"></script>
+<script type="text/javascript" src="${basePath }/common/js/zTree/js/jquery.ztree.all-3.1.min.js"></script>
 <script type="text/javascript" src="${basePath}/common/js/md5.js"></script>
-<script type="text/javascript" src="${basePath}/roof-web/web/user/js/user_update_pwd.js"></script>
+<script type="text/javascript" src="${basePath}/roof-web/web/user/js/user_create_page.js"></script>
 </head>
 <body>
 
@@ -19,11 +23,11 @@
 			<b>修改密码</b>
 		</p>
 		<ul class="yright">
-			<li><a id="saveBtn1" href="javascript:void(0);"><i class="icon-save icon-large"></i>保存</a></li>
+			<li><a id="saveBtn" href="#"><i class="icon-save icon-large"></i>保存</a></li>
 		</ul>
 	</div>
-	<form id="mainForm" action="${basePath }/userAction/update_pwd.json" >
-		<input type="hidden" name="id" value="${user.id }" />
+	<form id="mainForm" action="${basePath }/userAction/update_pwd.action" method="post">
+		<input type="hidden" name="user.id" value="${user.id }" />
 		<table border="0" cellpadding="0" cellspacing="1" class="ui-table" width="100%">
 			<tr>
 				<td class="ui-table-header2" style="text-align: center;" width="20%">姓名:</td>
@@ -35,7 +39,7 @@
 			</tr>
 			<tr>
 				<td class="ui-table-header2" style="text-align: center;" width="20%">密码:</td>
-				<td><input type="password" name="password" style="width: 300px;" value="" /></td>
+				<td><input type="password" name="user.password" style="width: 300px;" value="" /></td>
 			</tr>
 			<tr>
 				<td class="ui-table-header2" style="text-align: center;" width="20%">重复密码:</td>

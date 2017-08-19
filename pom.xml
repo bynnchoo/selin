@@ -12,7 +12,8 @@
         <module>selin-entity</module>
         <module>selin-service</module>
         <module>selin-config</module>
-  </modules>
+        <module>selin-print</module>
+    </modules>
 
     <properties>
         <selin-version>1.0-SNAPSHOT</selin-version>

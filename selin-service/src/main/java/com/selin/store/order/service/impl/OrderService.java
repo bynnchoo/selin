@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.roof.commons.RoofDateUtils;
-import org.roof.dataaccess.RoofDaoSupport;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.web.user.entity.User;
 import org.slf4j.Logger;
@@ -44,6 +43,9 @@ import com.selin.store.orderpros.service.api.IOrderProsService;
 import com.selin.store.receiveaddress.entity.ReceiveAddress;
 import com.selin.store.receiveaddress.entity.ReceiveAddressVo;
 import com.selin.store.receiveaddress.service.api.IReceiveAddressService;
+import com.selin.store.user.entity.Customer;
+import com.selin.store.user.service.api.ICustomerService;
+import com.selin.store.user.service.api.ISelinUserService;
 
 @Service
 public class OrderService implements IOrderService {
@@ -52,7 +54,11 @@ public class OrderService implements IOrderService {
 
 	private IOrderDao orderDao;
 
+	@Autowired
+	private ICustomerService customerService;
 
+	@Autowired
+	private ISelinUserService selinUserService;
 
 	@Autowired
 	private IOrderProsService orderProsService;
@@ -102,11 +108,8 @@ public class OrderService implements IOrderService {
 		InvoiceVo invoiceVo = invoiceService.load(invoice);
 		vo.setInvoice(invoiceVo);
 		// 客户
-		// Customer customer = new Customer();
-		// customer.setId(vo.getCus_id());
-		// CustomerVo customerVo = customerService.load(customer);
-
-//		vo.setCus(customerVo);
+		Customer customer = customerService.load(vo.getCus_id());
+		vo.setCus(customer);
 		return vo;
 	}
 
@@ -131,12 +134,7 @@ public class OrderService implements IOrderService {
 		if (orderVo.getPros() == null && orderVo.getPros().size() == 0) {
 			throw new SelinException("商品清单不能为空");
 		}
-		// 客户收货地址
-		// if (orderVo.getAddress() == null && orderVo.getAddress().getId() ==
-		// null) {
-		//
-		// }
-		// Customer c = customerDao.load(Customer.class, orderVo.getCus_id());
+		Customer c = customerService.load(orderVo.getCus_id());
 		String orderNum = createOrderCode(OrderEnum.order, new Date());
 		orderVo.setOrder_num(orderNum);
 
@@ -160,8 +158,9 @@ public class OrderService implements IOrderService {
 		BeanUtils.copyProperties(orderVo, o);
 		o.setOrder_num(orderNum);// 订单号
 		o.setCreate_date(new Date());// 下单时间
-//		o.setCus_num(c.getCus_num());// 客户编码
-//		o.setCus_name(c.getCus_name());// 客户名称
+		// o.setCus_id(c.getId());
+		// o.setCus_num(c.getCus_num());// 客户编码
+		o.setCus_name(c.getName());// 客户名称
 		o.setCurrent_status(OrderStatusEnum.waitConfirm.getCode());// 订单当前状态
 		o.setCurrent_event(event.getEvent_code());// 订单当前事件
 		o.setAmount(count.toString());// 总金额
@@ -207,7 +206,6 @@ public class OrderService implements IOrderService {
 		}
 
 		// 修改订单状态
-		// Order oldOrder = orderDao.load(Order.class, orderVo.getId());
 		Order oldOrder = new Order();
 		BeanUtils.copyProperties(orderVo, oldOrder);
 		oldOrder.setCurrent_status(OrderStatusEnum.waitDispatchConfirm.getCode());// 当前状态

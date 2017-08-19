@@ -31,7 +31,6 @@
     <orderEntry type="library" name="Maven: org.roof:roof-dataaccess-mybatis:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.roof:roof-dataaccess-api:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.roof:roof-commons:3.0.1" level="project" />
-    <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
     <orderEntry type="library" name="Maven: com.belerweb:pinyin4j:2.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:3.6.10.Final" level="project" />
     <orderEntry type="library" name="Maven: antlr:antlr:2.7.6" level="project" />
@@ -51,7 +50,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:jconsole:1.8.0">
         <CLASSES>
-          <root url="jar://E:/Program Files/Java/jdk1.8.0_112/lib/jconsole.jar!/" />
+          <root url="jar://C:/Program Files/Java/jdk1.8.0_112/lib/jconsole.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -60,7 +59,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:tools:1.8.0">
         <CLASSES>
-          <root url="jar://E:/Program Files/Java/jdk1.8.0_112/lib/tools.jar!/" />
+          <root url="jar://C:/Program Files/Java/jdk1.8.0_112/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -117,6 +116,7 @@
     <orderEntry type="library" name="Maven: org.roof:roof-web-dictionary-dao-impl:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.roof:roof-web-menu-dao-impl:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.roof:roof-web-menu-service-impl:3.0.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.roof:roof-web-org-dao-impl:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.roof:roof-web-org-service-impl:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.4.1" level="project" />

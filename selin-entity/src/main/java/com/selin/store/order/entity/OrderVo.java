@@ -9,6 +9,7 @@ import com.selin.store.orderevent.entity.OrderEventVo;
 import com.selin.store.orderpros.entity.OrderPros;
 import com.selin.store.orderpros.entity.OrderProsVo;
 import com.selin.store.receiveaddress.entity.ReceiveAddressVo;
+import com.selin.store.user.entity.Customer;
 
 /**
  * @author 模版生成 <br/>
@@ -30,7 +31,7 @@ public class OrderVo extends Order {
 	private List<OrderProsVo> proList;
 	private List<OrderEventVo> eventList;
 	private InvoiceVo invoice;// 发票信息
-	// private CustomerVo cus;// 客户
+	private Customer cus;// 客户
 	private ReceiveAddressVo address;// 收货信息
 
 	// 查询用
@@ -147,6 +148,14 @@ public class OrderVo extends Order {
 
 	public void setAddress(ReceiveAddressVo address) {
 		this.address = address;
+	}
+
+	public Customer getCus() {
+		return cus;
+	}
+
+	public void setCus(Customer cus) {
+		this.cus = cus;
 	}
 
 }

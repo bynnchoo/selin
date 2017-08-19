@@ -6,7 +6,7 @@
 			<Arg>
 				<Array type="java.lang.String">
 					<Item>src\main\webapp</Item>
-					<Item>E:\Sinopec Sell Customer Relation System zsh\webc</Item>
+					<Item>D:\Workspaces\space-roof-3\webc</Item>
 				</Array>
 			</Arg>
 		</New>
