@@ -7,7 +7,7 @@
 		t1.cus_name, t1.amount, t1.current_status, t1.current_event,
 		t1.pay_status, t1.finish_time, t1.ex_date, t1.remark,
 		t1.receive_address_id, t1.invoice_type, t1.invoice_id,
-		t1.dispatch_status
+		t1.dispatch_status,t1.create_user_id,t1.sale_id
 	</sql>
 
 	<select id="selectOrderPage" resultType="com.selin.store.order.entity.OrderVo">
@@ -99,6 +99,12 @@
 				close=")" separator=",">
 				#{sitem}
 			</foreach>
+		</if>
+		<if test="create_user_id != null">
+			and create_user_id=#{create_user_id}
+		</if>
+		<if test="sale_id != null">
+			and sale_id=#{sale_id}
 		</if>
 		<!-- 客户级别 -->
 

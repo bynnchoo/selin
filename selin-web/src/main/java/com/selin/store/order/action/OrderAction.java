@@ -1,8 +1,16 @@
 package com.selin.store.order.action;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.roof.commons.PropertiesUtil;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
@@ -10,18 +18,19 @@ import org.roof.web.dictionary.entity.Dictionary;
 import org.roof.web.dictionary.service.api.IDictionaryService;
 import org.roof.web.user.entity.User;
 import org.roof.web.user.service.api.BaseUserContext;
-
-import com.selin.store.order.entity.Order;
-import com.selin.store.order.entity.OrderVo;
-import com.selin.store.order.service.api.IOrderService;
-import com.selin.store.product.entity.Product;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.selin.store.order.entity.Order;
+import com.selin.store.order.entity.OrderPrintVo;
+import com.selin.store.order.entity.OrderVo;
+import com.selin.store.order.service.api.IOrderService;
+
+import pdf.kit.OrderToPdf;
 
 @Controller
 @RequestMapping("selin/orderAction")
@@ -33,6 +42,89 @@ public class OrderAction {
 	private void loadCommon(Model model) {
 		List<Dictionary> dicList = dictionaryService.findByType("TEST");
 		model.addAttribute("dicList", dicList);
+	}
+
+	/**
+	 * 发送订货单打印事件
+	 * 
+	 * @param orderNum
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/printOrderAuto")
+	public @ResponseBody Result printOrderAuto(String orderNum, HttpServletRequest request, Model model)
+			throws Exception {
+		OrderPrintVo printvo = orderService.printOrderAuto(orderNum);
+		// BaseUserContext.getCurrentUser(request));
+		return new Result(Result.SUCCESS, printvo);
+	}
+
+	/**
+	 * 页面订单打印，返回订货单打印数据
+	 * 
+	 * @param orderNum
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/printOrder")
+	public @ResponseBody Result printOrder(String orderNum, HttpServletRequest request, Model model) throws Exception {
+		OrderPrintVo printvo = orderService.printOrder(orderNum);
+		// BaseUserContext.getCurrentUser(request));
+		return new Result(Result.SUCCESS, printvo);
+	}
+
+	/**
+	 * 导出订货单pdf
+	 * 
+	 * @param orderNum
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/exportOrder")
+	public @ResponseBody Result exportOrderPdf(String orderNum, HttpServletRequest request, Model model,
+			HttpServletResponse response) throws Exception {
+		OrderPrintVo printvo = orderService.printOrder(orderNum);
+		OrderToPdf kit = new OrderToPdf();
+		String saveFilePath = kit.createPDF(printvo, PropertiesUtil.getPorjectProperty("pdf.path", String.class),
+				printvo.getOrder_num());
+		File file = new File(saveFilePath);
+		response.setContentType("application/octet-stream");
+		response.addHeader("Content-Disposition", "attachment; filename=" + file.getName());
+		BufferedInputStream bis = null;
+		BufferedOutputStream out = null;
+		try {
+			bis = new BufferedInputStream(new FileInputStream(file));
+			out = new BufferedOutputStream(response.getOutputStream());
+			byte[] buff = new byte[2048];
+			while (true) {
+				int bytesRead;
+				if (-1 == (bytesRead = bis.read(buff, 0, buff.length))) {
+					break;
+				}
+				out.write(buff, 0, bytesRead);
+			}
+			file.deleteOnExit();
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			try {
+				if (bis != null) {
+					bis.close();
+				}
+				if (out != null) {
+					out.flush();
+					out.close();
+				}
+			} catch (IOException e) {
+				throw e;
+			}
+		}
+		return new Result(Result.SUCCESS);
 	}
 
 	@RequestMapping("/index")

@@ -37,6 +37,9 @@ public class Order implements Serializable {
 	protected Long invoice_id;// 发票信息id
 	protected String dispatch_status;// 出库/发货状态
 
+	protected Long create_user_id;
+	protected Long sale_id;
+
 	public Order() {
 		super();
 	}
@@ -191,5 +194,21 @@ public class Order implements Serializable {
 				+ finish_time + ", ex_date=" + ex_date + ", remark=" + remark + ", receive_address_id="
 				+ receive_address_id + ", invoice_type=" + invoice_type + ", invoice_id=" + invoice_id
 				+ ", dispatch_status=" + dispatch_status + "]";
+	}
+
+	public Long getCreate_user_id() {
+		return create_user_id;
+	}
+
+	public void setCreate_user_id(Long create_user_id) {
+		this.create_user_id = create_user_id;
+	}
+
+	public Long getSale_id() {
+		return sale_id;
+	}
+
+	public void setSale_id(Long sale_id) {
+		this.sale_id = sale_id;
 	}
 }

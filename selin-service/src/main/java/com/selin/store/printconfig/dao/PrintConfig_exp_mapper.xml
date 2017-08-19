@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.printconfig.dao">
+	<sql id="columnsAs">
+		t1.id, t1.user_id, t1.channel, t1.org_id, t1.print_type
+	</sql>
+	
+	<select id="selectPrintConfigPage" resultType="com.selin.store.printconfig.entity.PrintConfigVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		w_print_config t1
+		join
+		(SELECT
+		id
+		from
+		w_print_config
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectPrintConfigCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from w_print_config
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

@@ -8,10 +8,28 @@ import org.roof.roof.dataaccess.api.Page;
 import org.roof.web.user.entity.User;
 
 import com.selin.store.order.entity.Order;
+import com.selin.store.order.entity.OrderPrintVo;
 import com.selin.store.order.entity.OrderVo;
 import com.selin.store.orderevent.entity.OrderEnum;
 
 public interface IOrderService {
+
+	/**
+	 * 发送打印事件至门店的服务，自动打印
+	 * 
+	 * @param orderNum
+	 * @return
+	 */
+	public abstract OrderPrintVo printOrderAuto(String orderNum);
+
+	/**
+	 * 打印订单的数据
+	 * 
+	 * @param orderNum
+	 * @return
+	 */
+	public abstract OrderPrintVo printOrder(String orderNum);
+
 	/**
 	 * 订单分页查询
 	 * 

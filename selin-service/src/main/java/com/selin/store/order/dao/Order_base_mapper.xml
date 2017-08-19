@@ -7,14 +7,14 @@
 		id, order_num, create_date, cus_id, cus_num, cus_name,
 		amount, current_status, current_event, pay_status, finish_time,
 		ex_date, remark, receive_address_id, invoice_type, invoice_id,
-		dispatch_status
+		dispatch_status,create_user_id,sale_id
 	</sql>
 	<sql id="vals">
 		#{id}, #{order_num}, #{create_date}, #{cus_id}, #{cus_num},
 		#{cus_name}, #{amount}, #{current_status}, #{current_event},
 		#{pay_status}, #{finish_time}, #{ex_date}, #{remark},
 		#{receive_address_id}, #{invoice_type}, #{invoice_id},
-		#{dispatch_status}
+		#{dispatch_status},#{create_user_id},#{sale_id}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -65,6 +65,12 @@
 		<if test="invoice_id != null">
 			and invoice_id = #{invoice_id}
 		</if>
+		<if test="create_user_id != null">
+			and create_user_id = #{create_user_id}
+		</if>
+		<if test="sale_id != null">
+			and sale_id = #{sale_id}
+		</if>
 		<if test="dispatch_status != null and dispatch_status != ''">
 			and dispatch_status = #{dispatch_status}
 		</if>
@@ -114,6 +120,8 @@
 			receive_address_id=#{receive_address_id},
 			invoice_type=#{invoice_type},
 			invoice_id=#{invoice_id},
+			create_user_id=#{create_user_id},
+			sale_id=#{sale_id},
 			dispatch_status=#{dispatch_status}
 		</set>
 		where id=#{id}
@@ -169,6 +177,12 @@
 			</if>
 			<if test="invoice_id != null">
 				invoice_id=#{invoice_id},
+			</if>
+			<if test="create_user_id != null">
+				create_user_id=#{create_user_id},
+			</if>
+			<if test="sale_id != null">
+				sale_id=#{sale_id},
 			</if>
 			<if test="dispatch_status != null and dispatch_status != ''">
 				dispatch_status=#{dispatch_status}
@@ -227,6 +241,12 @@
 			</if>
 			<if test="invoice_id != null">
 				invoice_id=#{invoice_id},
+			</if>
+			<if test="create_user_id != null">
+				create_user_id=#{create_user_id},
+			</if>
+			<if test="sale_id != null">
+				sale_id=#{sale_id},
 			</if>
 			<if test="dispatch_status != null and dispatch_status != ''">
 				dispatch_status=#{dispatch_status}

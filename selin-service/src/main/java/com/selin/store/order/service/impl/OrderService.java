@@ -2,6 +2,7 @@ package com.selin.store.order.service.impl;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,14 +21,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.selin.core.exception.SelinException;
 import com.selin.store.customerprominimum.service.api.ICustomerProMinimumService;
 import com.selin.store.dispatchorder.entity.DispatchStatusEnum;
 import com.selin.store.invoice.entity.Invoice;
 import com.selin.store.invoice.entity.InvoiceVo;
 import com.selin.store.invoice.service.api.IInvoiceService;
+import com.selin.store.norms.entity.ProductNorms;
+import com.selin.store.norms.entity.ProductNormsVo;
+import com.selin.store.norms.service.api.IProductNormsService;
 import com.selin.store.order.dao.api.IOrderDao;
 import com.selin.store.order.entity.Order;
+import com.selin.store.order.entity.OrderPrintPros;
+import com.selin.store.order.entity.OrderPrintVo;
 import com.selin.store.order.entity.OrderVo;
 import com.selin.store.order.service.api.IOrderService;
 import com.selin.store.orderevent.entity.OrderEnum;
@@ -40,10 +47,15 @@ import com.selin.store.orderevent.service.api.IOrderEventService;
 import com.selin.store.orderpros.entity.OrderPros;
 import com.selin.store.orderpros.entity.OrderProsVo;
 import com.selin.store.orderpros.service.api.IOrderProsService;
+import com.selin.store.printconfig.entity.PrintConfig;
+import com.selin.store.printconfig.entity.PrintConfigVo;
+import com.selin.store.printconfig.entity.PrintTypeEnum;
+import com.selin.store.printconfig.service.api.IPrintConfigService;
 import com.selin.store.receiveaddress.entity.ReceiveAddress;
 import com.selin.store.receiveaddress.entity.ReceiveAddressVo;
 import com.selin.store.receiveaddress.service.api.IReceiveAddressService;
 import com.selin.store.user.entity.Customer;
+import com.selin.store.user.entity.SelinUser;
 import com.selin.store.user.service.api.ICustomerService;
 import com.selin.store.user.service.api.ISelinUserService;
 
@@ -74,6 +86,12 @@ public class OrderService implements IOrderService {
 
 	@Autowired
 	private ICustomerProMinimumService customerProMinimumService;
+
+	@Autowired
+	private IProductNormsService productNormsService;
+
+	@Autowired
+	private IPrintConfigService printConfigService;
 
 	@SuppressWarnings("rawtypes")
 	private RedisTemplate redisTemplate;
@@ -303,6 +321,79 @@ public class OrderService implements IOrderService {
 	@Autowired
 	public void setRedisTemplate(@Qualifier("redisTemplate") RedisTemplate redisTemplate) {
 		this.redisTemplate = redisTemplate;
+	}
+
+	public OrderVo loadOrderByOrderNum(String orderNum) {
+		Order o = new Order();
+		o.setOrder_num(orderNum);
+		List<OrderVo> ordervos = this.selectForList(o);
+		if (ordervos != null) {
+			return ordervos.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public OrderPrintVo printOrderAuto(String orderNum) {
+		OrderPrintVo print = this.printOrder(orderNum);
+		SelinUser suser = selinUserService.load(print.getSale_id());
+		// 根据订单创建人的门店位置选择消息频道->发送打印消息
+		if (print.getSale_id() != null) {
+			PrintConfig pc = new PrintConfig();
+			pc.setOrg_id(suser.getOrg().getId());
+			pc.setPrint_type(PrintTypeEnum.orderPrint.getCode());
+			List<PrintConfigVo> pcs = printConfigService.selectForList(pc);
+			for (PrintConfigVo printConfigVo : pcs) {
+				redisTemplate.convertAndSend(printConfigVo.getChannel(), JSON.toJSONString(print));
+			}
+		}
+		return print;
+	}
+
+	@Override
+	public OrderPrintVo printOrder(String orderNum) {
+		// 取订货单信息
+		OrderVo order = this.loadOrderByOrderNum(orderNum);
+		// 订单商品信息
+		List<OrderProsVo> proList = orderProsService.selectForListByOrderNum(orderNum);
+		List<OrderPrintPros> printPros = new ArrayList<OrderPrintPros>();
+		for (OrderProsVo pro : proList) {
+			OrderPrintPros printpro = new OrderPrintPros();
+			printpro.setNum(pro.getNum());
+			printpro.setPrice(pro.getPrice());
+			printpro.setPro_name(pro.getPro_name());
+			printpro.setPro_code(pro.getPro_code());
+			ProductNormsVo norm = productNormsService.load(new ProductNorms(pro.getPro_norms_id()));
+			printpro.setPro_norms_name("颜色:" + norm.getColour() + ",尺码:" + norm.getSize());
+			printpro.setRemark(pro.getRemark());
+			printpro.setUnit("件");
+			printpro.setAmount(new BigDecimal(pro.getNum()).multiply(new BigDecimal(pro.getPrice())).doubleValue());
+			printPros.add(printpro);
+		}
+		// 加载收货人信息
+		ReceiveAddressVo receiveAddressVo = receiveAddressService
+				.load(new ReceiveAddress(order.getReceive_address_id()));
+		// 拼装订单打印信息
+		OrderPrintVo print = new OrderPrintVo();
+
+		print.setAmount(order.getAmount());
+		print.setCreate_date(
+				RoofDateUtils.dateToString(order.getCreate_date(), RoofDateUtils.DATE_TIME_EXPRESSION_GENERAL));
+		print.setCus_name(order.getCus_name());
+		if (order.getEx_date() != null) {
+			print.setEx_date(
+					RoofDateUtils.dateToString(order.getEx_date(), RoofDateUtils.DATE_TIME_EXPRESSION_GENERAL));
+		}
+		print.setNumCount(Long.valueOf(proList.size()));
+		print.setOrder_num(order.getOrder_num());
+		print.setPros(printPros);
+		if (receiveAddressVo != null) {
+			print.setAddress(receiveAddressVo.getAddress());
+			print.setReceive_name(receiveAddressVo.getReceive_name());
+			print.setTel(receiveAddressVo.getTel());
+		}
+		print.setSale_id(order.getSale_id());
+		return print;
 	}
 
 }
