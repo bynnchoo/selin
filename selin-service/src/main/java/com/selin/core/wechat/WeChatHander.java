@@ -13,6 +13,7 @@ import org.roof.web.user.entity.User;
 import org.roof.web.user.service.api.BaseUserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.BoundKeyOperations;
 import org.springframework.data.redis.core.BoundValueOperations;
@@ -33,17 +34,13 @@ public class WeChatHander {
     private Logger LOGGER = LoggerFactory.getLogger(WeChatHander.class);
 
     private RedisTemplate<String,String> redisTemplate;
-
+    @Autowired
     private ISelinUserService selinUserService;
-    @Value("selin.wx.appid")
-    private String appid ;
-    @Value("selin.wx.secret")
-    private String secret ;
-    @Value("selin.wx.access_token_url")
-    private String token_url ;
-    @Value("selin.wx.html_access_token_url")
-    private String html_token_url ;
-
+    private String appid =PropertiesUtil.getPorpertyString("selin.wx.appid");
+    private String secret =PropertiesUtil.getPorpertyString("selin.wx.secret");
+    private String token_url =PropertiesUtil.getPorpertyString("selin.wx.access_token_url");
+    private String html_token_url =PropertiesUtil.getPorpertyString("selin.wx.html_access_token_url");
+    private String grant_type = PropertiesUtil.getPorpertyString("selin.wx.grant_type");
 
     private String redis_key = "wechat:token";
 
@@ -80,7 +77,7 @@ public class WeChatHander {
         postData.put("appid", appid);
         postData.put("secret", secret);
         postData.put("code", code);
-        postData.put("grant_type", PropertiesUtil.getPorpertyString("epo.wx.grant_type"));
+        postData.put("grant_type", grant_type);
         return HttpClientUtil.post(url, postData);
     }
 

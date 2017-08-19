@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.accountserial.dao">
+	<sql id="columnsAs">
+		t1.id, t1.deal_time, t1.account_id, t1.user_id, t1.money, t1.his_balance, t1.pay_way, t1.audit_user_id, t1.remark, t1.serial_number, t1.operate_user_id, t1.operate_time, t1.account_credited, t1.pay_serial_number, t1.account_code
+	</sql>
+	
+	<select id="selectAccountSerialPage" resultType="com.selin.store.accountserial.entity.AccountSerialVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		w_account_serial t1
+		join
+		(SELECT
+		id
+		from
+		w_account_serial
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectAccountSerialCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from w_account_serial
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

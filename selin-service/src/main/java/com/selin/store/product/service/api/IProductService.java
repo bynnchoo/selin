@@ -68,4 +68,6 @@ public interface IProductService {
 	public abstract Page productNomrsStockPage(Page page, Product product);
 
 	public abstract void create(ProductDto product);
+
+	ProductVo selectInfoByNormsId(Long norms_id);
 }

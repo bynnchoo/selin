@@ -113,6 +113,11 @@ public class ProductService implements IProductService {
 		}
 	}
 
+	@Override
+	public ProductVo selectInfoByNormsId(Long norms_id) {
+		return (ProductVo) productDao.selectForObject("selectProductInfoByNormsId",norms_id);
+	}
+
 	public void update(ProductDto product) {
 		Long id = product.getId();
 		this.update(product);
