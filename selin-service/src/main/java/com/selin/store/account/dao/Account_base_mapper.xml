@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.account.dao">
+
+	<sql id="columns">
+		id, user_id, balance, max_debt, status, code
+	</sql>
+	<sql id="vals">
+		#{id}, #{user_id}, #{balance}, #{max_debt}, #{status}, #{code}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="user_id != null">
+			and user_id = #{user_id}
+		</if>
+		<if test="balance != null and balance != ''">
+			and balance = #{balance}
+		</if>
+		<if test="max_debt != null and max_debt != ''">
+			and max_debt = #{max_debt}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="code != null and code != ''">
+			and code = #{code}
+		</if>
+	</sql>
+
+	<insert id="saveAccount" parameterType="com.selin.store.account.entity.Account" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_account (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteAccount">
+		delete from w_account
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleAccount">
+		delete from w_account
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateAccount">
+		update w_account
+		<set>
+			id=#{id}, 
+			user_id=#{user_id}, 
+			balance=#{balance}, 
+			max_debt=#{max_debt}, 
+			status=#{status}, 
+			code=#{code}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullAccount">
+		update w_account
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="user_id != null">
+			user_id=#{user_id}, 
+		</if>
+		<if test="balance != null and balance != ''">
+			balance=#{balance}, 
+		</if>
+		<if test="max_debt != null and max_debt != ''">
+			max_debt=#{max_debt}, 
+		</if>
+		<if test="status != null">
+			status=#{status}, 
+		</if>
+		<if test="code != null and code != ''">
+			code=#{code}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleAccount">
+		update w_account
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="user_id != null">
+			user_id=#{user_id}, 
+			</if>
+			<if test="balance != null and balance != ''">
+			balance=#{balance}, 
+			</if>
+			<if test="max_debt != null and max_debt != ''">
+			max_debt=#{max_debt}, 
+			</if>
+			<if test="status != null">
+			status=#{status}, 
+			</if>
+			<if test="code != null and code != ''">
+			code=#{code}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadAccount" resultType="com.selin.store.account.entity.AccountVo">
+		select 
+		<include refid="columns"/>
+		from w_account
+		where id=#{id} 
+	</select>
+	
+	<select id="selectAccount" resultType="com.selin.store.account.entity.AccountVo">
+		select 
+		<include refid="columns"/>
+		from w_account
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

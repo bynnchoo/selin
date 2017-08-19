@@ -32,21 +32,24 @@ public class WeChatAction {
             return "登录成功页面";
         }else{
             String code = request.getParameter("code");
+            System.out.println("code="+code);
             if (StringUtils.isNotEmpty(code)) {
                 String openid = weChatHander.getOpenid(code);
+                System.out.println("openid="+code);
                 if(StringUtils.isBlank(openid)){
-
+                    return "";
                 }else {
                     SelinUser user =  weChatHander.findUserByOpenid(openid);
                     if (user == null){
                         return "注册页面";
                     }
                     BaseUserContext.putCurrentUser(user,request);
+                    return "登录成功页面";
                 }
+            }else {
+                return "没有code请在微信登录";
             }
-            return "登录成功页面";
         }
-
     }
 
 

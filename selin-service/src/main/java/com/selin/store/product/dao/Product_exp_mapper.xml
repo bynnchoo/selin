@@ -49,7 +49,6 @@
 		where 1=1
 		<include refid="conds" />
 		order by id desc
-		limit #{firstrownum}, #{limit}
 	</select>
 
 	<select id="selectProductNormsCount_" resultType="java.lang.Long">
@@ -105,6 +104,20 @@
 		LEFT JOIN w_inventory i ON n.id = i.pro_norms_id
 		where 1=1
 		<include refid="conds" />
+	</select>
+
+
+	<select id="selectProductInfoByNormsId" resultType="com.selin.store.product.entity.ProductVo">
+		SELECT
+		<include refid="columnsAs"/>
+		,n.colour,n.size,
+		<include refid="id_name" />
+		FROM
+		w_product t1
+		LEFT JOIN w_product_norms n
+		ON t1.id = n.product_id
+		where 1=1
+		and n.id = #{norms_id}
 	</select>
 
 

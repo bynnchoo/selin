@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.selin.store.accountserial.dao">
+
+	<sql id="columns">
+		id, deal_time, account_id, user_id, money, his_balance, pay_way, audit_user_id, remark, serial_number, operate_user_id, operate_time, account_credited, pay_serial_number, account_code
+	</sql>
+	<sql id="vals">
+		#{id}, #{deal_time}, #{account_id}, #{user_id}, #{money}, #{his_balance}, #{pay_way}, #{audit_user_id}, #{remark}, #{serial_number}, #{operate_user_id}, #{operate_time}, #{account_credited}, #{pay_serial_number}, #{account_code}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="deal_time != null">
+			and deal_time = #{deal_time}
+		</if>
+		<if test="account_id != null">
+			and account_id = #{account_id}
+		</if>
+		<if test="user_id != null">
+			and user_id = #{user_id}
+		</if>
+		<if test="money != null and money != ''">
+			and money = #{money}
+		</if>
+		<if test="his_balance != null and his_balance != ''">
+			and his_balance = #{his_balance}
+		</if>
+		<if test="pay_way != null and pay_way != ''">
+			and pay_way = #{pay_way}
+		</if>
+		<if test="audit_user_id != null">
+			and audit_user_id = #{audit_user_id}
+		</if>
+		<if test="remark != null and remark != ''">
+			and remark = #{remark}
+		</if>
+		<if test="serial_number != null and serial_number != ''">
+			and serial_number = #{serial_number}
+		</if>
+		<if test="operate_user_id != null">
+			and operate_user_id = #{operate_user_id}
+		</if>
+		<if test="operate_time != null">
+			and operate_time = #{operate_time}
+		</if>
+		<if test="account_credited != null and account_credited != ''">
+			and account_credited = #{account_credited}
+		</if>
+		<if test="pay_serial_number != null and pay_serial_number != ''">
+			and pay_serial_number = #{pay_serial_number}
+		</if>
+		<if test="account_code != null and account_code != ''">
+			and account_code = #{account_code}
+		</if>
+	</sql>
+
+	<insert id="saveAccountSerial" parameterType="com.selin.store.accountserial.entity.AccountSerial" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into w_account_serial (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteAccountSerial">
+		delete from w_account_serial
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleAccountSerial">
+		delete from w_account_serial
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateAccountSerial">
+		update w_account_serial
+		<set>
+			id=#{id}, 
+			deal_time=#{deal_time}, 
+			account_id=#{account_id}, 
+			user_id=#{user_id}, 
+			money=#{money}, 
+			his_balance=#{his_balance}, 
+			pay_way=#{pay_way}, 
+			audit_user_id=#{audit_user_id}, 
+			remark=#{remark}, 
+			serial_number=#{serial_number}, 
+			operate_user_id=#{operate_user_id}, 
+			operate_time=#{operate_time}, 
+			account_credited=#{account_credited}, 
+			pay_serial_number=#{pay_serial_number}, 
+			account_code=#{account_code}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullAccountSerial">
+		update w_account_serial
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="deal_time != null">
+			deal_time=#{deal_time}, 
+		</if>
+		<if test="account_id != null">
+			account_id=#{account_id}, 
+		</if>
+		<if test="user_id != null">
+			user_id=#{user_id}, 
+		</if>
+		<if test="money != null and money != ''">
+			money=#{money}, 
+		</if>
+		<if test="his_balance != null and his_balance != ''">
+			his_balance=#{his_balance}, 
+		</if>
+		<if test="pay_way != null and pay_way != ''">
+			pay_way=#{pay_way}, 
+		</if>
+		<if test="audit_user_id != null">
+			audit_user_id=#{audit_user_id}, 
+		</if>
+		<if test="remark != null and remark != ''">
+			remark=#{remark}, 
+		</if>
+		<if test="serial_number != null and serial_number != ''">
+			serial_number=#{serial_number}, 
+		</if>
+		<if test="operate_user_id != null">
+			operate_user_id=#{operate_user_id}, 
+		</if>
+		<if test="operate_time != null">
+			operate_time=#{operate_time}, 
+		</if>
+		<if test="account_credited != null and account_credited != ''">
+			account_credited=#{account_credited}, 
+		</if>
+		<if test="pay_serial_number != null and pay_serial_number != ''">
+			pay_serial_number=#{pay_serial_number}, 
+		</if>
+		<if test="account_code != null and account_code != ''">
+			account_code=#{account_code}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleAccountSerial">
+		update w_account_serial
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="deal_time != null">
+			deal_time=#{deal_time}, 
+			</if>
+			<if test="account_id != null">
+			account_id=#{account_id}, 
+			</if>
+			<if test="user_id != null">
+			user_id=#{user_id}, 
+			</if>
+			<if test="money != null and money != ''">
+			money=#{money}, 
+			</if>
+			<if test="his_balance != null and his_balance != ''">
+			his_balance=#{his_balance}, 
+			</if>
+			<if test="pay_way != null and pay_way != ''">
+			pay_way=#{pay_way}, 
+			</if>
+			<if test="audit_user_id != null">
+			audit_user_id=#{audit_user_id}, 
+			</if>
+			<if test="remark != null and remark != ''">
+			remark=#{remark}, 
+			</if>
+			<if test="serial_number != null and serial_number != ''">
+			serial_number=#{serial_number}, 
+			</if>
+			<if test="operate_user_id != null">
+			operate_user_id=#{operate_user_id}, 
+			</if>
+			<if test="operate_time != null">
+			operate_time=#{operate_time}, 
+			</if>
+			<if test="account_credited != null and account_credited != ''">
+			account_credited=#{account_credited}, 
+			</if>
+			<if test="pay_serial_number != null and pay_serial_number != ''">
+			pay_serial_number=#{pay_serial_number}, 
+			</if>
+			<if test="account_code != null and account_code != ''">
+			account_code=#{account_code}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadAccountSerial" resultType="com.selin.store.accountserial.entity.AccountSerialVo">
+		select 
+		<include refid="columns"/>
+		from w_account_serial
+		where id=#{id} 
+	</select>
+	
+	<select id="selectAccountSerial" resultType="com.selin.store.accountserial.entity.AccountSerialVo">
+		select 
+		<include refid="columns"/>
+		from w_account_serial
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
